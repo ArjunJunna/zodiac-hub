@@ -1,7 +1,11 @@
-export default function Home() {
+const Homepage = () => {
   return (
-    <div>
-      <h1>Zodiac</h1>
-    </div>
+    <>
+      <div className="flex w-full p-2">
+        Home page
+      </div>
+    </>
   );
 }
+
+export default Homepage

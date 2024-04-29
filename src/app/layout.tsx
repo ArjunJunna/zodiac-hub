@@ -1,12 +1,21 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ReactQueryClientProvider } from "@/utils/ReactQueryClientProvider";
+import Hydration from "@/lib/Hydration";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import Navbar from "@/components/Navbar";
+import LeftSidebar from "@/components/LeftSidebar";
+import RightSection from "@/components/RightSection";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Zodiac",
-  description: "A community hub.",
+  title: {
+    default: "Zodiac",
+    template: "%s - Zodiac",
+  },
+  description: "Place for all zodiacs.",
 };
 
 export default function RootLayout({
@@ -15,8 +24,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <Hydration>
+      <html lang="en" className="dark" style={{ colorScheme: "dark" }}>
+        <body className={inter.className}>
+          <ReactQueryClientProvider>
+            <ThemeProvider>
+              <div className="flex flex-col">
+                <Navbar />
+                <div className="flex min-h-screen">
+                  <LeftSidebar />
+                  {children}
+                  <RightSection />
+                </div>
+              </div>
+            </ThemeProvider>
+          </ReactQueryClientProvider>
+        </body>
+      </html>
+    </Hydration>
   );
 }
