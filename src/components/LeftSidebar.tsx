@@ -1,12 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Home,
-  Flame,
-  ChevronDown,
-  ChevronUp,
-} from "lucide-react";
+import { Home, Flame, ChevronDown, ChevronUp } from "lucide-react";
 import { useSideBarResource } from "@/hooks/SideBarResource";
 import Footer from "./server-components/Footer";
 import Seperator from "./server-components/Seperator";
@@ -14,11 +9,11 @@ import Seperator from "./server-components/Seperator";
 const LeftSidebar = () => {
   const [showTopics, setShowTopics] = useState(false);
   const [showResources, setShowResources] = useState(false);
- 
+
   const [topicsList, resourcesList] = useSideBarResource();
 
   return (
-    <div className="hidden lg:flex lg:flex-col w-[26rem] p-2 border-r min-h-full">
+    <div className="hidden lg:flex lg:flex-col w-[30rem] p-2 min-h-full">
       <div>
         <ul className="px-3 ">
           <li

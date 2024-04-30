@@ -1,5 +1,9 @@
 const RightSection = () => {
-  return <div className="block max-md:hidden w-[26rem] p-2 border-l">RightSection</div>;
-}
+  return (
+    <div className="block max-md:hidden w-[37rem] p-2 min-h-fit">
+      RightSection
+    </div>
+  );
+};
 
-export default RightSection
+export default RightSection;
