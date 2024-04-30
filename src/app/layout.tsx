@@ -26,12 +26,14 @@ export default function RootLayout({
   return (
     <Hydration>
       <html lang="en" className="dark" style={{ colorScheme: "dark" }}>
-        <body className={inter.className}>
+        <body className={inter.className} >
           <ReactQueryClientProvider>
             <ThemeProvider>
-              <div className="flex flex-col">
+              <div
+                className="flex flex-col h-screen relative overflow-y-auto "
+              >
                 <Navbar />
-                <div className="flex min-h-screen">
+                <div className="flex h-screen ">
                   <LeftSidebar />
                   {children}
                   <RightSection />

@@ -3,9 +3,10 @@ import { Button} from "@/components/ui/button";
 import { Search } from "lucide-react";
 import Image from "next/image";
 
+
 export default function DesktopNavbar() {
   return (
-    <div className="hidden border-b bg-background lg:block mx-2">
+    <div className="hidden border-b bg-background lg:block mx-2 sticky top-0 z-10">
       <nav className="container flex gap-x-2 items-center justify-between px-4 py-1">
         <Image
           src={"/zodiac-logo.png"}
