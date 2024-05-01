@@ -3,7 +3,7 @@ import Seperator from "./Seperator";
 
 const PostSection = () => {
   return (
-    <div className="flex flex-col gap-3 ">
+    <div className="flex flex-col gap-2 ">
       <Post />
       <Seperator />
       <Post />

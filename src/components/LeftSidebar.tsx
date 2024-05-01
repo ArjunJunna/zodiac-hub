@@ -19,7 +19,7 @@ const LeftSidebar = () => {
           <li
             key="home"
             className="flex cursor-pointer items-center gap-3 rounded-md 
-           px-3 py-[0.5rem] text-[14px] dark:hover:bg-slate-900 hover:bg-gray-100"
+           px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
           >
             <Home className="h-4 w-4" />
             Home
@@ -28,7 +28,7 @@ const LeftSidebar = () => {
           <li
             key="flame"
             className="flex cursor-pointer items-center gap-3 rounded-md 
-           px-3 py-[0.5rem] text-[14px] hover:bg-gray-100 dark:hover:bg-slate-900"
+           px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
           >
             <Flame className="h-4 w-4" />
             Popular
@@ -39,7 +39,7 @@ const LeftSidebar = () => {
           <li
             key="home"
             className="flex justify-between cursor-pointer items-center gap-3 rounded-md 
-           px-3 py-[0.5rem] text-[14px] dark:hover:bg-slate-900 hover:bg-gray-100"
+           px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
             onClick={() => setShowTopics(prev => !prev)}
           >
             Topics
@@ -55,7 +55,7 @@ const LeftSidebar = () => {
                 <li
                   key={index}
                   className="flex cursor-pointer items-center gap-3 rounded-md 
-             px-3 py-[0.5rem] text-[14px] hover:bg-gray-100 dark:hover:bg-slate-900 animated fadeInUp"
+             px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground "
                 >
                   <menu.icon className="h-4 w-4" />
                   {menu.name}
@@ -72,7 +72,7 @@ const LeftSidebar = () => {
           <li
             key="home"
             className="flex justify-between cursor-pointer items-center gap-3 rounded-md 
-           px-3 py-[0.5rem] text-[14px] dark:hover:bg-slate-900 hover:bg-gray-100"
+           px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
             onClick={() => setShowResources(prev => !prev)}
           >
             Resources
@@ -88,7 +88,7 @@ const LeftSidebar = () => {
                 <li
                   key={index}
                   className="flex cursor-pointer items-center gap-3 rounded-md 
-             px-3 py-[0.5rem] text-[14px] hover:bg-gray-100 dark:hover:bg-slate-900 animated fadeInUp"
+             px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground animated fadeInUp"
                 >
                   <menu.icon className="h-4 w-4" />
                   {menu.name}

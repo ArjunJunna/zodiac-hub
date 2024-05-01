@@ -45,7 +45,7 @@ export default function MobileNavbar() {
                   <li
                     key="home"
                     className="flex cursor-pointer items-center gap-3 rounded-md 
-           px-3 py-[0.5rem] text-[14px] dark:hover:bg-slate-900 hover:bg-gray-100"
+           px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
                   >
                     <Home className="h-4 w-4" />
                     Home
@@ -54,18 +54,18 @@ export default function MobileNavbar() {
                   <li
                     key="flame"
                     className="flex cursor-pointer items-center gap-3 rounded-md 
-           px-3 py-[0.5rem] text-[14px] hover:bg-gray-100 dark:hover:bg-slate-900"
+           px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
                   >
                     <Flame className="h-4 w-4" />
                     Popular
                   </li>
                 </ul>
-                <Seperator/>
+                <Seperator />
                 <ul className="px-3">
                   <li
                     key="home"
                     className="flex justify-between cursor-pointer items-center gap-3 rounded-md 
-           px-3 py-[0.5rem] text-[14px] dark:hover:bg-slate-900 hover:bg-gray-100"
+           px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
                     onClick={() => setShowTopics(prev => !prev)}
                   >
                     Topics
@@ -81,7 +81,7 @@ export default function MobileNavbar() {
                         <li
                           key={index}
                           className="flex cursor-pointer items-center gap-3 rounded-md 
-             px-3 py-[0.5rem] text-[14px] hover:bg-gray-100 dark:hover:bg-slate-900 animated fadeInUp"
+             px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground "
                         >
                           <menu.icon className="h-4 w-4" />
                           {menu.name}
@@ -90,7 +90,7 @@ export default function MobileNavbar() {
                     </>
                   )}
                 </ul>
-                <Seperator/>
+                <Seperator />
               </div>
 
               <div className="grow">
@@ -98,7 +98,7 @@ export default function MobileNavbar() {
                   <li
                     key="home"
                     className="flex justify-between cursor-pointer items-center gap-3 rounded-md 
-           px-3 py-[0.5rem] text-[14px] dark:hover:bg-slate-900 hover:bg-gray-100"
+           px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
                     onClick={() => setShowResources(prev => !prev)}
                   >
                     Resources
@@ -114,7 +114,7 @@ export default function MobileNavbar() {
                         <li
                           key={index}
                           className="flex cursor-pointer items-center gap-3 rounded-md 
-             px-3 py-[0.5rem] text-[14px] hover:bg-gray-100 dark:hover:bg-slate-900 animated fadeInUp"
+             px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground "
                         >
                           <menu.icon className="h-4 w-4" />
                           {menu.name}
@@ -125,7 +125,7 @@ export default function MobileNavbar() {
                 </ul>
               </div>
 
-              <Footer/>
+              <Footer />
             </div>
           </SheetContent>
         </Sheet>
