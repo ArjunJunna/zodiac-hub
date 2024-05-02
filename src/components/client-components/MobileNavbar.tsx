@@ -5,13 +5,8 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import React, { useState } from "react";
 import Image from "next/image";
-import {
-  Home,
-  Flame,
-  ChevronDown,
-  ChevronUp,
-} from "lucide-react";
-import { useSideBarResource } from "@/hooks/SideBarResource";
+import { Home, Flame, ChevronDown, ChevronUp } from "lucide-react";
+import { useSideBarResource } from "@/hooks/useSideBarResource";
 import Footer from "../server-components/Footer";
 import Seperator from "../server-components/Seperator";
 

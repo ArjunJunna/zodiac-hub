@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Home, Flame, ChevronDown, ChevronUp } from "lucide-react";
-import { useSideBarResource } from "@/hooks/SideBarResource";
+import { useSideBarResource } from "@/hooks/useSideBarResource";
 import Footer from "./server-components/Footer";
 import Seperator from "./server-components/Seperator";
 
