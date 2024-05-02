@@ -33,7 +33,7 @@ const PopularSection = () => {
   ];
 
   return (
-    <div className="p-4  w-full rounded-lg border">
+    <div className="p-4  w-full rounded-lg border sticky top-16">
       <p className=" text-xs font-medium ">POPULAR COMMUNITIES</p>
       <div className="flex flex-col gap-y-1.5 mt-6 pl-3 ">
         {fakeData.map((item, index) => (

@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function DesktopNavbar() {
   return (
-    <div className="hidden border-b bg-background lg:block mx-2 sticky top-0 z-10">
+    <div className="hidden border-b bg-background lg:block px-2 sticky top-0 z-20 w-full">
       <nav className="container flex gap-x-2 items-center justify-between px-4 py-1">
         <Image
           src={"/zodiac-logo.png"}

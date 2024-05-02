@@ -30,10 +30,10 @@ export default function RootLayout({
           <ReactQueryClientProvider>
             <ThemeProvider>
               <div
-                className="flex flex-col h-screen relative overflow-y-auto "
+                className="flex flex-col h-screen overflow-y-auto "
               >
                 <Navbar />
-                <div className="flex h-screen ">
+                <div className="flex h-screen">
                   <LeftSidebar />
                   {children}
                   <RightSection />
