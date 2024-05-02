@@ -36,6 +36,38 @@ enum VoteType {
   DOWN = "DOWN",
 }
 
-export type Votes={
-  type:VoteType
-}
+export type Votes = {
+  type: VoteType;
+};
+
+export type ForumType = {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  subscribersCount: number;
+  posts: PostsFromForumsType[];
+};
+
+export type PostsFromForumsType = {
+  id: string;
+  title: string;
+  content: string;
+  image: string;
+  createdAt: Date;
+  comments: {
+    text: string;
+    author: {
+      username: string;
+      image: string;
+    };
+    createdAt: string;
+  }[];
+  votes: {
+    type: VoteType;
+  }[];
+  author: {
+    image: string;
+    username: string;
+  };
+};
