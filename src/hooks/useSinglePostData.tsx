@@ -18,7 +18,7 @@ const useSinglePostData = (postId:string) => {
     error,
     isFetching: isFetchingSinglePost,
   } = useQuery({
-    queryKey: ["singlePost"],
+    queryKey: ["singlePost",postId],
     queryFn: fetchPostById,
 
   });
