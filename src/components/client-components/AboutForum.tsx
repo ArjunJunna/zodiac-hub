@@ -4,10 +4,16 @@ import useSinglePostData from "@/hooks/useSinglePostData";
 import { usePathname } from "next/navigation";
 import SkeletonAboutForumCard from "./SkeletonAboutForumCard";
 
-const AboutForum = () => {
-  const pathname = usePathname();
-  let postId = pathname.split("/").slice(2).join("/");
-  const { singlePostData, isLoadingSinglePost } = useSinglePostData(postId);
+type AboutForumProps={
+  postId?:string;
+}
+
+const AboutForum = ({postId}:AboutForumProps) => {
+   const pathname = usePathname();
+   let postIdToUse = postId || pathname.split("/").slice(2).join("/");
+
+   const { singlePostData, isLoadingSinglePost } =
+     useSinglePostData(postIdToUse);
 
   return (
     <div>

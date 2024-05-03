@@ -13,12 +13,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
 import { PostType, Votes } from "@/utils/types";
 import Moment from "react-moment";
 import { countVotes } from "@/utils/utilities";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import AboutForum from "./AboutForum";
 
 type PostProps = {
   postData: PostType;
@@ -65,7 +71,22 @@ const Post = ({ postData }: PostProps) => {
               src={`https://api.dicebear.com/6.x/initials/svg?seed=${forumName}&backgroundColor=3e3f4a&chars=1`}
             />
             <div className="flex justify-between gap-x-2 items-center">
-              <p className="font-normal text-[12px]  ">{forumName}</p>
+              <div className="flex flex-col">
+                <HoverCard>
+                  <HoverCardTrigger>
+                    <p className="font-normal text-[12px]  ">{forumName}</p>
+                  </HoverCardTrigger>
+                  <HoverCardContent className="w-[25rem]">
+                    <AboutForum postId={id} />
+                  </HoverCardContent>
+                </HoverCard>
+                {pathname !== "/" ? (
+                  <>
+                    <p className="font-normal text-[12px]  ">{username}</p>
+                  </>
+                ) : null}
+              </div>
+
               <span>&#128908;</span>
 
               <Moment fromNow className="text-[12px]">
