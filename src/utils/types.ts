@@ -9,6 +9,7 @@ export type PostType = {
     username: string;
   };
   forum: {
+    id:string;
     image: string;
     _count: {
       posts: number;
