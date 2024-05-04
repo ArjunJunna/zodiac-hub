@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export type PostType = {
   id: string;
   title: string;
@@ -9,7 +11,7 @@ export type PostType = {
     username: string;
   };
   forum: {
-    id:string;
+    id: string;
     image: string;
     _count: {
       posts: number;
@@ -71,4 +73,9 @@ export type PostsFromForumsType = {
     image: string;
     username: string;
   };
+};
+
+export type AuthFormProp = {
+  setShowAuthModal: Dispatch<SetStateAction<boolean>>;
+  setShowSignIn: Dispatch<SetStateAction<boolean>>;
 };

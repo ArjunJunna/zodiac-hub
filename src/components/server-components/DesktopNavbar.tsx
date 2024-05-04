@@ -1,7 +1,7 @@
 import { ThemeSwitcherBtn } from "../ThemeSwitcherBtn";
-import { Button} from "@/components/ui/button";
 import { Search } from "lucide-react";
 import Image from "next/image";
+import LoginButton from "./LoginButton";
 
 
 export default function DesktopNavbar() {
@@ -26,7 +26,7 @@ export default function DesktopNavbar() {
         </div>
 
         <div className="flex items-center gap-2">
-          <Button className="rounded-2xl">Login</Button>
+          <LoginButton/>
           <ThemeSwitcherBtn />
         </div>
       </nav>
