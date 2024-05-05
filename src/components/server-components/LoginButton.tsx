@@ -3,12 +3,23 @@
 import { Button } from "../ui/button";
 import { useState } from "react";
 import AuthModal from "../client-components/AuthModal";
+import useAuthModal from "@/hooks/useAuthModal";
+import { cn } from "@/lib/utils";
 
 const LoginButton = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const { token } = useAuthModal();
   return (
     <>
-      <Button className="rounded-2xl" onClick={() => setShowAuthModal(true)}>
+      <Button
+        className={cn(
+          "rounded-2xl",
+          token
+            ? "hidden"
+            : "hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
+        )}
+        onClick={() => setShowAuthModal(true)}
+      >
         Login
       </Button>
       {showAuthModal && <AuthModal setShowAuthModal={setShowAuthModal} />}

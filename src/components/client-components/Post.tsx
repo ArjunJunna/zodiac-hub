@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import {
   MessageSquare,
@@ -17,7 +17,7 @@ import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@/components/ui/hover-card"
+} from "@/components/ui/hover-card";
 import { PostType, Votes } from "@/utils/types";
 import Moment from "react-moment";
 import { countVotes } from "@/utils/utilities";
@@ -25,6 +25,9 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import AboutForum from "./AboutForum";
+import { useState } from "react";
+import AuthModal from "../client-components/AuthModal";
+import useAuthModal from "@/hooks/useAuthModal";
 
 type PostProps = {
   postData: PostType;
@@ -42,16 +45,19 @@ const Post = ({ postData }: PostProps) => {
       _count: { creator, posts, subscribers },
       description,
       image: forumImage,
-      name:forumName,
+      name: forumName,
     },
     comments,
-    votes
+    votes,
   } = postData;
-  const router=useRouter();
+  const router = useRouter();
 
-  const pathname=usePathname();
+  const pathname = usePathname();
 
   const voteCounts = countVotes(votes);
+  const { showAuthModal, setShowAuthModal, joinForum, votePost } =
+    useAuthModal();
+
   return (
     <div
       className={cn(
@@ -96,9 +102,16 @@ const Post = ({ postData }: PostProps) => {
           </div>
 
           <div className="flex justify-center gap-x-3">
-            <button className="text-xs py-0 px-2 rounded-md bg-gray-600/10 hover:bg-gray-300/70 dark:hover:bg-gray-700/40">
+            <button
+              className="text-xs py-0 px-2 rounded-md bg-gray-600/10 hover:bg-gray-300/70 dark:hover:bg-gray-700/40"
+              onClick={e => {
+                e.stopPropagation();
+                joinForum();
+              }}
+            >
               Join
             </button>
+
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Ellipsis className="hover:bg-gray-600/10 px-1 rounded-md" />
@@ -116,11 +129,23 @@ const Post = ({ postData }: PostProps) => {
         <p className="text-sm ">{content}</p>
         <div className="flex justify-between pt-1 ">
           <div className="flex gap-x-3">
-            <button className="flex gap-x-1 hover:text-green-500">
+            <button
+              className="flex gap-x-1 hover:text-green-500"
+              onClick={e => {
+                e.stopPropagation();
+                votePost();
+              }}
+            >
               <ArrowBigUp />
               <p className="text-xs self-center">{voteCounts.UP}</p>
             </button>
-            <button className="flex gap-x-1 hover:text-red-400">
+            <button
+              className="flex gap-x-1 hover:text-red-400"
+              onClick={e => {
+                e.stopPropagation();
+                votePost();
+              }}
+            >
               <ArrowBigDown />
               <p className="text-xs self-center">{voteCounts.DOWN}</p>
             </button>
@@ -136,6 +161,7 @@ const Post = ({ postData }: PostProps) => {
           </button>
         </div>
       </div>
+      {showAuthModal && <AuthModal setShowAuthModal={setShowAuthModal} />}
     </div>
   );
 };
