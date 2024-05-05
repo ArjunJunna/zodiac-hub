@@ -1,11 +1,58 @@
 import { X } from "lucide-react";
 import { AuthFormProp } from "@/utils/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { postSignup } from "../../actions/actions";
+import { SignupFormSchema } from "@/lib/schema";
+import { z } from "zod";
+import { ButtonLoading } from "./LoadingButton";
+import { toast } from "sonner";
 
+type Inputs = z.infer<typeof SignupFormSchema>;
 
 const SignUpForm = ({ setShowAuthModal, setShowSignIn }: AuthFormProp) => {
+   const {
+     register,
+     handleSubmit,
+     watch,
+     setValue,
+     reset,
+     formState: { errors, isSubmitting },
+   } = useForm<Inputs>({
+     resolver: zodResolver(SignupFormSchema),
+   });
+
+   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
+     try {
+       const result = await postSignup(data);
+       if (result?.success) {
+        console.log('your result',result)
+         localStorage.setItem("token", result.data.token);
+         setShowAuthModal(false);
+         toast.success("You are signed up.");
+       }
+       if (!result) {
+         console.log("Something went wrong");
+         return;
+       }
+
+       if (result.error) {
+         console.log(result.error);
+         return;
+       }
+     } catch (error) {
+       console.error("Error submitting form:", error);
+     }
+   };
   return (
     <>
-      <form className="space-y-2">
+      <form
+        className="space-y-2"
+        onSubmit={e => {
+          e.preventDefault();
+          handleSubmit(onSubmit)();
+        }}
+      >
         <div className="flex justify-between">
           <h5 className="text-xl font-medium text-center text-gray-900 dark:text-white">
             Sign Up
@@ -17,18 +64,7 @@ const SignUpForm = ({ setShowAuthModal, setShowSignIn }: AuthFormProp) => {
             <X />
           </div>
         </div>
-        <div>
-          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-            Name
-          </label>
-          <input
-            type="text"
-            name="fullName"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-            placeholder="e.g. Tom Cruise"
-            required
-          />
-        </div>
+
         <div>
           <label
             htmlFor="username"
@@ -38,11 +74,32 @@ const SignUpForm = ({ setShowAuthModal, setShowSignIn }: AuthFormProp) => {
           </label>
           <input
             type="text"
-            name="username"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
             placeholder="e.g. tomcruise"
             required
+            {...register("username")}
           />
+          {errors.username?.message && (
+            <p className="text-sm text-red-400">{errors.username.message}</p>
+          )}
+        </div>
+        <div>
+          <label
+            htmlFor="email"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          >
+            Email
+          </label>
+          <input
+            type="text"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+            placeholder="e.g. tomcruise@gmail.com"
+            required
+            {...register("email")}
+          />
+          {errors.email?.message && (
+            <p className="text-sm text-red-400">{errors.email.message}</p>
+          )}
         </div>
         <div>
           <label
@@ -53,13 +110,16 @@ const SignUpForm = ({ setShowAuthModal, setShowSignIn }: AuthFormProp) => {
           </label>
           <input
             type="password"
-            name="password"
             placeholder="••••••••"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
             required
+            {...register("password")}
           />
+          {errors.password?.message && (
+            <p className="text-sm text-red-400">{errors.password.message}</p>
+          )}
         </div>
-        <div>
+        {/*<div>
           <label
             htmlFor="password"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -69,28 +129,32 @@ const SignUpForm = ({ setShowAuthModal, setShowSignIn }: AuthFormProp) => {
           <input
             type="password"
             placeholder="••••••••"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             name="confirmPwd"
             required
           />
-        </div>
+      </div>*/}
         <div>
           {false ? (
             <div className="text-xs text-red-600">Passwords do not match</div>
           ) : null}
         </div>
-        <button
-          className="w-full text-white bg-orange-600 hover:bg-orange-800  focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700"
-          type="submit"
-        >
-          Create New Account
-        </button>
+        {isSubmitting ? (
+          <ButtonLoading className="w-full text-white bg-blue-600 hover:bg-blue-800  focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700" />
+        ) : (
+          <button
+            className="w-full text-white bg-blue-600 hover:bg-blue-800  focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700"
+            type="submit"
+          >
+            Create New Account
+          </button>
+        )}
 
         <div className="text-sm font-medium text-center text-gray-500 dark:text-gray-300">
           <span>Already have an account?</span>
           <button
             onClick={() => setShowSignIn(prev => !prev)}
-            className="text-orange-700 ml-4 hover:underline dark:text-orange-500"
+            className="text-blue-700 ml-4 hover:underline dark:text-blue-500"
           >
             Sign in
           </button>
