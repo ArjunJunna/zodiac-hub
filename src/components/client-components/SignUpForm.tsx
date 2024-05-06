@@ -23,27 +23,21 @@ const SignUpForm = ({ setShowAuthModal, setShowSignIn }: AuthFormProp) => {
    });
 
    const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
-     try {
-       const result = await postSignup(data);
-       if (result?.success) {
-        console.log('your result',result)
-         localStorage.setItem("token", result.data.token);
+     const result = await postSignup(data);
+     
+     if (result?.status == true) {
+       if(result?.data?.status===409){
+        toast.error(result.data.message);
+       }else{
+         localStorage.setItem("token", result?.data?.token);
          setShowAuthModal(false);
          toast.success("You are signed up.");
        }
-       if (!result) {
-         console.log("Something went wrong");
-         return;
-       }
-
-       if (result.error) {
-         console.log(result.error);
-         return;
-       }
-     } catch (error) {
-       console.error("Error submitting form:", error);
+     } else {
+       reset();
+       toast.error("Something went wrong");
      }
-   };
+   }
   return (
     <>
       <form
@@ -91,7 +85,7 @@ const SignUpForm = ({ setShowAuthModal, setShowSignIn }: AuthFormProp) => {
             Email
           </label>
           <input
-            type="text"
+            type="email"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
             placeholder="e.g. tomcruise@gmail.com"
             required

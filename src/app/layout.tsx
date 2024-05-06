@@ -37,7 +37,7 @@ export default function RootLayout({
                   {children}
                   <RightSection />
                 </div>
-                <Toaster />
+                <Toaster richColors />
               </div>
             </ThemeProvider>
           </ReactQueryClientProvider>

@@ -16,7 +16,7 @@ const LoginButton = () => {
           "rounded-2xl",
           token
             ? "hidden"
-            : "hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
+            : ""
         )}
         onClick={() => setShowAuthModal(true)}
       >

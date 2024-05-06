@@ -23,25 +23,15 @@ const SignInForm = ({ setShowAuthModal, setShowSignIn }: AuthFormProp) => {
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
-    try {
-      const result = await postSignin(data);
-      if (result?.success) {
-        localStorage.setItem("token", result.data);
-        setShowAuthModal(false);
-        toast.success("You are signed in.");
-      }
-      if (!result) {
-        console.log("Something went wrong");
-        return;
-      }
-
-      if (result.error) {
-        console.log(result.error);
-        return;
-      }
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
+        const result = await postSignin(data);
+        if(result?.status==true){
+          localStorage.setItem("token", result.data);
+          setShowAuthModal(false);
+          toast.success("You are signed in.");
+        }else{
+          reset()
+          toast.error("Invalid User Credentials");
+        }
   };
 
   const onGuestLogin = async () => {
