@@ -7,6 +7,7 @@ import { SigninFormSchema } from "@/lib/schema";
 import { z } from "zod";
 import { ButtonLoading } from "./LoadingButton";
 import { toast } from "sonner";
+import { useAuth } from "@/context/authContext";
 
 type Inputs = z.infer<typeof SigninFormSchema>;
 
@@ -21,17 +22,20 @@ const SignInForm = ({ setShowAuthModal, setShowSignIn }: AuthFormProp) => {
   } = useForm<Inputs>({
     resolver: zodResolver(SigninFormSchema),
   });
+  
+   const { setToken } = useAuth()
 
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
-        const result = await postSignin(data);
-        if(result?.status==true){
-          localStorage.setItem("token", result.data);
-          setShowAuthModal(false);
-          toast.success("You are signed in.");
-        }else{
-          reset()
-          toast.error("Invalid User Credentials");
-        }
+    const result = await postSignin(data);
+    if (result?.status == true) {
+      localStorage.setItem("token", result.data);
+      setToken(result?.data);
+      setShowAuthModal(false);
+      toast.success("You are signed in.");
+    } else {
+      reset();
+      toast.error("Invalid User Credentials");
+    }
   };
 
   const onGuestLogin = async () => {

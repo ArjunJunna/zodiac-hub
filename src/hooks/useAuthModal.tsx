@@ -1,8 +1,9 @@
+import { useAuth } from "@/context/authContext";
 import { useState } from "react";
 
 const useAuthModal = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const token = localStorage.getItem("token");
+  const {token}=useAuth()
 
   const joinForum = () => {
     

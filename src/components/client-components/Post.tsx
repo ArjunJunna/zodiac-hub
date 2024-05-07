@@ -67,6 +67,7 @@ const Post = ({ postData }: PostProps) => {
           : ""
       )}
       onClick={() => router.push(`/post/${id}`)}
+      key={id}
     >
       <div className="flex flex-col gap-y-1">
         <div className="flex justify-between">

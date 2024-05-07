@@ -10,11 +10,11 @@ import {
 import { cn } from "@/lib/utils";
 import { Switch } from "@/components/ui/switch";
 import { useTheme } from "next-themes";
+import { useAuth } from "@/context/authContext";
 
 const DesktopDropdownMenu = () => {
-  
- const token = localStorage.getItem("token");
- const { setTheme ,theme} = useTheme();
+  const { token, logout } = useAuth();
+  const { setTheme, theme } = useTheme();
   return (
     <>
       <DropdownMenu>
@@ -39,7 +39,7 @@ const DesktopDropdownMenu = () => {
 
           <DropdownMenuItem
             onClick={() => {
-              localStorage.removeItem("token");
+              logout();
             }}
           >
             <LogOut className="h-4 w-4 mr-3" />

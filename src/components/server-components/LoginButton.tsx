@@ -3,12 +3,12 @@
 import { Button } from "../ui/button";
 import { useState } from "react";
 import AuthModal from "../client-components/AuthModal";
-import useAuthModal from "@/hooks/useAuthModal";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/context/authContext";
 
 const LoginButton = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const { token } = useAuthModal();
+  const { token } = useAuth()
   return (
     <>
       <Button
