@@ -5,7 +5,11 @@ import AboutForum from "./AboutForum";
 
 const Info = () => {
   const pathname = usePathname();
-  return <div>{pathname === "/" ? <PopularSection /> : <AboutForum />}</div>;
+  return (
+    <div className="sticky top-16">
+      {pathname === "/" ? <PopularSection /> : <AboutForum />}
+    </div>
+  );
 };
 
 export default Info;

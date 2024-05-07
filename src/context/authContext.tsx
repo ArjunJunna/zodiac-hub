@@ -9,6 +9,7 @@ import {
   Dispatch,
   SetStateAction,
 } from "react";
+import { toast } from "sonner";
 
 type AuthContextType = {
   token: string | null;
@@ -23,6 +24,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     localStorage.removeItem("token");
     setToken(null);
+    toast('You are logged out.')
   };
   return (
     <AuthContext.Provider value={{ token, logout, setToken }}>
