@@ -3,11 +3,11 @@ import { useState } from "react";
 
 const useAuthModal = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const {token}=useAuth()
+  const {userDetails}=useAuth()
 
   const joinForum = () => {
     
-    if (!token) {
+    if (!userDetails?.token) {
       setShowAuthModal(true);
     } else {
       setShowAuthModal(false);
@@ -15,7 +15,7 @@ const useAuthModal = () => {
     }
   };
   const votePost = () => {
-    if (!token) {
+    if (!userDetails?.token) {
       setShowAuthModal(true);
     } else {
       setShowAuthModal(false);
@@ -28,7 +28,6 @@ const useAuthModal = () => {
     setShowAuthModal,
     joinForum,
     votePost,
-    token
   };
 };
 

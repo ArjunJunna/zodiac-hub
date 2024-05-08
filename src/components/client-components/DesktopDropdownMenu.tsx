@@ -13,13 +13,15 @@ import { useTheme } from "next-themes";
 import { useAuth } from "@/context/authContext";
 
 const DesktopDropdownMenu = () => {
-  const { token, logout } = useAuth();
+  const {userDetails, logout } = useAuth();
   const { setTheme, theme } = useTheme();
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <Menu className={cn("h-6 w-4", token ? "flex" : "hidden")} />
+          <Menu
+            className={cn("h-6 w-4", userDetails?.token ? "flex" : "hidden")}
+          />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem>

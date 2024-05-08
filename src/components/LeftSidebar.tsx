@@ -15,7 +15,7 @@ const LeftSidebar = () => {
   const [showResources, setShowResources] = useState(false);
 
   const [topicsList, resourcesList] = useSideBarResource();
-  const { token } = useAuth();
+  const { userDetails} = useAuth();
   const { data, isLoading } = useForumsData();
   const [createForumModal,setCreateForumModal]=useState(false)
 
@@ -43,7 +43,7 @@ const LeftSidebar = () => {
             </li>
           </ul>
           <Seperator />
-          {!token && (
+          {!userDetails?.token && (
             <>
               <ul className="px-3">
                 <li
@@ -78,7 +78,7 @@ const LeftSidebar = () => {
               <Seperator />
             </>
           )}
-          {token && (
+          {userDetails?.token && (
             <>
               <ul className="px-3">
                 <li

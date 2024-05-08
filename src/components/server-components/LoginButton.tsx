@@ -8,16 +8,11 @@ import { useAuth } from "@/context/authContext";
 
 const LoginButton = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const { token } = useAuth()
+  const { userDetails } = useAuth()
   return (
     <>
       <Button
-        className={cn(
-          "rounded-2xl",
-          token
-            ? "hidden"
-            : ""
-        )}
+        className={cn("rounded-2xl", userDetails?.token ? "hidden" : "")}
         onClick={() => setShowAuthModal(true)}
       >
         Login

@@ -23,13 +23,13 @@ const SignInForm = ({ setShowAuthModal, setShowSignIn }: AuthFormProp) => {
     resolver: zodResolver(SigninFormSchema),
   });
   
-   const { setToken } = useAuth()
+   const { setUserDetails } = useAuth()
 
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     const result = await postSignin(data);
     if (result?.status == true) {
-      localStorage.setItem("token", result.data);
-      setToken(result?.data);
+      localStorage.setItem("token", result?.data?.token);
+      setUserDetails(result?.data);
       setShowAuthModal(false);
       toast.success("You are signed in.");
     } else {

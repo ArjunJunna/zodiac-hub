@@ -14,9 +14,9 @@ export const postSignin=async(formData:SigninInputs)=>{
                const { data } = result;
                
                const response = await publicRequest.post("/auth/login", data);
-               const { data: dataToken, status } = response;
+               const { data: userDetails, status } = response;
                if (status === 201) {
-                 return { status: true, data: dataToken };
+                 return { status: true, data: userDetails };
                }
                if (status === 401) {
                  return { status: false, data: "Invalid Credentials"};

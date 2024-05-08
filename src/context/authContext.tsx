@@ -11,23 +11,34 @@ import {
 } from "react";
 import { toast } from "sonner";
 
+type UserDetailsProp = {
+  id: string;
+  username: string;
+  email: string;
+  image: string | null;
+  token:string
+};
+
 type AuthContextType = {
-  token: string | null;
-  setToken: Dispatch<SetStateAction<string | null>>;
   logout: () => void;
+  userDetails: UserDetailsProp | null;
+  setUserDetails: Dispatch<SetStateAction<UserDetailsProp | null>>;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setToken] = useState(localStorage.getItem("token"));
+
+  const [userDetails,setUserDetails]=useState<UserDetailsProp | null>(null)
   const logout = () => {
     localStorage.removeItem("token");
-    setToken(null);
+    setUserDetails(null);
     toast('You are logged out.')
   };
   return (
-    <AuthContext.Provider value={{ token, logout, setToken }}>
+    <AuthContext.Provider
+      value={{  logout,  userDetails, setUserDetails }}
+    >
       {children}
     </AuthContext.Provider>
   );
