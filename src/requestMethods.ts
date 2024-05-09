@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://zodiac-hub.onrender.com/api/v1";
+export const BASE_URL = "https://zodiac-hub.onrender.com/api/v1";
 
 
 
@@ -8,10 +8,15 @@ export const publicRequest = axios.create({
   baseURL: BASE_URL,
   responseType: "json",
 });
-/*
-const getToken = () => localStorage.getItem("token");
 
-const userRequest = axios.create({
+const getToken = () => {
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("token");
+  }
+  return null;
+};
+
+export const userRequest = axios.create({
   baseURL: BASE_URL,
   headers: {
     Authorization: `Bearer ${getToken()}`,
@@ -30,4 +35,3 @@ userRequest.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-*/

@@ -32,6 +32,7 @@ const SignUpForm = ({ setShowAuthModal, setShowSignIn }: AuthFormProp) => {
         toast.error(result.data.message);
        }else{
          localStorage.setItem("token", result?.data?.token);
+         localStorage.setItem("userId",result?.data?.id);
          setUserDetails(result?.data);
          setShowAuthModal(false);
          toast.success("You are signed up.");

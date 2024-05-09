@@ -29,6 +29,7 @@ const SignInForm = ({ setShowAuthModal, setShowSignIn }: AuthFormProp) => {
     const result = await postSignin(data);
     if (result?.status == true) {
       localStorage.setItem("token", result?.data?.token);
+      localStorage.setItem("userId",result?.data?.id);
       setUserDetails(result?.data);
       setShowAuthModal(false);
       toast.success("You are signed in.");

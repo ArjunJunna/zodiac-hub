@@ -1,10 +1,19 @@
 "use server"
 import { z } from "zod";
+import {BASE_URL, userRequest} from '@/requestMethods'
 
 import { SigninFormSchema ,SignupFormSchema} from "@/lib/schema";
 import { publicRequest } from "@/requestMethods";
+import axios from "axios";
 type SigninInputs = z.infer<typeof SigninFormSchema>;
 type SignupInputs = z.infer<typeof SignupFormSchema>;
+
+const getToken = () => {
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("token");
+  }
+  return null;
+};
 
 export const postSignin=async(formData:SigninInputs)=>{
   
@@ -52,3 +61,21 @@ export const postSignup = async (formData: SignupInputs) => {
     }
 };
 
+export const fetchUserData = async (userId:string) => {
+  try {
+    console.log('userId');
+    const response = await axios.get(
+      `${BASE_URL}/users/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      }
+    );
+    console.log("your user response", response);
+    return response.data; 
+  } catch (error) {
+    console.log(error);
+    throw new Error("Failed to fetch user data"); // Throw an error if fetch fails
+  }
+};

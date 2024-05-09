@@ -79,3 +79,45 @@ export type AuthFormProp = {
   setShowAuthModal: Dispatch<SetStateAction<boolean>>;
   setShowSignIn: Dispatch<SetStateAction<boolean>>;
 };
+
+export type CreatedForumType = {
+  id: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  description: string;
+  image: string | null;
+  creatorId: string;
+};
+
+export type SubscriptionType = {
+  userId: string;
+  forumId: string;
+};
+export type UserVoteType = {
+  userId: string;
+  postId: string;
+  type: "UP"|"DOWN";
+};
+export type UserCommentType = {
+  id: string;
+  text: string;
+  createdAt: string;
+  authorId: string;
+  postId: string;
+  replyToId: string | null;
+  commentId: string | null;
+};
+
+export type UserType = {
+  id: string;
+  username: string;
+  email: string;
+  image: string | null;
+  createdForums: CreatedForumType[];
+  subscriptions: SubscriptionType[];
+  votes: UserVoteType[];
+  post: [];
+  comment: UserCommentType[];
+  commentVote: [];
+};

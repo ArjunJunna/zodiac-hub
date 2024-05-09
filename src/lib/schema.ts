@@ -20,3 +20,17 @@ export const SignupFormSchema = z.object({
     message: "Email is must and be at least 5 characters.",
   }),
 });
+
+export const CreateForumSchema = z.object({
+  image: z.string(),
+  communityName: z.string().min(1, {
+    message: "Must have a name.",
+  }),
+  description: z
+    .string()
+    .min(1, {
+      message: "Must have description",
+    })
+    .max(1000, { message: "Description must have be at max 1000 characters." }),
+});
+
