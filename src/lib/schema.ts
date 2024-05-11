@@ -22,7 +22,6 @@ export const SignupFormSchema = z.object({
 });
 
 export const CreateForumSchema = z.object({
-  image: z.string(),
   communityName: z.string().min(1, {
     message: "Must have a name.",
   }),

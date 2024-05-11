@@ -76,6 +76,28 @@ export const fetchUserData = async (userId:string) => {
     return response.data; 
   } catch (error) {
     console.log(error);
-    throw new Error("Failed to fetch user data"); // Throw an error if fetch fails
+    throw new Error("Failed to fetch user data");
   }
 };
+
+type CreateForumType={
+  userId:string;
+  imageUrl:string;
+  description:string;
+  communityName:string;
+}
+
+export const createForum=async(forumData:CreateForumType)=>{
+const data = {
+  name: forumData.communityName,
+  creatorId: forumData.userId,
+  description: forumData.description,
+  image: forumData.imageUrl,
+};
+try {
+  const response = await userRequest.post(`/forums`, data);
+  return response.data;
+} catch (error) {
+  console.log(error);
+}
+}
