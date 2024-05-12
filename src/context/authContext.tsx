@@ -12,6 +12,7 @@ import {
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import useUserData from "@/hooks/useUserData";
+import { useSession } from "next-auth/react";
 
 type UserDetailsProp = {
   id: string|null;
@@ -30,17 +31,18 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const {data:session}=useSession()
   const queryClient = useQueryClient();
   const [userDetails, setUserDetails] = useState<UserDetailsProp | null>({
-    id: localStorage.getItem("userId"),
+    id: session?.user.id as string,
     username: "",
     email: "",
     image: "",
-    token: localStorage.getItem("token"),
+    token: session?.user?.token as string,
   });
-    const { data} = useUserData(
+    /*const { data} = useUserData(
       userDetails?.id as string
-    );
+    );*/
   const logout = () => {
     localStorage.removeItem("token");
      localStorage.removeItem("userId");
@@ -49,14 +51,14 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
  
  useEffect(() => {
-   if (userDetails?.id && !userDetails?.username) {
+   /*if (userDetails?.id && !userDetails?.username) {
     setUserDetails({
       ...userDetails,
       username: data?.username as string,
       email: data?.email as string,
       image: data?.image as string,
     });
-   }
+   }*/
  }, [userDetails, queryClient]);
   return (
     <AuthContext.Provider

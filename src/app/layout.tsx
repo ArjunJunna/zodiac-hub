@@ -9,6 +9,7 @@ import LeftSidebar from "@/components/LeftSidebar";
 import RightSection from "@/components/RightSection";
 import { Toaster } from "@/components/ui/sonner";
 import AuthProvider from "@/context/authContext";
+import Providers from "@/components/Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,21 +30,23 @@ export default function RootLayout({
     <Hydration>
       <html lang="en" className="dark" style={{ colorScheme: "dark" }}>
         <body className={inter.className}>
-          <ReactQueryClientProvider>
-            <AuthProvider>
-              <ThemeProvider>
-                <div className="flex flex-col h-screen overflow-y-auto ">
-                  <Navbar />
-                  <div className="flex h-screen">
-                    <LeftSidebar />
-                    {children}
-                    <RightSection />
+          <Providers>
+            <ReactQueryClientProvider>
+              <AuthProvider>
+                <ThemeProvider>
+                  <div className="flex flex-col h-screen overflow-y-auto ">
+                    <Navbar />
+                    <div className="flex h-screen">
+                      <LeftSidebar />
+                      {children}
+                      <RightSection />
+                    </div>
+                    <Toaster richColors />
                   </div>
-                  <Toaster richColors />
-                </div>
-              </ThemeProvider>
-            </AuthProvider>
-          </ReactQueryClientProvider>
+                </ThemeProvider>
+              </AuthProvider>
+            </ReactQueryClientProvider>
+          </Providers>
         </body>
       </html>
     </Hydration>

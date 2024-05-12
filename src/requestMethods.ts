@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getServerSession } from "next-auth";
 
 export const BASE_URL = "https://zodiac-hub.onrender.com/api/v1";
 

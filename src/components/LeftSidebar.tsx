@@ -9,6 +9,7 @@ import { useAuth } from "@/context/authContext";
 import { Plus } from "lucide-react";
 import useForumsData from "@/hooks/useForumsData";
 import CreateForumModal from "./client-components/CreateForumModal";
+import { useSession } from "next-auth/react";
 
 const LeftSidebar = () => {
   const [showTopics, setShowTopics] = useState(false);
@@ -16,6 +17,7 @@ const LeftSidebar = () => {
 
   const [topicsList, resourcesList] = useSideBarResource();
   const { userDetails} = useAuth();
+  const {data:session}=useSession();
   const { data, isLoading } = useForumsData();
   const [createForumModal,setCreateForumModal]=useState(false)
 
@@ -43,7 +45,7 @@ const LeftSidebar = () => {
             </li>
           </ul>
           <Seperator />
-          {!userDetails?.token && (
+          {!session?.user.token && (
             <>
               <ul className="px-3">
                 <li
@@ -78,7 +80,7 @@ const LeftSidebar = () => {
               <Seperator />
             </>
           )}
-          {userDetails?.token && (
+          {session?.user.token && (
             <>
               <ul className="px-3">
                 <li
@@ -100,11 +102,11 @@ const LeftSidebar = () => {
                     <li
                       className="flex cursor-pointer items-center gap-3 rounded-md 
              px-3 py-[0.5rem] text-[14px]  hover:bg-gray-200/50 dark:hover:bg-primary-foreground "
-             onClick={()=>setCreateForumModal(true)}
+                      onClick={() => setCreateForumModal(true)}
                     >
                       <Plus className="h-7 w-7" />
                       Create Community
-                    </li >
+                    </li>
                     {!isLoading ? (
                       <>
                         {data?.map((item, index) => (
@@ -164,7 +166,9 @@ const LeftSidebar = () => {
           </ul>
         </div>
       </div>
-      {createForumModal?<CreateForumModal setCreateForumModal={setCreateForumModal}/>:null}
+      {createForumModal ? (
+        <CreateForumModal setCreateForumModal={setCreateForumModal} />
+      ) : null}
     </div>
   );
 };

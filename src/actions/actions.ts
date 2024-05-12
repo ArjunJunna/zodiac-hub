@@ -5,6 +5,8 @@ import {BASE_URL, userRequest} from '@/requestMethods'
 import { SigninFormSchema ,SignupFormSchema} from "@/lib/schema";
 import { publicRequest } from "@/requestMethods";
 import axios from "axios";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 type SigninInputs = z.infer<typeof SigninFormSchema>;
 type SignupInputs = z.infer<typeof SignupFormSchema>;
 
@@ -62,13 +64,14 @@ export const postSignup = async (formData: SignupInputs) => {
 };
 
 export const fetchUserData = async (userId:string) => {
+  const session =await getServerSession(authOptions)
   try {
     console.log('userId');
     const response = await axios.get(
       `${BASE_URL}/users/${userId}`,
       {
         headers: {
-          Authorization: `Bearer ${getToken()}`,
+          Authorization: `Bearer ${session?.user.token}`,
         },
       }
     );

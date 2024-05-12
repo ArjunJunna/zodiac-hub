@@ -8,10 +8,11 @@ import { z } from "zod";
 import { ButtonLoading } from "./LoadingButton";
 import { toast } from "sonner";
 import { useAuth } from "@/context/authContext";
+import Link from "next/link";
 
 type Inputs = z.infer<typeof SignupFormSchema>;
 
-const SignUpForm = ({ setShowAuthModal, setShowSignIn }: AuthFormProp) => {
+const SignUpForm = ({ setShowAuthModal }: AuthFormProp) => {
    const {
      register,
      handleSubmit,
@@ -150,12 +151,13 @@ const SignUpForm = ({ setShowAuthModal, setShowSignIn }: AuthFormProp) => {
 
         <div className="text-sm font-medium text-center text-gray-500 dark:text-gray-300">
           <span>Already have an account?</span>
-          <button
-            onClick={() => setShowSignIn(prev => !prev)}
+          <Link
+            href="/api/auth/signin"
+            //onClick={() => setShowSignIn(prev => !prev)}
             className="text-blue-700 ml-4 hover:underline dark:text-blue-500"
           >
             Sign in
-          </button>
+          </Link>
         </div>
       </form>
     </>

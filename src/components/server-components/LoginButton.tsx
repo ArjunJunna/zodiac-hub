@@ -12,6 +12,7 @@ const LoginButton = () => {
   return (
     <>
       <Button
+      
         className={cn("rounded-2xl", userDetails?.token ? "hidden" : "")}
         onClick={() => setShowAuthModal(true)}
       >
