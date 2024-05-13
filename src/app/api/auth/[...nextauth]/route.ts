@@ -7,7 +7,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: "Credentials", 
+      name: "Credentials",
       credentials: {
         username: {
           label: "Username",
@@ -29,7 +29,7 @@ export const authOptions: NextAuthOptions = {
             "Content-Type": "application/json",
           },
         });
-     
+
         if (res.status == 401) {
           console.log("Unauthorized");
 
@@ -40,10 +40,9 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-
+  //secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async jwt({ token, user }:{token:JWT,user:any}) {
-    
+    async jwt({ token, user }: { token: JWT; user: any }) {
       if (user) {
         token = {
           user: {
@@ -58,13 +57,12 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
 
-    async session({ token,session }) {
-      session.user=token.user
-      return session
+    async session({ token, session }) {
+      session.user = token.user;
+      return session;
     },
-    },
-  }
-
+  },
+};
 
 const handler = NextAuth(authOptions);
 

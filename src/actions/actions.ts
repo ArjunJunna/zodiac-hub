@@ -1,7 +1,7 @@
 "use server"
 import { z } from "zod";
-import {BASE_URL, userRequest} from '@/requestMethods'
-
+import {BASE_URL} from '@/requestMethods'
+import { revalidatePath } from "next/cache";
 import { SigninFormSchema ,SignupFormSchema} from "@/lib/schema";
 import { publicRequest } from "@/requestMethods";
 import axios from "axios";
@@ -9,13 +9,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 type SigninInputs = z.infer<typeof SigninFormSchema>;
 type SignupInputs = z.infer<typeof SignupFormSchema>;
-
-const getToken = () => {
-  if (typeof window !== "undefined") {
-    return localStorage.getItem("token");
-  }
-  return null;
-};
 
 export const postSignin=async(formData:SigninInputs)=>{
   
@@ -75,7 +68,6 @@ export const fetchUserData = async (userId:string) => {
         },
       }
     );
-    console.log("your user response", response);
     return response.data; 
   } catch (error) {
     console.log(error);
@@ -91,6 +83,7 @@ type CreateForumType={
 }
 
 export const createForum=async(forumData:CreateForumType)=>{
+  const session =await getServerSession(authOptions);
 const data = {
   name: forumData.communityName,
   creatorId: forumData.userId,
@@ -98,9 +91,18 @@ const data = {
   image: forumData.imageUrl,
 };
 try {
-  const response = await userRequest.post(`/forums`, data);
-  return response.data;
+   const response = await axios.post(
+     `https://zodiac-hub.onrender.com/api/v1/forums`,
+     data,
+     {
+       headers: {
+         Authorization: `Bearer ${session?.user.token}`,
+       },
+     }
+   );
+  return response.status
 } catch (error) {
   console.log(error);
 }
+revalidatePath("/");
 }

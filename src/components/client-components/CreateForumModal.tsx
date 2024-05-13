@@ -12,6 +12,8 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/authContext";
 import { userRequest } from "@/requestMethods";
+import { createForum } from "@/actions/actions";
+import { useQueryClient } from "@tanstack/react-query";
 
 type CreateForumModalProps = {
   setCreateForumModal: Dispatch<SetStateAction<boolean>>;
@@ -23,11 +25,12 @@ const CreateForumModal = ({ setCreateForumModal }: CreateForumModalProps) => {
    const {
      register,
      handleSubmit,
-     formState: { errors, isSubmitting },
+     formState: { errors, isSubmitting},
    } = useForm<Inputs>({
      resolver: zodResolver(CreateForumSchema),
    });
    const {userDetails:{id:userId}}=useAuth()
+   const queryClient = useQueryClient();
   const [imageUrl, setImageUrl] = useState("");
   type CreateForumType = {
     userId: string;
@@ -35,24 +38,16 @@ const CreateForumModal = ({ setCreateForumModal }: CreateForumModalProps) => {
     description: string;
     communityName: string;
   };
-   const createForum=async(forumData:CreateForumType)=>{
-const data = {
-  name: forumData.communityName,
-  creatorId: forumData.userId,
-  description: forumData.description,
-  image: forumData.imageUrl,
-};
-try {
-  const response = await userRequest.post(`/forums`, data);
-  return response.data;
-} catch (error) {
-  console.log(error);
-}
-}
+  
    const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     if(imageUrl!==''){
       const postData={imageUrl,userId,...data}
-      const result=await createForum(postData);
+      const responseStatus=await createForum(postData);
+      if(responseStatus==201){
+        toast.success(`Community added.`);
+        queryClient.invalidateQueries({ queryKey: ["forums"] });
+        setCreateForumModal(false);
+      }
     }
    };
   return (
@@ -71,7 +66,6 @@ try {
           className="space-y-0.5 mb-0"
           onSubmit={e => {
             e.preventDefault();
-            console.log("till here");
             handleSubmit(onSubmit)();
           }}
         >

@@ -4,9 +4,12 @@ import Image from "next/image";
 import LoginButton from "./LoginButton";
 import DesktopDropdownMenu from "../client-components/DesktopDropdownMenu";
 import SignInButton from "../SignInButton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 
-export default function DesktopNavbar() {
+export async function DesktopNavbar() {
+  const session=await getServerSession(authOptions);
   return (
     <div className="hidden border-b bg-background lg:block px-2 sticky top-0 z-20 w-full">
       <nav className="container flex gap-x-2 items-center justify-between px-4 py-1">
@@ -28,6 +31,7 @@ export default function DesktopNavbar() {
         </div>
 
         <div className="flex items-center gap-2">
+          <p>{session?.user.username}</p>
           <SignInButton />
           {/*<LoginButton/>*/}
           <DesktopDropdownMenu/>
