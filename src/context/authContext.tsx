@@ -15,11 +15,11 @@ import useUserData from "@/hooks/useUserData";
 import { useSession } from "next-auth/react";
 
 type UserDetailsProp = {
-  id: string|null;
+  id: string | null;
   username: string;
   email: string;
   image: string | null;
-  token:string | null
+  token: string | null;
 };
 
 type AuthContextType = {
@@ -31,7 +31,7 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const {data:session}=useSession()
+  const { data: session } = useSession();
   const queryClient = useQueryClient();
   const [userDetails, setUserDetails] = useState<UserDetailsProp | null>({
     id: session?.user.id as string,
@@ -40,30 +40,31 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     image: "",
     token: session?.user?.token as string,
   });
-    /*const { data} = useUserData(
+  /*const { data} = useUserData(
       userDetails?.id as string
     );*/
   const logout = () => {
     localStorage.removeItem("token");
-     localStorage.removeItem("userId");
+    localStorage.removeItem("userId");
     setUserDetails(null);
-    toast('You are logged out.')
+    toast("You are logged out.");
   };
- 
- useEffect(() => {
-   /*if (userDetails?.id && !userDetails?.username) {
-    setUserDetails({
-      ...userDetails,
-      username: data?.username as string,
-      email: data?.email as string,
-      image: data?.image as string,
-    });
-   }*/
- }, [userDetails, queryClient]);
+
+   useEffect(() => {
+     if (session) {
+       setUserDetails({
+         id: session.user.id as string,
+         username: session.user.username,
+         email: session.user.email,
+         image: session.user.image,
+         token: session.user.token,
+       });
+     } else {
+       setUserDetails(null);
+     }
+   }, [session, queryClient]);
   return (
-    <AuthContext.Provider
-      value={{  logout,  userDetails, setUserDetails }}
-    >
+    <AuthContext.Provider value={{ logout, userDetails, setUserDetails }}>
       {children}
     </AuthContext.Provider>
   );
