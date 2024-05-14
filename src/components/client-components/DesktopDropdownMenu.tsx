@@ -11,9 +11,10 @@ import { cn } from "@/lib/utils";
 import { Switch } from "@/components/ui/switch";
 import { useTheme } from "next-themes";
 import { useAuth } from "@/context/authContext";
+import { signOut } from "next-auth/react";
 
 const DesktopDropdownMenu = () => {
-  const {userDetails, logout } = useAuth();
+  const {userDetails} = useAuth();
   const { setTheme, theme } = useTheme();
   return (
     <>
@@ -41,7 +42,7 @@ const DesktopDropdownMenu = () => {
 
           <DropdownMenuItem
             onClick={() => {
-              logout();
+              signOut()
             }}
           >
             <LogOut className="h-4 w-4 mr-3" />

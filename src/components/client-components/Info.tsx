@@ -7,7 +7,11 @@ const Info = () => {
   const pathname = usePathname();
   return (
     <div className="sticky top-16">
-      {pathname === "/" ? <PopularSection /> : <AboutForum />}
+      {pathname.startsWith("/f") ? null : pathname === "/" ? (
+        <PopularSection />
+      ) : (
+        <AboutForum />
+      )}
     </div>
   );
 };

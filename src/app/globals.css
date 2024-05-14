@@ -93,3 +93,7 @@ h6.ce-header {
     @apply bg-background text-foreground;
   }
 }
+
+.ProseMirror:focus {
+  outline: none;
+}

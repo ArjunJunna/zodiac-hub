@@ -18,6 +18,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import Image from "next/image";
 import { PostType, Votes } from "@/utils/types";
 import Moment from "react-moment";
 import { countVotes } from "@/utils/utilities";
@@ -28,6 +29,7 @@ import AboutForum from "./AboutForum";
 import { useState } from "react";
 import AuthModal from "../client-components/AuthModal";
 import useAuthModal from "@/hooks/useAuthModal";
+import { RenderToJson } from "../server-components/RenderToJson";
 
 type PostProps = {
   postData: PostType;
@@ -127,7 +129,22 @@ const Post = ({ postData }: PostProps) => {
       </div>
 
       <div className="flex flex-col flex-grow gap-1">
-        <p className="text-sm ">{content}</p>
+        <div className="max-h-[300px] overflow-hidden">
+          {postImage ? (
+            <>
+              <Image
+                src={postImage}
+                alt="Post Image"
+                width={500}
+                height={200}
+                className="w-full h-full"
+              />
+              
+            </>
+          ) : (
+            <RenderToJson data={content} />
+          )}
+        </div>
         <div className="flex justify-between pt-1 ">
           <div className="flex gap-x-3">
             <button
