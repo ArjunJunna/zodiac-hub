@@ -20,7 +20,6 @@ export async function DesktopNavbar() {
             width={60}
             className="mr-2 cursor-pointer"
           />
-          <p>{`Welcome ${session?.user.username}`}</p>
         </div>
         <div className="flex items-center gap-2 rounded-lg border border-gray-200/70 px-2 py-[3px] hover:border-gray-300 w-[30rem]">
           <Search className="h-8 w-4" />
