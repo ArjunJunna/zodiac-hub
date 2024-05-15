@@ -2,7 +2,6 @@
 
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
-import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { Text, Video } from "lucide-react";
@@ -14,23 +13,35 @@ import { UploadDropzone } from "@/components/Uploadthing";
 import { useState } from "react";
 import { createPost } from "@/actions/actions";
 import { JSONContent } from "@tiptap/react";
+import ForumPicker from "@/components/client-components/ForumPicker";
 
-const CreatePost = ({ params }: { params: { id: string } }) => {
+type ForumType = {
+  userId: string;
+  forumId: string;
+  forumName: string;
+};
+
+const CreatePost = () => {
   const [imageUrl, setImageUrl] = useState<null | string>(null);
   const [title, setTitle] = useState<null | string>(null);
   const [json, setJson] = useState<null | JSONContent>(null);
+  const [selectedForum, setSelectedForum] = useState<ForumType | null>(null);
 
   const createNewPost = createPost.bind(null, { jsonContent: json });
-  const forumId = "48902296-8f55-4c6d-a21d-c8bb404e6863";
 
   return (
     <>
       <div className=" w-full p-2 h-full max-md:mx-3 border-l border-r">
         <div className="mx-auto flex gap-x-10 mt-4">
           <div className="w-[75%] flex flex-col gap-y-5">
-            <h1 className="font-semibold">
-              Create New Post
-            </h1>
+            <div className="flex justify-between">
+              <h1 className="font-semibold">Create New Post</h1>
+              <ForumPicker
+                setSelectedForum={setSelectedForum}
+                selectedForum={selectedForum}
+              />
+            </div>
+
             <Tabs defaultValue="post" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="post">
@@ -49,7 +60,11 @@ const CreatePost = ({ params }: { params: { id: string } }) => {
                       name="imageUrl"
                       value={imageUrl ?? undefined}
                     />
-                    <input type="hidden" name="forumId" value={forumId} />
+                    <input
+                      type="hidden"
+                      name="forumId"
+                      value={selectedForum?.forumId ?? ""}
+                    />
                     <CardHeader>
                       <Label>Title</Label>
                       <Input
@@ -78,7 +93,9 @@ const CreatePost = ({ params }: { params: { id: string } }) => {
                           setImageUrl(res[0].url);
                         }}
                         endpoint="imageUploader"
-                        onUploadError={() => toast.error("Error uploading image.Try again...!")}
+                        onUploadError={() =>
+                          toast.error("Error uploading image.Try again...!")
+                        }
                       />
                     ) : (
                       <Image
