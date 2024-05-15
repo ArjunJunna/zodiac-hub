@@ -10,11 +10,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { ButtonLoading } from "./LoadingButton";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/context/authContext";
-import { userRequest } from "@/requestMethods";
 import { createForum } from "@/actions/actions";
 import Image from "next/image";
 import { useQueryClient } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
 
 type CreateForumModalProps = {
   setCreateForumModal: Dispatch<SetStateAction<boolean>>;
@@ -31,15 +30,11 @@ const CreateForumModal = ({ setCreateForumModal }: CreateForumModalProps) => {
    } = useForm<Inputs>({
      resolver: zodResolver(CreateForumSchema),
    });
-   const {userDetails:{id:userId}}=useAuth()
+
+    const { data: session } = useSession();
+    const userId=session?.user.id as string;
    const queryClient = useQueryClient();
    const [imageUrl, setImageUrl] = useState<null | string>(null);
-  type CreateForumType = {
-    userId: string;
-    imageUrl: string;
-    description: string;
-    communityName: string;
-  };
   
    const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     if(imageUrl!==''){

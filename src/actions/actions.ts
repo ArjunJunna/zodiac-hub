@@ -81,7 +81,7 @@ export const fetchUserData = async (userId:string) => {
 
 type CreateForumType={
   userId:string;
-  imageUrl:string;
+  imageUrl:string | null;
   description:string;
   communityName:string;
 }
