@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/authContext";
 import { userRequest } from "@/requestMethods";
 import { createForum } from "@/actions/actions";
+import Image from "next/image";
 import { useQueryClient } from "@tanstack/react-query";
 
 type CreateForumModalProps = {
@@ -25,13 +26,14 @@ const CreateForumModal = ({ setCreateForumModal }: CreateForumModalProps) => {
    const {
      register,
      handleSubmit,
+     reset,
      formState: { errors, isSubmitting},
    } = useForm<Inputs>({
      resolver: zodResolver(CreateForumSchema),
    });
    const {userDetails:{id:userId}}=useAuth()
    const queryClient = useQueryClient();
-  const [imageUrl, setImageUrl] = useState("");
+   const [imageUrl, setImageUrl] = useState<null | string>(null);
   type CreateForumType = {
     userId: string;
     imageUrl: string;
@@ -47,6 +49,9 @@ const CreateForumModal = ({ setCreateForumModal }: CreateForumModalProps) => {
         toast.success(`Community added.`);
         queryClient.invalidateQueries({ queryKey: ["forums"] });
         setCreateForumModal(false);
+      }else{
+        reset()
+        toast.error('Forum name already exists.')
       }
     }
    };
@@ -81,18 +86,27 @@ const CreateForumModal = ({ setCreateForumModal }: CreateForumModalProps) => {
             </div>
           </div>
           <div className="flex flex-col space-y-2.5  ">
-             <div className="h-fit flex flex-col justify-center items-center border border-white w-full rounded-xl pt-0 px-2 pb-2 dark:border-gray-500">
-              <UploadDropzone
-                className="h-[14rem] ut-button:h-8 ut-upload-icon:h-6 ut-upload-icon:w-6 ut-button:bg-blue-600 ut-button:ut-readying:bg-blue-600/50 ut-label:text-primary ut-button:ut-uploading:bg-blue-600/50 ut-button:ut-uploading:after:bg-blue-600 ut-button:hover:cursor-pointer"
-                endpoint="imageUploader"
-                onClientUploadComplete={res => {
-                  setImageUrl(res[0].url);
-                }}
-                onUploadError={(error: Error) => {
-                  toast.error("Image could not be uploaded. Try again");
-                }}
-              
-              />
+            <div className="h-fit flex flex-col justify-center items-center border border-white w-full rounded-xl pt-0 px-2 pb-2 dark:border-gray-500">
+              {imageUrl === null ? (
+                <UploadDropzone
+                  className="ut-button:bg-blue-600 ut-button:ut-readying:bg-blue-600/50 ut-label:text-primary ut-button:ut-uploading:bg-blue-600/50 ut-button:ut-uploading:after:bg-blue-600 ut-button:hover:cursor-pointer"
+                  onClientUploadComplete={res => {
+                    setImageUrl(res[0].url);
+                  }}
+                  endpoint="imageUploader"
+                  onUploadError={() =>
+                    toast.error("Error uploading image.Try again...!")
+                  }
+                />
+              ) : (
+                <Image
+                  src={imageUrl}
+                  alt="uploaded image"
+                  width={500}
+                  height={400}
+                  className="h-60 rounded-lg w-full object-contain"
+                />
+              )}
             </div>
             {imageUrl === "" && (
               <p className="text-sm text-red-400">Uploading image is must.</p>
