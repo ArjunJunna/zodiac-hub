@@ -10,6 +10,7 @@ import { Plus } from "lucide-react";
 import useForumsData from "@/hooks/useForumsData";
 import CreateForumModal from "./client-components/CreateForumModal";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 const LeftSidebar = () => {
   const [showTopics, setShowTopics] = useState(false);
@@ -28,11 +29,16 @@ const LeftSidebar = () => {
           <ul className="px-3 ">
             <li
               key="home"
-              className="flex cursor-pointer items-center gap-3 rounded-md 
+              className="rounded-md 
            px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
             >
-              <Home className="h-4 w-4" />
-              Home
+              <Link
+                href="/"
+                className="flex cursor-pointer items-center gap-3 "
+              >
+                <Home className="h-4 w-4" />
+                Home
+              </Link>
             </li>
 
             <li
