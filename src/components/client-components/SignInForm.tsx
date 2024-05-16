@@ -2,12 +2,12 @@ import { X } from "lucide-react";
 import { AuthFormProp } from "@/utils/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { postSignin } from "../../actions/actions";
 import { SigninFormSchema } from "@/lib/schema";
 import { z } from "zod";
 import { ButtonLoading } from "./LoadingButton";
 import { toast } from "sonner";
-import { useAuth } from "@/context/authContext";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type Inputs = z.infer<typeof SigninFormSchema>;
 
@@ -22,21 +22,29 @@ const SignInForm = ({ setShowAuthModal, setShowSignIn }: AuthFormProp) => {
   } = useForm<Inputs>({
     resolver: zodResolver(SigninFormSchema),
   });
-  
-   const { setUserDetails } = useAuth()
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
-    const result = await postSignin(data);
-    if (result?.status == true) {
-      localStorage.setItem("token", result?.data?.token);
-      localStorage.setItem("userId",result?.data?.id);
-      setUserDetails(result?.data);
-      setShowAuthModal(false);
-      toast.success("You are signed in.");
-    } else {
-      reset();
-      toast.error("Invalid User Credentials");
-    }
+
+     const {username,password}=data;
+     const response= await signIn("credentials", {
+       username,
+       password,
+       redirect: false,
+     });
+
+     if (response?.status == 200) {
+       toast.message("You are now signed in!");
+     }
+
+     if(response?.status==401){
+     toast.error('Invalid user credentials!')
+     }
+
+     if (!response?.error) {
+       router.push("/");
+       router.refresh();
+     }
   };
 
   const onGuestLogin = async () => {
@@ -115,17 +123,6 @@ const SignInForm = ({ setShowAuthModal, setShowSignIn }: AuthFormProp) => {
             Login
           </button>
         )}
-
-        {/*<button
-            type="submit"
-            className="w-full text-blue-600 hover:text-white border border-blue-600 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-white dark:hover:text-white dark:hover:bg-blue-700 hover:bg-blue-700"
-            onClick={e => {
-              e.preventDefault();
-              onGuestLogin();
-            }}
-          >
-            Login as Guest
-          </button>*/}
 
         <div className="text-sm font-medium text-center text-gray-500 dark:text-gray-300">
           <span>Dont have an account?</span>

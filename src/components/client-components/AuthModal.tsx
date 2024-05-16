@@ -24,11 +24,8 @@ const AuthModal = ({ setShowAuthModal }: AuthModalProps) => {
           e.stopPropagation();
         }}
       >
-        <SignUpForm
-          setShowAuthModal={setShowAuthModal}
-          setShowSignIn={setShowSignIn}
-        />
-        {/*{showSignIn ? (
+        
+        {showSignIn ? (
           <>
             <SignInForm
               setShowAuthModal={setShowAuthModal}
@@ -42,7 +39,7 @@ const AuthModal = ({ setShowAuthModal }: AuthModalProps) => {
               setShowSignIn={setShowSignIn}
             />
           </>
-        )}*/}
+        )}
       </div>
     </div>
   );

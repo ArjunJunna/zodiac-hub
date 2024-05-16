@@ -8,41 +8,38 @@ import { z } from "zod";
 import { ButtonLoading } from "./LoadingButton";
 import { toast } from "sonner";
 import { useAuth } from "@/context/authContext";
-import Link from "next/link";
 
 type Inputs = z.infer<typeof SignupFormSchema>;
 
-const SignUpForm = ({ setShowAuthModal }: AuthFormProp) => {
-   const {
-     register,
-     handleSubmit,
-     watch,
-     setValue,
-     reset,
-     formState: { errors, isSubmitting },
-   } = useForm<Inputs>({
-     resolver: zodResolver(SignupFormSchema),
-   });
-    const { setUserDetails } = useAuth();
+const SignUpForm = ({ setShowAuthModal, setShowSignIn }: AuthFormProp) => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<Inputs>({
+    resolver: zodResolver(SignupFormSchema),
+  });
+  const { setUserDetails } = useAuth();
 
-   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
-     const result = await postSignup(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
+    const result = await postSignup(data);
 
-     if (result?.status == true) {
-       if(result?.data?.status===409){
+    if (result?.status == true) {
+      if (result?.data?.status === 409) {
         toast.error(result.data.message);
-       }else{
-         localStorage.setItem("token", result?.data?.token);
-         localStorage.setItem("userId",result?.data?.id);
-         setUserDetails(result?.data);
-         setShowAuthModal(false);
-         toast.success("You are signed up.");
-       }
-     } else {
-       reset();
-       toast.error("Something went wrong");
-     }
-   }
+      } else {
+        setUserDetails(result?.data);
+        setShowAuthModal(false);
+        toast.success("You are signed up. You can now sign in.");
+      }
+    } else {
+      reset();
+      toast.error("Something went wrong");
+    }
+  };
   return (
     <>
       <form
@@ -118,21 +115,7 @@ const SignUpForm = ({ setShowAuthModal }: AuthFormProp) => {
             <p className="text-sm text-red-400">{errors.password.message}</p>
           )}
         </div>
-        {/*<div>
-          <label
-            htmlFor="password"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            placeholder="••••••••"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-            name="confirmPwd"
-            required
-          />
-      </div>*/}
+
         <div>
           {false ? (
             <div className="text-xs text-red-600">Passwords do not match</div>
@@ -151,17 +134,16 @@ const SignUpForm = ({ setShowAuthModal }: AuthFormProp) => {
 
         <div className="text-sm font-medium text-center text-gray-500 dark:text-gray-300">
           <span>Already have an account?</span>
-          <Link
-            href="/api/auth/signin"
-            //onClick={() => setShowSignIn(prev => !prev)}
+          <button
+            onClick={() => setShowSignIn(prev => !prev)}
             className="text-blue-700 ml-4 hover:underline dark:text-blue-500"
           >
             Sign in
-          </Link>
+          </button>
         </div>
       </form>
     </>
-  ); 
+  );
 };
 
-export default SignUpForm
+export default SignUpForm;
