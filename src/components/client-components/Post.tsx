@@ -30,6 +30,9 @@ import { useState } from "react";
 import AuthModal from "../client-components/AuthModal";
 import useAuthModal from "@/hooks/useAuthModal";
 import { RenderToJson } from "../server-components/RenderToJson";
+import { UpVoteButton, DownVoteButton } from "./SubmitButtons";
+import { handleVote } from "@/actions/actions";
+import { useSession } from "next-auth/react";
 
 type PostProps = {
   postData: PostType;
@@ -56,10 +59,19 @@ const Post = ({ postData }: PostProps) => {
 
   const pathname = usePathname();
 
-  const voteCounts = countVotes(votes);
+  const voteCount = countVotes(votes);
   const { showAuthModal, setShowAuthModal, joinForum, votePost } =
     useAuthModal();
 
+   
+const handleSubmit = async (formData: FormData) => {
+  console.log('formData',formData)
+  const statusCode = await handleVote(formData);
+  if (statusCode === 404) {
+    setShowAuthModal(true);
+  }
+};
+  //onClick={() => router.push(`/post/${id}`)}
   return (
     <div
       className={cn(
@@ -68,7 +80,6 @@ const Post = ({ postData }: PostProps) => {
           ? "hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
           : ""
       )}
-      onClick={() => router.push(`/post/${id}`)}
       key={id}
     >
       <div className="flex flex-col gap-y-1">
@@ -139,43 +150,35 @@ const Post = ({ postData }: PostProps) => {
                 height={200}
                 className="w-full h-full"
               />
-              
             </>
           ) : (
             <RenderToJson data={content} />
           )}
         </div>
         <div className="flex justify-between pt-1 ">
-          <div className="flex gap-x-3">
-            <button
-              className="flex gap-x-1 hover:text-green-500"
-              onClick={e => {
-                e.stopPropagation();
-                votePost();
-              }}
-            >
-              <ArrowBigUp />
-              <p className="text-xs self-center">{voteCounts.UP}</p>
-            </button>
-            <button
-              className="flex gap-x-1 hover:text-red-400"
-              onClick={e => {
-                e.stopPropagation();
-                votePost();
-              }}
-            >
-              <ArrowBigDown />
-              <p className="text-xs self-center">{voteCounts.DOWN}</p>
-            </button>
+          <div className="flex gap-x-3 items-center justify-center">
+            <form action={handleSubmit}>
+              <input type="hidden" name="voteDirection" value="UP" />
+              <input type="hidden" name="postId" value={id} />
+              <UpVoteButton />
+            </form>
+            {voteCount > 0 ? (
+              <p className="text-xs self-center">{voteCount}</p>
+            ) : null}
+            <form action={handleSubmit}>
+              <input type="hidden" name="voteDirection" value="DOWN" />
+              <input type="hidden" name="postId" value={id} />
+              <DownVoteButton />
+            </form>
             <button className="flex gap-x-1 hover:text-blue-400">
               <MessageSquare />
-              <p className="text-xs self-center">{comments.length}</p>
             </button>
+            <p className="text-xs self-center">{comments.length}</p>
           </div>
 
           <button className="flex gap-x-1 hover:text-orange-400">
             <Share />
-            <p className="text-xs self-end">share</p>
+            <p className="text-xs self-center">share</p>
           </button>
         </div>
       </div>

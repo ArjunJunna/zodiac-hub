@@ -2,7 +2,11 @@ import { Votes } from "./types";
 
 export const countVotes = (votes: Votes[]) => {
   return votes.reduce((acc, vote) => {
-    acc[vote.type] = (acc[vote.type] || 0) + 1;
+    if (vote.type === 'UP') {
+      acc++;
+    } else if (vote.type === 'DOWN') {
+      acc--;
+    }
     return acc;
-  }, {} as { [key in Votes["type"]]: number });
+  }, 0);
 };
