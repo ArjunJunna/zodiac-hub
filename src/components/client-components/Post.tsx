@@ -33,6 +33,7 @@ import { RenderToJson } from "../server-components/RenderToJson";
 import { UpVoteButton, DownVoteButton } from "./SubmitButtons";
 import { handleVote } from "@/actions/actions";
 import { useSession } from "next-auth/react";
+import {useQueryClient} from "@tanstack/react-query"
 
 type PostProps = {
   postData: PostType;
@@ -55,6 +56,7 @@ const Post = ({ postData }: PostProps) => {
     comments,
     votes,
   } = postData;
+  const queryClient=useQueryClient();
   const router = useRouter();
 
   const pathname = usePathname();
@@ -65,13 +67,13 @@ const Post = ({ postData }: PostProps) => {
 
    
 const handleSubmit = async (formData: FormData) => {
-  console.log('formData',formData)
   const statusCode = await handleVote(formData);
+  queryClient.invalidateQueries({ queryKey: ["posts"] });
   if (statusCode === 404) {
     setShowAuthModal(true);
   }
 };
-  //onClick={() => router.push(`/post/${id}`)}
+  
   return (
     <div
       className={cn(
@@ -136,7 +138,7 @@ const handleSubmit = async (formData: FormData) => {
             </DropdownMenu>
           </div>
         </div>
-        <p>{title}</p>
+        <p onClick={() => router.push(`/post/${id}`)}>{title}</p>
       </div>
 
       <div className="flex flex-col flex-grow gap-1">
