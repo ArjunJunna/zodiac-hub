@@ -44,9 +44,9 @@ const ForumPicker = ({
 
   const { data: userData } = useUserData(session?.user.id as string);
 
-  const forumMap = forumDetails?.reduce((map, form) => {
-    map[form.id] = form.name;
-    return map;
+  const forumMap = forumDetails?.reduce((acc, item) => {
+    acc[item.id] = item.name;
+    return acc;
   }, {});
 
   const userAssociatedForums = userData?.subscriptions.map(
