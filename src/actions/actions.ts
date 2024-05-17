@@ -142,8 +142,8 @@ export const createPost = async (
 
 export const handleVote = async (formData: FormData) => {
   const session = await getServerSession(authOptions);
-  if(!session){
-    return 404
+  if (!session) {
+    return 404;
   }
   const postId = formData.get("postId") as string;
   const voteDirection = formData.get("voteDirection") as string;
@@ -161,19 +161,58 @@ export const handleVote = async (formData: FormData) => {
       revalidatePath("/", "page");
       return response.status;
     } else {
-     const response = await axios.delete(
-       `https://zodiac-hub.onrender.com/api/v1/posts/${postId}/downvote`,
-       {
-         data: { userId: session?.user.id, type: voteDirection },
-         headers: {
-           Authorization: `Bearer ${session?.user.token}`,
-         },
-       }
-     );
+      const response = await axios.delete(
+        `https://zodiac-hub.onrender.com/api/v1/posts/${postId}/downvote`,
+        {
+          data: { userId: session?.user.id, type: voteDirection },
+          headers: {
+            Authorization: `Bearer ${session?.user.token}`,
+          },
+        }
+      );
       revalidatePath("/", "page");
       return response.status;
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
+
+export const handleSubscription = async (formData: FormData) => {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return 404;
+  }
+  const forumId = formData.get("forumId") as string;
+  const subValue = formData.get("subValue") as string;
+  try {
+    if (subValue == "NO") {
+      const response = await axios.post(
+        `https://zodiac-hub.onrender.com/api/v1/forums/${forumId}/subscribe`,
+        { userId: session?.user.id },
+        {
+          headers: {
+            Authorization: `Bearer ${session?.user.token}`,
+          },
+        }
+      );
+      revalidatePath("/", "page");
+      return response.status;
+    } else {
+      const response = await axios.delete(
+        `https://zodiac-hub.onrender.com/api/v1/forums/${forumId}/subscribe`,
+        {
+          data: { userId: session?.user.id },
+          headers: {
+            Authorization: `Bearer ${session?.user.token}`,
+          },
+        }
+      );
+      revalidatePath("/", "page");
+      return response.status;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+

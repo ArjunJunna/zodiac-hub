@@ -9,12 +9,8 @@ import { Button } from "@/components/ui/button";
 const CreatePostButton = () => {
   const { data: session } = useSession();
   return (
-    <Button
-      variant="ghost"
-      asChild
-      
-    >
-      <Link href={`/f/${session?.user.id}/create`}>
+    <Button variant="ghost" asChild>
+      <Link href={`/z/${session?.user.id}/create`}>
         <Plus className="mr-2 h-4 w-4" />
         Create
       </Link>

@@ -31,9 +31,10 @@ import AuthModal from "../client-components/AuthModal";
 import useAuthModal from "@/hooks/useAuthModal";
 import { RenderToJson } from "../server-components/RenderToJson";
 import { UpVoteButton, DownVoteButton } from "./SubmitButtons";
-import { handleVote } from "@/actions/actions";
+import { handleSubscription, handleVote } from "@/actions/actions";
 import { useSession } from "next-auth/react";
 import {useQueryClient} from "@tanstack/react-query"
+import { SubscribeButton } from "./SubmitButtons";
 
 type PostProps = {
   postData: PostType;
@@ -48,6 +49,7 @@ const Post = ({ postData }: PostProps) => {
     createdAt,
     author: { image, username },
     forum: {
+      id:forumId,
       _count: { creator, posts, subscribers },
       description,
       image: forumImage,
@@ -73,7 +75,17 @@ const handleSubmit = async (formData: FormData) => {
     setShowAuthModal(true);
   }
 };
-  
+
+const handleJoin = async (formData: FormData) => {
+  const statusCode = await handleSubscription(formData);
+  queryClient.invalidateQueries({ queryKey: ["posts"] });
+  if (statusCode === 404) {
+    setShowAuthModal(true);
+  }
+};
+
+const SubscribedOrNot='YES';
+
   return (
     <div
       className={cn(
@@ -118,24 +130,11 @@ const handleSubmit = async (formData: FormData) => {
           </div>
 
           <div className="flex justify-center gap-x-3">
-            <button
-              className="text-xs py-0 px-2 rounded-md bg-gray-600/10 hover:bg-gray-300/70 dark:hover:bg-gray-700/40"
-              onClick={e => {
-                e.stopPropagation();
-                joinForum();
-              }}
-            >
-              Join
-            </button>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Ellipsis className="hover:bg-gray-600/10 px-1 rounded-md" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem>Report</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <form action={handleJoin}>
+              <input type="hidden" name="forumId" value={forumId} />
+              <input type="hidden" name="subValue" value={SubscribedOrNot} />
+              <SubscribeButton />
+            </form>
           </div>
         </div>
         <p onClick={() => router.push(`/post/${id}`)}>{title}</p>

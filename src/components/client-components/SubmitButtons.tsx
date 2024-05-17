@@ -53,3 +53,23 @@ export const DownVoteButton = () => {
     </>
   );
 };
+
+export const SubscribeButton = () => {
+  const { pending } = useFormStatus();
+  return (
+    <>
+      {pending ? (
+        <button className="text-sm py-1 px-2 rounded-md bg-gray-300/70 dark:bg-gray-700/40">
+          Leave
+        </button>
+      ) : (
+        <button
+          className="text-sm py-1 px-2 rounded-md bg-gray-600/10 hover:bg-gray-300/70 dark:hover:bg-gray-700/40"
+          type="submit"
+        >
+          Join
+        </button>
+      )}
+    </>
+  );
+};
