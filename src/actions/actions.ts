@@ -180,39 +180,37 @@ export const handleVote = async (formData: FormData) => {
 
 export const handleSubscription = async (formData: FormData) => {
   const session = await getServerSession(authOptions);
-  if (!session) {
-    return 404;
-  }
   const forumId = formData.get("forumId") as string;
-  const subValue = formData.get("subValue") as string;
   try {
-    if (subValue == "NO") {
-      const response = await axios.post(
-        `https://zodiac-hub.onrender.com/api/v1/forums/${forumId}/subscribe`,
-        { userId: session?.user.id },
-        {
-          headers: {
-            Authorization: `Bearer ${session?.user.token}`,
-          },
-        }
-      );
-      revalidatePath("/", "page");
-      return response.status;
-    } else {
-      const response = await axios.delete(
-        `https://zodiac-hub.onrender.com/api/v1/forums/${forumId}/subscribe`,
-        {
-          data: { userId: session?.user.id },
-          headers: {
-            Authorization: `Bearer ${session?.user.token}`,
-          },
-        }
-      );
-      revalidatePath("/", "page");
-      return response.status;
-    }
+    const {data,status} = await axios.post(
+      `https://zodiac-hub.onrender.com/api/v1/forums/${forumId}/subscription`,
+      { userId: session?.user.id },
+      {
+        headers: {
+          Authorization: `Bearer ${session?.user.token}`,
+        },
+      }
+    );
+    revalidatePath("/", "page");
+    return { data,status };
   } catch (error) {
     console.log(error);
   }
 };
 
+export const fetchForumById = async (forumId: string) => {
+  try {
+    const session = await getServerSession(authOptions);
+    const response = await axios.get(
+      `https://zodiac-hub.onrender.com/api/v1/forums/${forumId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${session?.user.token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

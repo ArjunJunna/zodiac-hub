@@ -1,5 +1,5 @@
 'use client'
-import useForumsData from "@/hooks/useForumsData";
+import {useForumsData } from "@/hooks/useForumsData";
 import React from "react";
 import SkeletonPopularCard from "./SkeletonPopularCard";
 

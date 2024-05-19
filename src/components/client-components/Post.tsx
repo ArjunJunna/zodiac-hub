@@ -106,14 +106,22 @@ const SubscribedOrNot='YES';
             />
             <div className="flex justify-between gap-x-2 items-center">
               <div className="flex flex-col">
-                <HoverCard>
-                  <HoverCardTrigger>
-                    <p className="font-normal text-[12px]  ">{forumName}</p>
-                  </HoverCardTrigger>
-                  <HoverCardContent className="w-[25rem]">
-                    <AboutForum postId={id} />
-                  </HoverCardContent>
-                </HoverCard>
+                {!pathname.startsWith("/forums") ? (
+                  <HoverCard>
+                    <HoverCardTrigger>
+                      <p
+                        className="font-normal text-[12px]  "
+                        onClick={() => router.push(`forums/${forumId}`)}
+                      >
+                        {forumName}
+                      </p>
+                    </HoverCardTrigger>
+                    <HoverCardContent className="w-[25rem]">
+                      <AboutForum postId={id} />
+                    </HoverCardContent>
+                  </HoverCard>
+                ) : null}
+
                 {pathname !== "/" ? (
                   <>
                     <p className="font-normal text-[12px]  ">{username}</p>
@@ -129,13 +137,13 @@ const SubscribedOrNot='YES';
             </div>
           </div>
 
-          <div className="flex justify-center gap-x-3">
+          {/*<div className="flex justify-center gap-x-3">
             <form action={handleJoin}>
               <input type="hidden" name="forumId" value={forumId} />
               <input type="hidden" name="subValue" value={SubscribedOrNot} />
               <SubscribeButton />
             </form>
-          </div>
+              </div>*/}
         </div>
         <p onClick={() => router.push(`/post/${id}`)}>{title}</p>
       </div>

@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/popover";
 import useUserData from "@/hooks/useUserData";
 import { useSession } from "next-auth/react";
-import useForumsData from "@/hooks/useForumsData";
+import {useForumsData} from "@/hooks/useForumsData";
 import { Dispatch, SetStateAction, useState } from "react";
 
 type ForumType={

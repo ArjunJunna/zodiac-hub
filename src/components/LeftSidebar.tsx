@@ -7,7 +7,7 @@ import Footer from "./server-components/Footer";
 import Seperator from "./server-components/Seperator";
 import { useAuth } from "@/context/authContext";
 import { Plus } from "lucide-react";
-import useForumsData from "@/hooks/useForumsData";
+import {useForumsData} from "@/hooks/useForumsData";
 import CreateForumModal from "./client-components/CreateForumModal";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
