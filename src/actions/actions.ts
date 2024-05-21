@@ -2,7 +2,6 @@
 
 import { z } from "zod";
 import { BASE_URL } from "@/requestMethods";
-import { revalidatePath } from "next/cache";
 import { SigninFormSchema, SignupFormSchema } from "@/lib/schema";
 import { publicRequest } from "@/requestMethods";
 import axios from "axios";
@@ -10,6 +9,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { JSONContent } from "@tiptap/react";
 import { redirect } from "next/navigation";
+import { CommentType } from "@/utils/types";
+import { revalidatePath } from "next/cache";
 
 type SigninInputs = z.infer<typeof SigninFormSchema>;
 type SignupInputs = z.infer<typeof SignupFormSchema>;
@@ -182,7 +183,7 @@ export const handleSubscription = async (formData: FormData) => {
   const session = await getServerSession(authOptions);
   const forumId = formData.get("forumId") as string;
   try {
-    const {data,status} = await axios.post(
+    const { data, status } = await axios.post(
       `https://zodiac-hub.onrender.com/api/v1/forums/${forumId}/subscription`,
       { userId: session?.user.id },
       {
@@ -192,7 +193,7 @@ export const handleSubscription = async (formData: FormData) => {
       }
     );
     revalidatePath("/", "page");
-    return { data,status };
+    return { data, status };
   } catch (error) {
     console.log(error);
   }
@@ -214,3 +215,50 @@ export const fetchForumById = async (forumId: string) => {
     console.log(error);
   }
 };
+
+export const getAllCommentsOnPostById = async (postId: string):Promise<CommentType[] | undefined> => {
+  try {
+    const session = await getServerSession(authOptions);
+    const response = await fetch(
+      `https://zodiac-hub.onrender.com/api/v1/posts/${postId}/comments`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session?.user.token}`,
+        },
+      }
+    );
+    const data = await response.json();
+    console.log(data,session)
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const postComment=async(formData:FormData)=>{
+  try {
+    const session = await getServerSession(authOptions);
+    const postId=formData.get('postId')
+    const data={
+      postId:formData.get('postId'),
+      authorId:session?.user.id,
+      text:formData.get('text')
+    }
+     const response = await axios.post(
+       `https://zodiac-hub.onrender.com/api/v1/posts/${postId}/comment`,
+       data,
+       {
+         headers: {
+           Authorization: `Bearer ${session?.user.token}`,
+         },
+       }
+     );
+     console.log('response',response);
+   
+     return response.status
+  } catch (error) {
+    console.log(error);
+  }
+    revalidatePath(`/post/[postId]`, "page");
+}

@@ -97,7 +97,7 @@ export type SubscriptionType = {
 export type UserVoteType = {
   userId: string;
   postId: string;
-  type: "UP"|"DOWN";
+  type: "UP" | "DOWN";
 };
 export type UserCommentType = {
   id: string;
@@ -120,4 +120,22 @@ export type UserType = {
   post: [];
   comment: UserCommentType[];
   commentVote: [];
+};
+
+export type CommentType = {
+  id: string;
+  text: string;
+  createdAt: string;
+  authorId: string;
+  postId: string;
+  replyToId: null;
+  commentId: null;
+  author: {
+    id: string;
+    username: string;
+    email: string;
+    image: null;
+  };
+  votes: UserVoteType[];
+  replies: [];
 };

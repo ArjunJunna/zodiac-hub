@@ -10,8 +10,8 @@ export const ReactQueryClientProvider = ({children}: {children: React.ReactNode}
        new QueryClient({
          defaultOptions: {
            queries: {
-             staleTime: 60 * 1000,
-             refetchInterval:60*1000,
+             staleTime: 60 * 10000,
+             refetchInterval:60*10000,
            },
          },
        })
