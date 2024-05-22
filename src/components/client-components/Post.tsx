@@ -31,7 +31,7 @@ import AuthModal from "../client-components/AuthModal";
 import useAuthModal from "@/hooks/useAuthModal";
 import { RenderToJson } from "../server-components/RenderToJson";
 import { UpVoteButton, DownVoteButton } from "./SubmitButtons";
-import { handleSubscription, handleVote } from "@/actions/actions";
+import { handleSubscription, handlePostVote } from "@/actions/actions";
 import { useSession } from "next-auth/react";
 import {useQueryClient} from "@tanstack/react-query"
 import { SubscribeButton } from "./SubmitButtons";
@@ -69,7 +69,7 @@ const Post = ({ postData }: PostProps) => {
 
    
 const handleSubmit = async (formData: FormData) => {
-  const statusCode = await handleVote(formData);
+  const statusCode = await handlePostVote(formData);
   queryClient.invalidateQueries({ queryKey: ["posts"] });
   if (statusCode === 404) {
     setShowAuthModal(true);

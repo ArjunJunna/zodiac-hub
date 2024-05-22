@@ -141,7 +141,7 @@ export const createPost = async (
   }
 };
 
-export const handleVote = async (formData: FormData) => {
+export const handlePostVote = async (formData: FormData) => {
   const session = await getServerSession(authOptions);
   if (!session) {
     return 404;
@@ -171,7 +171,44 @@ export const handleVote = async (formData: FormData) => {
           },
         }
       );
+      revalidatePath("/", "layout");
+      return response.status;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const handleCommentVote = async (formData: FormData) => {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return 404;
+  }
+  const commentId = formData.get("commentId") as string;
+  const voteDirection = formData.get("voteDirection") as string;
+  try {
+    if (voteDirection == "UP") {
+      const response = await axios.post(
+        `https://zodiac-hub.onrender.com/api/v1/posts/comment/${commentId}/vote`,
+        { userId: session?.user.id, type: voteDirection },
+        {
+          headers: {
+            Authorization: `Bearer ${session?.user.token}`,
+          },
+        }
+      );
       revalidatePath("/", "page");
+      return response.status;
+    } else {
+      const response = await axios.delete(
+        `https://zodiac-hub.onrender.com/api/v1/posts/comment/${commentId}/vote`,
+        {
+          data: { userId: session?.user.id, type: voteDirection },
+          headers: {
+            Authorization: `Bearer ${session?.user.token}`,
+          },
+        }
+      );
+      revalidatePath("/(routes)/post/[postId]", "page");
       return response.status;
     }
   } catch (error) {
