@@ -188,7 +188,7 @@ export const handleCommentVote = async (formData: FormData) => {
   try {
     if (voteDirection == "UP") {
       const response = await axios.post(
-        `https://zodiac-hub.onrender.com/api/v1/posts/comment/${commentId}/vote`,
+        `https://zodiac-hub.onrender.com/api/v1/comments/${commentId}/vote`,
         { userId: session?.user.id, type: voteDirection },
         {
           headers: {
@@ -200,7 +200,7 @@ export const handleCommentVote = async (formData: FormData) => {
       return response.status;
     } else {
       const response = await axios.delete(
-        `https://zodiac-hub.onrender.com/api/v1/posts/comment/${commentId}/vote`,
+        `https://zodiac-hub.onrender.com/api/v1/comments/${commentId}/vote`,
         {
           data: { userId: session?.user.id, type: voteDirection },
           headers: {
@@ -277,10 +277,12 @@ export const postComment=async(formData:FormData)=>{
   try {
     const session = await getServerSession(authOptions);
     const postId=formData.get('postId')
+    const replyToId = formData.get("replyToId");
     const data={
       postId:formData.get('postId'),
       authorId:session?.user.id,
-      text:formData.get('text')
+      text:formData.get('text'),
+      replyToId:formData.get('replyToId')
     }
      const response = await axios.post(
        `https://zodiac-hub.onrender.com/api/v1/posts/${postId}/comment`,

@@ -128,8 +128,8 @@ export type CommentType = {
   createdAt: string;
   authorId: string;
   postId: string;
-  replyToId: null;
-  commentId: null;
+  replyToId: string | null;
+  commentId: string | null;
   author: {
     id: string;
     username: string;
@@ -137,5 +137,5 @@ export type CommentType = {
     image: null;
   };
   votes: UserVoteType[];
-  replies: [];
+  replies: CommentType[];
 };
