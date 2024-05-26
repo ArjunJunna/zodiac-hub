@@ -90,6 +90,15 @@ export type CreatedForumType = {
   creatorId: string;
 };
 
+export type ForumCountType = {
+  _count: {
+    posts: number;
+    subscribers: number;
+  };
+};
+
+export type ExtendedCreatedForumType = CreatedForumType & ForumCountType;
+
 export type SubscriptionType = {
   userId: string;
   forumId: string;
