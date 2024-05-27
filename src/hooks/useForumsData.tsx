@@ -3,7 +3,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { publicRequest } from "../requestMethods";
 import { ForumType } from "@/utils/types";
-import { useSession } from "next-auth/react";
 import axios from "axios";
 
 const useForumsData = () => {
@@ -27,17 +26,11 @@ const useForumsData = () => {
 };
 
 const useForumByIdData = (forumId: string) => {
-  const { data: session } = useSession();
   const fetchForumById = async ({ queryKey }: { queryKey: any }) => {
     try {
       const [_, forumId] = queryKey;
       const response = await axios.get(
-        `https://zodiac-hub.onrender.com/api/v1/forums/${forumId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${session?.user.token}`,
-          },
-        }
+        `https://zodiac-hub.onrender.com/api/v1/forums/${forumId}`
       );
       return response.data;
     } catch (error) {
@@ -48,7 +41,6 @@ const useForumByIdData = (forumId: string) => {
   const { data, isLoading, isError, error, isFetching } = useQuery({
     queryKey: ["forum", forumId],
     queryFn: fetchForumById,
-    enabled: !!session,
   });
 
   return {
