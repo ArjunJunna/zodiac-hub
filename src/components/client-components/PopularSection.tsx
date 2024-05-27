@@ -6,6 +6,7 @@ import SkeletonPopularCard from "./SkeletonPopularCard";
 const PopularSection = () => {
  
  const { data, isLoading } = useForumsData();
+ const popularForums= data?.sort((a, b) => b.subscribersCount - a.subscribersCount).slice(0, 5);
   return (
     <div className="p-4 w-full rounded-lg border">
       <p className=" text-xs font-medium ">POPULAR COMMUNITIES</p>
@@ -16,7 +17,7 @@ const PopularSection = () => {
                 <SkeletonPopularCard />
               </div>
             ))
-          : data?.map((item, index) => (
+          : popularForums?.map((item, index) => (
               <div
                 key={index}
                 className="flex gap-x-2 p-2
