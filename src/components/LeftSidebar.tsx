@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Home, Flame, ChevronDown, ChevronUp } from "lucide-react";
+import { Home, Flame, ChevronDown, ChevronUp,User } from "lucide-react";
 import { useSideBarResource } from "@/hooks/useSideBarResource";
 import Footer from "./server-components/Footer";
 import Seperator from "./server-components/Seperator";
@@ -49,6 +49,21 @@ const LeftSidebar = () => {
               <Flame className="h-4 w-4" />
               Popular
             </li>
+            {session?.user.token && (
+              <li
+                key="flame"
+                className="flex cursor-pointer items-center gap-3 rounded-md 
+           px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
+              >
+                <Link
+                  href="/custom-feed"
+                  className="flex cursor-pointer items-center gap-3 "
+                >
+                  <User className="h-4 w-4" />
+                  Your Feed
+                </Link>
+              </li>
+            )}
           </ul>
           <Seperator />
           {!session?.user.token && (
