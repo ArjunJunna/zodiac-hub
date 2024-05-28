@@ -2,18 +2,29 @@
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { LogOut, Menu, Plus, User } from "lucide-react";
 import React, { useState } from "react";
 import Image from "next/image";
 import { Home, Flame, ChevronDown, ChevronUp } from "lucide-react";
 import { useSideBarResource } from "@/hooks/useSideBarResource";
 import Footer from "../server-components/Footer";
 import Seperator from "../server-components/Seperator";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useForumsData } from "@/hooks/useForumsData";
+import CreateForumModal from "./CreateForumModal";
+import CreatePostButton from "./CreatePostButton";
+import SignInButton from "../SignInButton";
+import { ThemeSwitcherBtn } from "../ThemeSwitcherBtn";
+import { signOut } from "next-auth/react";
 
 export default function MobileNavbar() {
+   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [showTopics, setShowTopics] = useState(false);
   const [showResources, setShowResources] = useState(false);
+   const { data, isLoading } = useForumsData();
+   const [createForumModal, setCreateForumModal] = useState(false);
 
   const [topicsList, resourcesList] = useSideBarResource();
 
@@ -34,6 +45,7 @@ export default function MobileNavbar() {
               width={60}
               className="mr-2 cursor-pointer"
             />
+            <ThemeSwitcherBtn />
             <div className="flex flex-col p-2 min-h-full">
               <div className="">
                 <ul className="px-3 ">
@@ -42,8 +54,13 @@ export default function MobileNavbar() {
                     className="flex cursor-pointer items-center gap-3 rounded-md 
            px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
                   >
-                    <Home className="h-4 w-4" />
-                    Home
+                    <Link
+                      href="/"
+                      className="flex cursor-pointer items-center gap-3 "
+                    >
+                      <Home className="h-4 w-4" />
+                      Home
+                    </Link>
                   </li>
 
                   <li
@@ -54,38 +71,111 @@ export default function MobileNavbar() {
                     <Flame className="h-4 w-4" />
                     Popular
                   </li>
-                </ul>
-                <Seperator />
-                <ul className="px-3">
-                  <li
-                    key="home"
-                    className="flex justify-between cursor-pointer items-center gap-3 rounded-md 
+                  {session?.user.token && (
+                    <li
+                      key="custom-feed"
+                      className="flex cursor-pointer items-center gap-3 rounded-md 
            px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
-                    onClick={() => setShowTopics(prev => !prev)}
-                  >
-                    Topics
-                    {showTopics === true ? (
-                      <ChevronUp className="h-4 w-4" />
-                    ) : (
-                      <ChevronDown className="h-4 w-4" />
-                    )}
-                  </li>
-                  {showTopics && (
-                    <>
-                      {topicsList.map((menu, index) => (
-                        <li
-                          key={index}
-                          className="flex cursor-pointer items-center gap-3 rounded-md 
-             px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground "
-                        >
-                          <menu.icon className="h-4 w-4" />
-                          {menu.name}
-                        </li>
-                      ))}
-                    </>
+                    >
+                      <Link
+                        href="/custom-feed"
+                        className="flex cursor-pointer items-center gap-3 "
+                      >
+                        <User className="h-4 w-4" />
+                        Your Feed
+                      </Link>
+                    </li>
                   )}
                 </ul>
+
                 <Seperator />
+                {!session?.user.token && (
+                  <>
+                    <ul className="px-3">
+                      <li
+                        key="home"
+                        className="flex justify-between cursor-pointer items-center gap-3 rounded-md font-light
+           px-3 py-[0.5rem] text-[12px] tracking-wider text-gray-400 hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
+                        onClick={() => setShowTopics(prev => !prev)}
+                      >
+                        TOPICS
+                        {showTopics === true ? (
+                          <ChevronUp className="h-4 w-4" />
+                        ) : (
+                          <ChevronDown className="h-4 w-4" />
+                        )}
+                      </li>
+
+                      {showTopics && (
+                        <>
+                          {topicsList.map((menu, index) => (
+                            <li
+                              key={index}
+                              className="flex cursor-pointer items-center gap-3 rounded-md 
+             px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground "
+                            >
+                              <menu.icon className="h-4 w-4" />
+                              {menu.name}
+                            </li>
+                          ))}
+                        </>
+                      )}
+                    </ul>
+                    <Seperator />
+                  </>
+                )}
+                {session?.user.token && (
+                  <>
+                    <ul className="px-3">
+                      <li
+                        key="home"
+                        className="flex justify-between cursor-pointer items-center gap-3 rounded-md font-light
+           px-3 py-[0.5rem] text-[12px] tracking-wider text-gray-400 hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
+                        onClick={() => setShowTopics(prev => !prev)}
+                      >
+                        COMMUNITIES
+                        {showTopics === true ? (
+                          <ChevronUp className="h-4 w-4" />
+                        ) : (
+                          <ChevronDown className="h-4 w-4" />
+                        )}
+                      </li>
+
+                      {showTopics && (
+                        <>
+                          <li
+                            className="flex cursor-pointer items-center gap-3 rounded-md 
+             px-3 py-[0.5rem] text-[14px]  hover:bg-gray-200/50 dark:hover:bg-primary-foreground "
+                            onClick={() => setCreateForumModal(true)}
+                          >
+                            <Plus className="h-7 w-7" />
+                            Create Community
+                          </li>
+                          {!isLoading ? (
+                            <>
+                              {data?.map((item, index) => (
+                                <li
+                                  key={index}
+                                  className="flex cursor-pointer items-center gap-3 rounded-md 
+             px-3 py-[0.5rem] text-[14px]  hover:bg-gray-200/50 dark:hover:bg-primary-foreground "
+                                >
+                                  <img
+                                    alt="profile avatar"
+                                    className="h-7 w-7 rounded-full  hover:cursor-pointer"
+                                    src={`https://api.dicebear.com/6.x/initials/svg?seed=${item.name}&backgroundColor=3e3f4a&chars=1`}
+                                  />
+
+                                  {item.name}
+                                </li>
+                              ))}
+                            </>
+                          ) : null}
+                        </>
+                      )}
+                    </ul>
+                    <Seperator />
+                  </>
+                )}
               </div>
 
               <div className="grow">
@@ -93,10 +183,10 @@ export default function MobileNavbar() {
                   <li
                     key="home"
                     className="flex justify-between cursor-pointer items-center gap-3 rounded-md 
-           px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
+           px-3 py-[0.5rem] text-[12px] tracking-wider text-gray-400 font-light hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
                     onClick={() => setShowResources(prev => !prev)}
                   >
-                    Resources
+                    RESOURCES
                     {showResources === true ? (
                       <ChevronUp className="h-4 w-4" />
                     ) : (
@@ -118,9 +208,25 @@ export default function MobileNavbar() {
                     </>
                   )}
                 </ul>
+                <div className="flex flex-col items-start gap-2">
+                  {session ? <CreatePostButton /> : null}
+                  {!session ? <SignInButton /> : null}
+                  {session ? (
+                    <Button
+                      onClick={() => {
+                        signOut();
+                      }}
+                    >
+                      <LogOut className="h-4 w-4 mr-3" />
+                      LogOut
+                    </Button>
+                  ) : null}
+                </div>
               </div>
 
-              <Footer />
+              {createForumModal ? (
+                <CreateForumModal setCreateForumModal={setCreateForumModal} />
+              ) : null}
             </div>
           </SheetContent>
         </Sheet>
