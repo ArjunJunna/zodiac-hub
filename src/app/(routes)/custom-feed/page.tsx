@@ -6,6 +6,11 @@ import { SkeletonPost } from "@/components/client-components/SkeletonPost";
 import Post from "@/components/client-components/Post";
 import { PostType } from "@/utils/types";
 import Seperator from "@/components/server-components/Seperator";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Custom Feed",
+};
 
 async function getCustomFeed() {
   const session = await getServerSession(authOptions);

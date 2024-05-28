@@ -1,5 +1,9 @@
 import CreatePost from "@/components/client-components/CreatePost";
+import { Metadata } from "next";
 
+export const metadata:Metadata={
+  title:'Create New Post'
+}
 
 const CreatePostPage = () => {
   return (
