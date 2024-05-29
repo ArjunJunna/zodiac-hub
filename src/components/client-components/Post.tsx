@@ -52,18 +52,19 @@ const Post = ({ postData }: PostProps) => {
   const router = useRouter();
 
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   const voteCount = countVotes(votes);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
-   
-const handleSubmit = async (formData: FormData) => {
-  const statusCode = await handlePostVote(formData);
-  queryClient.invalidateQueries({ queryKey: ["posts"] });
-  if (statusCode === 404) {
-    setShowAuthModal(true);
-  }
-};
+  const handleSubmit = async (formData: FormData) => {
+    if (session) {
+      const statusCode = await handlePostVote(formData);
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    } else {
+      setShowAuthModal(true);
+    }
+  };
 
   return (
     <div
@@ -115,14 +116,6 @@ const handleSubmit = async (formData: FormData) => {
               </Moment>
             </div>
           </div>
-
-          {/*<div className="flex justify-center gap-x-3">
-            <form action={handleJoin}>
-              <input type="hidden" name="forumId" value={forumId} />
-              <input type="hidden" name="subValue" value={SubscribedOrNot} />
-              <SubscribeButton />
-            </form>
-              </div>*/}
         </div>
         <p onClick={() => router.push(`/post/${id}`)}>{title}</p>
       </div>

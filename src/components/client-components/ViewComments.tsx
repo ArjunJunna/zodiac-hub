@@ -13,6 +13,8 @@ import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { MessageSquare } from "lucide-react";
 import { toast } from "sonner";
+import { useSession } from "next-auth/react";
+import AuthModal from "./AuthModal";
 
 type ViewCommentsProp = {
   comment: CommentType;
@@ -30,10 +32,15 @@ const ViewComments = ({
   const [isReplying, setIsReplying] = useState<boolean>(false);
   const [input, setInput] = useState<string>("");
   const router = useRouter();
+  const { data: session } = useSession();
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const handleSubmit = async (formData: FormData) => {
-    const statusCode = await handleCommentVote(formData);
-    console.log("status", statusCode);
+    if (session) {
+      const statusCode = await handleCommentVote(formData);
+    } else {
+      setShowAuthModal(true);
+    }
   };
   return (
     <div ref={commentRef} className="flex flex-col">
@@ -72,7 +79,11 @@ const ViewComments = ({
           <button
             className="flex"
             onClick={() => {
-              setIsReplying(true);
+              if (session) {
+                setIsReplying(true);
+              } else {
+                setShowAuthModal(true);
+              }
             }}
           >
             <MessageSquare className="h-4 w-4 mr-1.5" />
@@ -92,7 +103,6 @@ const ViewComments = ({
                   setInput("");
                   setIsReplying(false);
                   toast.message("Comment created.");
-                  //onCommentCreated();
                 }
               }}
             >
@@ -130,6 +140,7 @@ const ViewComments = ({
           </div>
         </>
       ) : null}
+      {showAuthModal && <AuthModal setShowAuthModal={setShowAuthModal} />}
     </div>
   );
 };

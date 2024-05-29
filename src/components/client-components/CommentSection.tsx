@@ -25,7 +25,9 @@ const CommentSection = ({ postId }: { postId: string }) => {
   return (
     <div className="flex flex-col gap-y-4">
       <Seperator />
-      <CreateComment postId={postId} onCommentCreated={fetchComments} />
+      {session && (
+        <CreateComment postId={postId} onCommentCreated={fetchComments} />
+      )}
       <div className="flex flex-col gap-y-6">
         {comments
           ?.filter(comment => !comment.replyToId)
