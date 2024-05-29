@@ -3,9 +3,7 @@
 import { useState } from "react";
 import { Home, Flame, ChevronDown, ChevronUp,User } from "lucide-react";
 import { useSideBarResource } from "@/hooks/useSideBarResource";
-import Footer from "./server-components/Footer";
 import Seperator from "./server-components/Seperator";
-import { useAuth } from "@/context/authContext";
 import { Plus } from "lucide-react";
 import {useForumsData} from "@/hooks/useForumsData";
 import CreateForumModal from "./client-components/CreateForumModal";
@@ -17,7 +15,6 @@ const LeftSidebar = () => {
   const [showResources, setShowResources] = useState(false);
 
   const [topicsList, resourcesList] = useSideBarResource();
-  const { userDetails} = useAuth();
   const {data:session}=useSession();
   const { data, isLoading } = useForumsData();
   const [createForumModal,setCreateForumModal]=useState(false)

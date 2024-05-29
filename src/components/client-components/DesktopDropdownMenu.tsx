@@ -10,18 +10,19 @@ import {
 import { cn } from "@/lib/utils";
 import { Switch } from "@/components/ui/switch";
 import { useTheme } from "next-themes";
-import { useAuth } from "@/context/authContext";
+import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 
 const DesktopDropdownMenu = () => {
-  const {userDetails} = useAuth();
+
   const { setTheme, theme } = useTheme();
+    const { data: session } = useSession();
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Menu
-            className={cn("h-6 w-4", userDetails?.token ? "flex" : "hidden")}
+            className={cn("h-6 w-4", session?.user.token ? "flex" : "hidden")}
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent>

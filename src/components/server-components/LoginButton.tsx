@@ -4,16 +4,16 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import AuthModal from "../client-components/AuthModal";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/context/authContext";
+import { useSession } from "next-auth/react";
 
 const LoginButton = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const { userDetails } = useAuth()
+  const { data: session } = useSession();
+
   return (
     <>
       <Button
-      
-        className={cn("rounded-2xl", userDetails?.token ? "hidden" : "")}
+        className={cn("rounded-2xl", session?.user.token ? "hidden" : "")}
         onClick={() => setShowAuthModal(true)}
       >
         Login
