@@ -1,7 +1,9 @@
-import SinglePost from "@/components/client-components/SinglePost";
 import { PostType } from "@/utils/types";
 import { Metadata } from "next";
 import { BASE_URL } from "@/lib/Constants";
+import { Suspense } from "react";
+import { SkeletonPost } from "@/components/client-components/SkeletonPost";
+import Post from "@/components/client-components/Post";
 
 export async function generateStaticParams(){
   const response = await fetch(`${BASE_URL}/posts`);
@@ -29,11 +31,17 @@ export async function generateMetadata({
   };
 }
 
-const SinglePostPage = ({ params }: { params: { postId: string } }) => {
+const SinglePostPage = async({ params }: { params: { postId: string } }) => {
+    const response = await fetch(`${BASE_URL}/posts/${params.postId}`);
+    const postData = await response.json();
   return (
     <>
       <div className=" w-full p-2 h-full max-md:mx-3 border-l border-r">
-        <SinglePost postId={params.postId} />
+        <div>
+          <Suspense fallback={<SkeletonPost />}>
+            <Post postData={postData as PostType} />
+          </Suspense>
+        </div>
       </div>
     </>
   );

@@ -7,11 +7,12 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { postComment } from "@/actions/actions";
 import { SubmitButton } from "./SubmitButtons";
+import { revalidatePath } from "next/cache";
 
 interface CreateCommentProps {
   postId: string;
   replyToId?: string;
-  onCommentCreated: () => void;
+  onCommentCreated?: () => void;
 }
 
 const CreateComment= ({
@@ -33,7 +34,8 @@ const CreateComment= ({
             router.refresh();
             setInput("");
             toast.message("Comment created.");
-            onCommentCreated();
+            revalidatePath(`/post/${postId}`);
+            //onCommentCreated();
           }
         }}
       >

@@ -21,14 +21,7 @@ export type PostType = {
     name: string;
     description: string;
   };
-  comments: {
-    text: string;
-    author: {
-      username: string;
-      image: string;
-    };
-    createdAt: string;
-  }[];
+  comments: CommentType[];
   votes: {
     type: VoteType;
   }[];
