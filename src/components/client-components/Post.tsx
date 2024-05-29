@@ -3,16 +3,7 @@
 import {
   MessageSquare,
   Share,
-  ArrowBigUp,
-  ArrowBigDown,
-  Ellipsis,
 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   HoverCard,
   HoverCardContent,
@@ -28,7 +19,6 @@ import { usePathname } from "next/navigation";
 import AboutForum from "./AboutForum";
 import { useState } from "react";
 import AuthModal from "../client-components/AuthModal";
-import useAuthModal from "@/hooks/useAuthModal";
 import { RenderToJson } from "../server-components/RenderToJson";
 import { UpVoteButton, DownVoteButton } from "./SubmitButtons";
 import { handleSubscription, handlePostVote } from "@/actions/actions";
@@ -64,8 +54,7 @@ const Post = ({ postData }: PostProps) => {
   const pathname = usePathname();
 
   const voteCount = countVotes(votes);
-  const { showAuthModal, setShowAuthModal, joinForum, votePost } =
-    useAuthModal();
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
    
 const handleSubmit = async (formData: FormData) => {
@@ -75,16 +64,6 @@ const handleSubmit = async (formData: FormData) => {
     setShowAuthModal(true);
   }
 };
-
-const handleJoin = async (formData: FormData) => {
-  const statusCode = await handleSubscription(formData);
-  queryClient.invalidateQueries({ queryKey: ["posts"] });
-  if (statusCode === 404) {
-    setShowAuthModal(true);
-  }
-};
-
-const SubscribedOrNot='YES';
 
   return (
     <div

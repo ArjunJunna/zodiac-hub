@@ -8,7 +8,6 @@ import Navbar from "@/components/Navbar";
 import LeftSidebar from "@/components/LeftSidebar";
 import RightSection from "@/components/RightSection";
 import { Toaster } from "@/components/ui/sonner";
-import AuthProvider from "@/context/authContext";
 import Providers from "@/components/Providers";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -32,7 +31,7 @@ export default function RootLayout({
         <body className={inter.className}>
           <Providers>
             <ReactQueryClientProvider>
-              <AuthProvider>
+              
                 <ThemeProvider>
                   <div className="flex flex-col h-screen overflow-y-auto ">
                     <Navbar />
@@ -44,7 +43,7 @@ export default function RootLayout({
                     <Toaster richColors />
                   </div>
                 </ThemeProvider>
-              </AuthProvider>
+            
             </ReactQueryClientProvider>
           </Providers>
         </body>

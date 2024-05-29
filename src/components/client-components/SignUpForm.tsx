@@ -7,7 +7,6 @@ import { SignupFormSchema } from "@/lib/schema";
 import { z } from "zod";
 import { ButtonLoading } from "./LoadingButton";
 import { toast } from "sonner";
-import { useAuth } from "@/context/authContext";
 
 type Inputs = z.infer<typeof SignupFormSchema>;
 
@@ -22,7 +21,6 @@ const SignUpForm = ({ setShowAuthModal, setShowSignIn }: AuthFormProp) => {
   } = useForm<Inputs>({
     resolver: zodResolver(SignupFormSchema),
   });
-  const { setUserDetails } = useAuth();
 
   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
     const result = await postSignup(data);
@@ -31,7 +29,6 @@ const SignUpForm = ({ setShowAuthModal, setShowSignIn }: AuthFormProp) => {
       if (result?.data?.status === 409) {
         toast.error(result.data.message);
       } else {
-        setUserDetails(result?.data);
         setShowAuthModal(false);
         toast.success("You are signed up. You can now sign in.");
       }
