@@ -1,7 +1,7 @@
 "use server";
 
 import { z } from "zod";
-import { BASE_URL } from "@/requestMethods";
+import { BASE_URL } from "@/lib/Constants";
 import { SigninFormSchema, SignupFormSchema } from "@/lib/schema";
 import { publicRequest } from "@/requestMethods";
 import axios from "axios";
@@ -92,7 +92,7 @@ export const createForum = async (forumData: CreateForumType) => {
   };
   try {
     const response = await axios.post(
-      `https://zodiac-hub.onrender.com/api/v1/forums`,
+      `${BASE_URL}/forums`,
       data,
       {
         headers: {
@@ -126,7 +126,7 @@ export const createPost = async (
       content,
     };
     const response = await axios.post(
-      `https://zodiac-hub.onrender.com/api/v1/posts`,
+      `${BASE_URL}/posts`,
       data,
       {
         headers: {
@@ -151,7 +151,7 @@ export const handlePostVote = async (formData: FormData) => {
   try {
     if (voteDirection == "UP") {
       const response = await axios.post(
-        `https://zodiac-hub.onrender.com/api/v1/posts/${postId}/upvote`,
+        `${BASE_URL}/posts/${postId}/upvote`,
         { userId: session?.user.id, type: voteDirection },
         {
           headers: {
@@ -163,7 +163,7 @@ export const handlePostVote = async (formData: FormData) => {
       return response.status;
     } else {
       const response = await axios.delete(
-        `https://zodiac-hub.onrender.com/api/v1/posts/${postId}/downvote`,
+        `${BASE_URL}/posts/${postId}/downvote`,
         {
           data: { userId: session?.user.id, type: voteDirection },
           headers: {
@@ -188,7 +188,7 @@ export const handleCommentVote = async (formData: FormData) => {
   try {
     if (voteDirection == "UP") {
       const response = await axios.post(
-        `https://zodiac-hub.onrender.com/api/v1/comments/${commentId}/vote`,
+        `${BASE_URL}/comments/${commentId}/vote`,
         { userId: session?.user.id, type: voteDirection },
         {
           headers: {
@@ -200,7 +200,7 @@ export const handleCommentVote = async (formData: FormData) => {
       return response.status;
     } else {
       const response = await axios.delete(
-        `https://zodiac-hub.onrender.com/api/v1/comments/${commentId}/vote`,
+        `${BASE_URL}/comments/${commentId}/vote`,
         {
           data: { userId: session?.user.id, type: voteDirection },
           headers: {
@@ -221,7 +221,7 @@ export const handleSubscription = async (formData: FormData) => {
   const forumId = formData.get("forumId") as string;
   try {
     const { data, status } = await axios.post(
-      `https://zodiac-hub.onrender.com/api/v1/forums/${forumId}/subscription`,
+      `${BASE_URL}/forums/${forumId}/subscription`,
       { userId: session?.user.id },
       {
         headers: {
@@ -240,7 +240,7 @@ export const fetchForumById = async (forumId: string) => {
   try {
     const session = await getServerSession(authOptions);
     const response = await axios.get(
-      `https://zodiac-hub.onrender.com/api/v1/forums/${forumId}`,
+      `${BASE_URL}/forums/${forumId}`,
       {
         headers: {
           Authorization: `Bearer ${session?.user.token}`,
@@ -257,7 +257,7 @@ export const getAllCommentsOnPostById = async (postId: string):Promise<CommentTy
   try {
     const session = await getServerSession(authOptions);
     const response = await fetch(
-      `https://zodiac-hub.onrender.com/api/v1/posts/${postId}/comments`,
+      `${BASE_URL}/posts/${postId}/comments`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -285,7 +285,7 @@ export const postComment=async(formData:FormData)=>{
       replyToId:formData.get('replyToId')
     }
      const response = await axios.post(
-       `https://zodiac-hub.onrender.com/api/v1/posts/${postId}/comment`,
+       `${BASE_URL}/posts/${postId}/comment`,
        data,
        {
          headers: {
