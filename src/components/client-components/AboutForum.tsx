@@ -1,28 +1,62 @@
 "use client";
 
-import useSinglePostData from "@/hooks/useSinglePostData";
 import { usePathname } from "next/navigation";
 import SkeletonAboutForumCard from "./SkeletonAboutForumCard";
-
 import AuthModal from "./AuthModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { PostType } from "@/utils/types";
+import { BASE_URL } from "@/lib/Constants";
+import { handleSubscription } from "@/actions/actions";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { SubscribeButton } from "./SubmitButtons";
+import { useForumByIdData } from "@/hooks/useForumsData";
+import { useSession } from "next-auth/react";
 
-type AboutForumProps={
-  postId?:string;
-}
 
-const AboutForum = ({postId}:AboutForumProps) => {
-   const pathname = usePathname();
-   let postIdToUse = postId || pathname.split("/").slice(2).join("/");
+type AboutForumProps = {
+  postId?: string;
+};
 
-   const { singlePostData, isLoadingSinglePost } =
-     useSinglePostData(postIdToUse);
-   
-          const [showAuthModal, setShowAuthModal] = useState(false);
+const AboutForum = ({ postId }: AboutForumProps) => {
+  const queryClient = useQueryClient();
+  const pathname = usePathname();
+  let postIdToUse = postId || pathname.split("/").slice(2).join("/");
+  const { data: session } = useSession();
+
+  const [singlePostData, setSinglePostData] = useState<PostType | undefined>();
+  const { data } = useForumByIdData(singlePostData?.forum.id as string);
+
+  const fetchPostById = async (postId: string) => {
+    const response = await fetch(`${BASE_URL}/posts/${postId}`);
+    const postData: PostType = await response.json();
+    setSinglePostData(postData);
+  };
+
+    const handleJoin = async (formData: FormData) => {
+      const response = await handleSubscription(formData);
+      queryClient.invalidateQueries({ queryKey: ["forum"] });
+      if (response?.status === 201) {
+        toast.message(response?.data?.message);
+      }
+    };
+
+     const text = data?.subscribers
+       ?.map((sub: any) => sub.userId)
+       .includes(session?.user.id)
+       ? "Leave"
+       : "Join";
+
+
+  useEffect(() => {
+    fetchPostById(postIdToUse);
+  }, [postIdToUse]);
+
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   return (
-    <div>
-      {isLoadingSinglePost ? (
+    <>
+      {!singlePostData ? (
         <SkeletonAboutForumCard />
       ) : (
         <>
@@ -31,15 +65,10 @@ const AboutForum = ({postId}:AboutForumProps) => {
               <p className="font-medium text-lg">
                 {singlePostData?.forum.name}
               </p>
-              <button
-                className="text-sm px-2 bg-gray-600/10 hover:bg-gray-300/70 dark:hover:bg-gray-700/40 rounded-lg"
-                onClick={e => {
-                  e.stopPropagation();
-                  
-                }}
-              >
-                Join
-              </button>
+              <form action={handleJoin}>
+                <input type="hidden" name="forumId" value={singlePostData.forum.id} />
+                <SubscribeButton text={text} />
+              </form>
             </div>
             <p className="text-sm ">{singlePostData?.forum.description}</p>
             <div className="flex flex-col">
@@ -50,7 +79,7 @@ const AboutForum = ({postId}:AboutForumProps) => {
           </div>
         </>
       )}
-    </div>
+    </>
   );
 };
 

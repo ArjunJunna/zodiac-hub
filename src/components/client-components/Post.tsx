@@ -182,7 +182,7 @@ const Post = ({ postData }: PostProps) => {
               {comments
                 ?.filter(comment => !comment.replyToId)
                 .map(topLevelComment => {
-                  const topLevelCommentVotesAmt = topLevelComment.votes.reduce(
+                  const topLevelCommentVotesAmt = topLevelComment.votes?.reduce(
                     (acc, vote) => {
                       if (vote.type === "UP") return acc + 1;
                       if (vote.type === "DOWN") return acc - 1;
@@ -191,7 +191,7 @@ const Post = ({ postData }: PostProps) => {
                     0
                   );
 
-                  const topLevelCommentVote = topLevelComment.votes.find(
+                  const topLevelCommentVote = topLevelComment.votes?.find(
                     vote => vote.userId === session?.user.id
                   );
 
@@ -203,10 +203,9 @@ const Post = ({ postData }: PostProps) => {
                         votesAmt={topLevelCommentVotesAmt}
                         postId={id}
                       />
-                      {topLevelComment.replies
-                        .sort((a, b) => b.votes.length - a.votes.length)
+                      {topLevelComment.replies?.sort((a, b) => b.votes.length - a.votes.length)
                         .map(reply => {
-                          const replyVotesAmt = reply.votes.reduce(
+                          const replyVotesAmt = reply.votes?.reduce(
                             (acc, vote) => {
                               if (vote.type === "UP") return acc + 1;
                               if (vote.type === "DOWN") return acc - 1;
@@ -215,7 +214,7 @@ const Post = ({ postData }: PostProps) => {
                             0
                           );
 
-                          const replyVote = reply.votes.find(
+                          const replyVote = reply.votes?.find(
                             vote => vote.userId === session?.user.id
                           );
 
