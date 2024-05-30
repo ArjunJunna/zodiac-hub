@@ -6,7 +6,7 @@ import Seperator from "../server-components/Seperator";
 
 type PostsSectionProps = {
   postData: PostType[];
-  isLoading: Boolean;
+  isLoading?: Boolean;
 };
 
 const PostsSection = ({ postData, isLoading }: PostsSectionProps) => {

@@ -10,7 +10,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { JSONContent } from "@tiptap/react";
 import { redirect } from "next/navigation";
 import { CommentType } from "@/utils/types";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 type SigninInputs = z.infer<typeof SigninFormSchema>;
 type SignupInputs = z.infer<typeof SignupFormSchema>;
@@ -229,7 +229,8 @@ export const handleSubscription = async (formData: FormData) => {
         },
       }
     );
-    revalidatePath("/", "page");
+    
+    revalidatePath(`/forums/${forumId}`);
     return { data, status };
   } catch (error) {
     console.log(error);

@@ -54,7 +54,11 @@ export const DownVoteButton = () => {
   );
 };
 
-export const SubscribeButton = ({text}:{text:string}) => {
+type SubscribeButtonProps = {
+  text: string;
+};
+
+export const SubscribeButton = ({ text }: SubscribeButtonProps) => {
   const { pending } = useFormStatus();
   return (
     <>

@@ -29,11 +29,20 @@ export async function generateMetadata({
   };
 }
 
-const ForumPage = ({ params }: { params: { forumId: string } }) => {
+const ForumPage = async({ params }: { params: { forumId: string } }) => {
+
+  const response = await fetch(
+    `https://zodiac-hub.onrender.com/api/v1/forums/${params.forumId}`,{
+      cache:'no-store',
+      next:{tags:[`${params.forumId}`]}
+    }
+  );
+  const forumData=await response.json();
+
   return (
     <>
       <div className="w-full p-2 h-fit max-md:mx-3 border-l border-r">
-        <ForumCard forumId={params.forumId} />
+        <ForumCard forumData={forumData} />
       </div>
     </>
   );
