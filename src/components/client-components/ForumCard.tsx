@@ -2,21 +2,13 @@ import React from "react";
 import Seperator from "../server-components/Seperator";
 import Image from "next/image";
 import CreatePostButton from "@/components/client-components/CreatePostButton";
-import { SubscribeButton } from "@/components/client-components/SubmitButtons";
 import PostsSection from "./PostsSection";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Suspense } from "react";
-import { handleSubscription } from "@/actions/actions";
+import SubscriptionForm from "./SubscriptionForm";
 
 const ForumCard = async ({ forumData }: { forumData: any }) => {
-   const handleJoin = async (formData: FormData) => {
-    'use server'
-     const response = await handleSubscription(formData);
-     if (response?.status === 201) {
-       console.log(response?.data?.message);
-     }
-   };
   const session = await getServerSession(authOptions);
   const postsData = forumData?.posts;
   const text = forumData?.subscribers
@@ -40,11 +32,7 @@ const ForumCard = async ({ forumData }: { forumData: any }) => {
           </div>
           <div className="flex gap-x-2">
             <CreatePostButton />
-            <form action={handleJoin}>
-              <input type="hidden" name="forumId" value={forumData.forumId} />
-              <SubscribeButton text={text} />
-            </form>
-
+            <SubscriptionForm forumId={forumData.id} initialText={text} />
           </div>
         </div>
       </Suspense>
