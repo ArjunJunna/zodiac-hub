@@ -1,7 +1,7 @@
 "use client";
+
 import { usePathname } from "next/navigation";
 import PopularSection from "./PopularSection";
-import AboutForum from "./AboutForum";
 
 const Info = () => {
   const pathname = usePathname();
@@ -10,7 +10,7 @@ const Info = () => {
       {pathname.startsWith("/f") ? null : pathname === "/" ? (
         <PopularSection />
       ) : (
-        <AboutForum />
+        null
       )}
     </div>
   );

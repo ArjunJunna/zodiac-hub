@@ -10,7 +10,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import Image from "next/image";
-import { PostType, Votes } from "@/utils/types";
+import { PostType } from "@/utils/types";
 import Moment from "react-moment";
 import { countVotes } from "@/utils/utilities";
 import { useRouter } from "next/navigation";
@@ -20,16 +20,13 @@ import AboutForum from "./AboutForum";
 import AuthModal from "../client-components/AuthModal";
 import { RenderToJson } from "../server-components/RenderToJson";
 import { UpVoteButton, DownVoteButton } from "./SubmitButtons";
-import { handleSubscription, handlePostVote } from "@/actions/actions";
+import {handlePostVote } from "@/actions/actions";
 import { useSession } from "next-auth/react";
 import {useQueryClient} from "@tanstack/react-query"
-import { SubscribeButton } from "./SubmitButtons";
-import React, { memo, useCallback, useEffect, useState } from "react";
-import { getAllCommentsOnPostById } from "@/actions/actions";
+import React, { useState } from "react";
 import CreateComment from "./CreateComment";
 import ViewComments from "./ViewComments";
 import Seperator from "../server-components/Seperator";
-import { CommentType } from "@/utils/types";
 
 type PostProps = {
   postData: PostType;
@@ -103,7 +100,13 @@ const Post = ({ postData }: PostProps) => {
                         </p>
                       </HoverCardTrigger>
                       <HoverCardContent className="w-[25rem]">
-                        <AboutForum postId={id} />
+                        <AboutForum
+                          postId={id}
+                          forumId={forumId}
+                          forumName={forumName}
+                          description={description}
+                          subscribersCount={subscribers}
+                        />
                       </HoverCardContent>
                     </HoverCard>
                   ) : null}
@@ -171,13 +174,11 @@ const Post = ({ postData }: PostProps) => {
         </div>
         {showAuthModal && <AuthModal setShowAuthModal={setShowAuthModal} />}
       </div>
-      {pathname.startsWith('/post') ? (
+      {pathname.startsWith("/post") ? (
         <>
           <div className="flex flex-col gap-y-4">
             <Seperator />
-            {session && (
-              <CreateComment postId={id} />
-            )}
+            {session && <CreateComment postId={id} />}
             <div className="flex flex-col gap-y-6">
               {comments
                 ?.filter(comment => !comment.replyToId)
@@ -203,7 +204,8 @@ const Post = ({ postData }: PostProps) => {
                         votesAmt={topLevelCommentVotesAmt}
                         postId={id}
                       />
-                      {topLevelComment.replies?.sort((a, b) => b.votes.length - a.votes.length)
+                      {topLevelComment.replies
+                        ?.sort((a, b) => b.votes.length - a.votes.length)
                         .map(reply => {
                           const replyVotesAmt = reply.votes?.reduce(
                             (acc, vote) => {
