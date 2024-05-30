@@ -30,9 +30,10 @@ import Seperator from "../server-components/Seperator";
 
 type PostProps = {
   postData: PostType;
+  postComment: (formData: FormData) => Promise<number | undefined>;
 };
 
-const Post = ({ postData }: PostProps) => {
+const Post = ({ postData,postComment }: PostProps) => {
   const {
     id,
     title,
@@ -178,7 +179,7 @@ const Post = ({ postData }: PostProps) => {
         <>
           <div className="flex flex-col gap-y-4">
             <Seperator />
-            {session && <CreateComment postId={id} />}
+            {session && <CreateComment postId={id} postComment={postComment} />}
             <div className="flex flex-col gap-y-6">
               {comments
                 ?.filter(comment => !comment.replyToId)

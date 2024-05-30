@@ -294,11 +294,11 @@ export const postComment=async(formData:FormData)=>{
          },
        }
      );
+     revalidateTag('single-post');
      console.log('response',response);
    
      return response.status
   } catch (error) {
     console.log(error);
   }
-    revalidatePath(`/post/[postId]`, "page");
 }

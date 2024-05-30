@@ -5,20 +5,18 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { postComment } from "@/actions/actions";
 import { SubmitButton } from "./SubmitButtons";
-import { revalidatePath } from "next/cache";
 
 interface CreateCommentProps {
   postId: string;
   replyToId?: string;
-  onCommentCreated?: () => void;
+  postComment: (formData: FormData) => Promise<number | undefined>;
 }
 
 const CreateComment= ({
   postId,
   replyToId,
-  onCommentCreated,
+  postComment
 }:CreateCommentProps) => {
   const [input, setInput] = useState<string>("");
   const router = useRouter();
@@ -34,8 +32,6 @@ const CreateComment= ({
             router.refresh();
             setInput("");
             toast.message("Comment created.");
-            revalidatePath(`/post/${postId}`);
-            //onCommentCreated();
           }
         }}
       >
