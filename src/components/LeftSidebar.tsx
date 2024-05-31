@@ -49,7 +49,7 @@ const LeftSidebar = () => {
             </li>
             {session?.user.token && (
               <li
-                key="flame"
+                key="feed"
                 className="flex cursor-pointer items-center gap-3 rounded-md 
            px-3 py-[0.5rem] text-[14px] hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
               >
