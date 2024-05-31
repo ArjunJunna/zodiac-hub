@@ -144,9 +144,8 @@ const Post = ({ postData,postComment }: PostProps) => {
                   className="w-full h-full"
                 />
               </>
-            ) : (
-              <RenderToJson data={content} />
-            )}
+            ) : null}
+            {content !== null ? <RenderToJson data={content} /> : null}
           </div>
           <div className="flex justify-between pt-1 ">
             <div className="flex gap-x-3 items-center justify-center">

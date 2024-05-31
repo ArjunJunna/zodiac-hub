@@ -33,6 +33,16 @@ export const CreateForumSchema = z.object({
     .max(1000, { message: "Description must have be at max 1000 characters." }),
 });
 
+export const CreatePostSchema = z.object({
+  forumId: z.string().min(1, {
+    message: "Forum is must.",
+  }),
+  title: z.string().min(1, {
+    message: "Title must be at least 1 character.",
+  }),
+  imageUrl: z.string().optional()
+});
+
 export const CommentValidator = z.object({
   postId: z.string(),
   text: z.string(),

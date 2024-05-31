@@ -118,23 +118,18 @@ export const createPost = async (
     const image = formData.get("imageUrl") as string | null;
     const authorId = session?.user.id;
     const content = JSON.stringify(jsonContent);
-    const data = {
+    const postData = {
       forumId,
       title,
       image,
       authorId,
-      content,
+      ...(jsonContent && { content }),
     };
-    const response = await axios.post(
-      `${BASE_URL}/posts`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${session?.user.token}`,
-        },
-      }
-    );
-    console.log("response from create post:", response.data);
+    const response = await axios.post(`${BASE_URL}/posts`, postData, {
+      headers: {
+        Authorization: `Bearer ${session?.user.token}`,
+      },
+    });
     return response.status;
   } catch (error) {
     console.log(error);
