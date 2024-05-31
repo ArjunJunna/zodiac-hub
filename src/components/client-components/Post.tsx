@@ -83,10 +83,12 @@ const Post = ({ postData,postComment }: PostProps) => {
         <div className="flex flex-col gap-y-1">
           <div className="flex justify-between">
             <div className="flex items-center gap-x-2">
-              <img
+              <Image
+              height={32}
+              width={32}
                 alt="profile avatar"
                 className="h-8 w-8 rounded-full  hover:cursor-pointer"
-                src={`https://api.dicebear.com/6.x/initials/svg?seed=${forumName}&backgroundColor=3e3f4a&chars=1`}
+                src={forumImage}
               />
               <div className="flex justify-between gap-x-2 items-center">
                 <div className="flex flex-col">

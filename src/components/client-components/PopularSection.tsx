@@ -2,6 +2,7 @@
 import {useForumsData } from "@/hooks/useForumsData";
 import React from "react";
 import SkeletonPopularCard from "./SkeletonPopularCard";
+import Image from "next/image";
 
 const PopularSection = () => {
  
@@ -24,10 +25,12 @@ const PopularSection = () => {
           hover:bg-gray-200/50 dark:hover:bg-primary-foreground cursor-pointer rounded-sm
         "
               >
-                <img
-                  alt="profile avatar"
-                  className="h-8 w-8 rounded-full  hover:cursor-pointer"
-                  src={`https://api.dicebear.com/6.x/initials/svg?seed=${item.name}&backgroundColor=3e3f4a&chars=1`}
+                <Image
+                width={32}
+                height={32}
+                alt="profile avatar"
+                className="h-8 w-8 rounded-full  hover:cursor-pointer"
+                src={item.image}
                 />
                 <div className="flex flex-col  text-xs">
                   <p className="text-xs">{item?.name}</p>

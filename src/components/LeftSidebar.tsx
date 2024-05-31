@@ -9,6 +9,7 @@ import {useForumsData} from "@/hooks/useForumsData";
 import CreateForumModal from "./client-components/CreateForumModal";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import Image from "next/image";
 
 const LeftSidebar = () => {
   const [showTopics, setShowTopics] = useState(false);
@@ -133,10 +134,12 @@ const LeftSidebar = () => {
                             className="flex cursor-pointer items-center gap-3 rounded-md 
              px-3 py-[0.5rem] text-[14px]  hover:bg-gray-200/50 dark:hover:bg-primary-foreground "
                           >
-                            <img
+                            <Image
                               alt="profile avatar"
-                              className="h-7 w-7 rounded-full  hover:cursor-pointer"
-                              src={`https://api.dicebear.com/6.x/initials/svg?seed=${item.name}&backgroundColor=3e3f4a&chars=1`}
+                              height={28}
+                              width={28}
+                              className="h-7 w-7 rounded-full hover:cursor-pointer"
+                              src={item.image}
                             />
 
                             {item.name}
