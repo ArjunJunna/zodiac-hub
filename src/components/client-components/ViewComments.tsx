@@ -15,6 +15,7 @@ import { MessageSquare } from "lucide-react";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import AuthModal from "./AuthModal";
+import UserAvatar from "./UserAvatar";
 
 type ViewCommentsProp = {
   comment: CommentType;
@@ -45,11 +46,7 @@ const ViewComments = ({
   return (
     <div ref={commentRef} className="flex flex-col">
       <div className="flex items-center">
-        <img
-          alt="profile avatar"
-          className="h-8 w-8 rounded-full  hover:cursor-pointer"
-          src={`https://api.dicebear.com/6.x/initials/svg?seed=${comment.author.username}&backgroundColor=3e3f4a&chars=1`}
-        />
+        <UserAvatar name={comment.author.username} h="8" w="8" />
         <div className="flex flex-col ml-2">
           <div className=" flex items-center gap-x-2">
             <p className="text-xs">z/{comment.author.username}</p>

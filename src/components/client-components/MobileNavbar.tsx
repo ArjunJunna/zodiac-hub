@@ -17,6 +17,7 @@ import CreatePostButton from "./CreatePostButton";
 import SignInButton from "../SignInButton";
 import { ThemeSwitcherBtn } from "../ThemeSwitcherBtn";
 import { signOut } from "next-auth/react";
+import UserAvatar from "./UserAvatar";
 
 export default function MobileNavbar() {
    const { data: session } = useSession();
@@ -159,11 +160,7 @@ export default function MobileNavbar() {
                                   className="flex cursor-pointer items-center gap-3 rounded-md 
              px-3 py-[0.5rem] text-[14px]  hover:bg-gray-200/50 dark:hover:bg-primary-foreground "
                                 >
-                                  <img
-                                    alt="profile avatar"
-                                    className="h-7 w-7 rounded-full  hover:cursor-pointer"
-                                    src={`https://api.dicebear.com/6.x/initials/svg?seed=${item.name}&backgroundColor=3e3f4a&chars=1`}
-                                  />
+                                  <UserAvatar name={item.name} h="7" w="7" />
 
                                   {item.name}
                                 </li>
