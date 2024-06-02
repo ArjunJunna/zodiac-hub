@@ -2,12 +2,12 @@ import { CommentType, UserVoteType } from "@/utils/types";
 import Moment from "react-moment";
 import { useRef } from "react";
 import { countVotes } from "@/utils/utilities";
-import { DownVoteButton, UpVoteButton } from "./SubmitButtons";
+import { DeleteButton, DownVoteButton, UpVoteButton } from "./SubmitButtons";
 import { handleCommentVote } from "@/actions/actions";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { postComment } from "@/actions/actions";
+import { postComment, deleteComment } from "@/actions/actions";
 import { SubmitButton } from "./SubmitButtons";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
@@ -24,10 +24,7 @@ type ViewCommentsProp = {
   postId: string;
 };
 
-const ViewComments = ({
-  comment,
-  postId,
-}: ViewCommentsProp) => {
+const ViewComments = ({ comment, postId }: ViewCommentsProp) => {
   const commentRef = useRef<HTMLDivElement>(null);
   const voteCount = countVotes(comment.votes);
   const [isReplying, setIsReplying] = useState<boolean>(false);
@@ -57,6 +54,23 @@ const ViewComments = ({
           </div>
           <p className="text-sm">{comment.text}</p>
         </div>
+        {comment.authorId === session?.user.id && (
+          <form
+            action={async (formData: FormData) => {
+              const status = await deleteComment(formData);
+              if (status == 200) {
+                router.refresh();
+                toast.message("Comment deleted.");
+              } else {
+                toast.error("Comment could not be deleted.");
+              }
+            }}
+            className="ml-auto"
+          >
+            <input type="hidden" name="commentId" value={comment.id} />
+            <DeleteButton />
+          </form>
+        )}
       </div>
       <div className="flex justify-between pt-1 ">
         <div className="flex gap-x-3 items-center justify-center">

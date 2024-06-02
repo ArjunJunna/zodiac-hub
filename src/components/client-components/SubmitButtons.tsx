@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Loader2, ArrowBigUp, ArrowBigDown } from "lucide-react";
+import { Loader2, ArrowBigUp, ArrowBigDown, X } from "lucide-react";
 import { useFormStatus } from "react-dom";
 
 export const SubmitButton = ({ text }: { text: string }) => {
@@ -74,6 +74,23 @@ export const SubscribeButton = ({ text }: SubscribeButtonProps) => {
         >
           {text}
         </Button>
+      )}
+    </>
+  );
+};
+
+export const DeleteButton = () => {
+  const { pending } = useFormStatus();
+  return (
+    <>
+      {pending ? (
+        <button disabled>
+          <Loader2 className="h-6 w-6 animate-spin" />
+        </button>
+      ) : (
+        <button className="hover:text-red-400">
+          <X className="h-6 w-6" />
+        </button>
       )}
     </>
   );

@@ -297,3 +297,23 @@ export const postComment=async(formData:FormData)=>{
     console.log(error);
   }
 }
+
+export const deleteComment = async (formData: FormData) => {
+  try {
+    const session = await getServerSession(authOptions);
+    const commentId = formData.get("commentId");
+    const data = {
+      userId:session?.user.id,
+    };
+  const response = await axios.delete(`${BASE_URL}/comments/${commentId}`, {
+    headers: {
+      Authorization: `Bearer ${session?.user.token}`,
+    },
+    data: data,
+  });
+    revalidateTag("single-post");
+    return response.status;
+  } catch (error) {
+    console.log(error);
+  }
+};
