@@ -39,14 +39,18 @@ export default function MobileNavbar() {
             </Button>
           </SheetTrigger>
           <SheetContent className="w-[300px] sm:w-[430px]" side="left">
-            <Image
-              src={"/zodiac-logo.png"}
-              alt="zodiac-logo"
-              height={40}
-              width={60}
-              className="mr-2 cursor-pointer"
-            />
-            <ThemeSwitcherBtn />
+            <div className="flex justify-between space-x-2 mt-4">
+              <Image
+                src={"/zodiac-logo.png"}
+                alt="zodiac-logo"
+                height={40}
+                width={60}
+                className="mr-2 cursor-pointer"
+              />
+              <ThemeSwitcherBtn />
+              {session ? <CreatePostButton /> : null}
+            </div>
+
             <div className="flex flex-col p-2 min-h-full">
               <div className="">
                 <ul className="px-3 ">
@@ -205,22 +209,20 @@ export default function MobileNavbar() {
                     </>
                   )}
                 </ul>
-                <div className="flex flex-col items-start gap-2">
-                  {session ? <CreatePostButton /> : null}
-                  {!session ? <SignInButton /> : null}
-                  {session ? (
-                    <Button
-                      onClick={() => {
-                        signOut();
-                      }}
-                    >
-                      <LogOut className="h-4 w-4 mr-3" />
-                      LogOut
-                    </Button>
-                  ) : null}
-                </div>
               </div>
-
+              <div className="flex flex-col items-start gap-2 mb-10">
+                {!session ? <SignInButton /> : null}
+                {session ? (
+                  <Button
+                    onClick={() => {
+                      signOut();
+                    }}
+                  >
+                    <LogOut className="h-4 w-4 mr-3" />
+                    LogOut
+                  </Button>
+                ) : null}
+              </div>
               {createForumModal ? (
                 <CreateForumModal setCreateForumModal={setCreateForumModal} />
               ) : null}

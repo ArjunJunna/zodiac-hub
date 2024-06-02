@@ -9,7 +9,7 @@ const SignInButton = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   return (
-    <div >
+    <div className='space-x-2' >
       <Button asChild>
         <Link href="/api/auth/signin">Sign In</Link>
       </Button>
