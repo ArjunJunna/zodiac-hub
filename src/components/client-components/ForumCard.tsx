@@ -4,7 +4,7 @@ import Image from "next/image";
 import CreatePostButton from "@/components/client-components/CreatePostButton";
 import PostsSection from "./PostsSection";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 import { Suspense } from "react";
 import SubscriptionForm from "./SubscriptionForm";
 

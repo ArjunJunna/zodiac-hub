@@ -6,7 +6,11 @@ import usePostsData from "@/hooks/usePostsData";
 import { SkeletonPost } from "../client-components/SkeletonPost";
 import React from "react";
 
-const PostSection = () => {
+type PostSectionProps = {
+  postComment: (formData: FormData) => Promise<number | undefined>;
+};
+
+const PostSection = ({postComment}:PostSectionProps) => {
 
   const {data,isLoading}=usePostsData();
 
@@ -21,7 +25,7 @@ const PostSection = () => {
           ))
         : data?.map(post => (
             <>
-              <Post postData={post} />
+              <Post postData={post} postComment={postComment}/>
               <Seperator />
             </>
           ))}

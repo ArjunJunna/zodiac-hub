@@ -1,12 +1,13 @@
 import React from 'react';
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 import { Suspense } from "react";
 import { SkeletonPost } from "@/components/client-components/SkeletonPost";
 import Post from "@/components/client-components/Post";
 import { PostType } from "@/utils/types";
 import Seperator from "@/components/server-components/Seperator";
 import { Metadata } from "next";
+import { postComment } from "@/actions/actions";
 
 export const metadata: Metadata = {
   title: "Custom Feed",
@@ -41,7 +42,7 @@ const CustomFeed = async () => {
         >
           {postsData?.map((post: PostType) => (
             <>
-              <Post postData={post} />
+              <Post postData={post} postComment={postComment}/>
               <Seperator />
             </>
           ))}

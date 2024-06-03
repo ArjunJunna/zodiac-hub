@@ -44,18 +44,21 @@ const ForumPicker = ({
 
   const { data: userData } = useUserData(session?.user.id as string);
 
-  const forumMap = forumDetails?.reduce((acc, item) => {
-    acc[item.id] = item.name;
-    return acc;
-  }, {});
+   const forumMap = forumDetails?.reduce(
+     (acc: { [key: string]: string }, item) => {
+       acc[item.id] = item.name;
+       return acc;
+     },
+     {}
+   );
 
-  const userAssociatedForums = userData?.subscriptions.map(
-    ({ userId, forumId }) => ({
-      userId,
-      forumId,
-      forumName: forumMap[forumId],
-    })
-  );
+ const userAssociatedForums = forumMap
+   ? userData?.subscriptions.map(({ userId, forumId }) => ({
+       userId,
+       forumId,
+       forumName: forumMap[forumId],
+     }))
+   : [];
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

@@ -2,7 +2,7 @@ import { ThemeSwitcherBtn } from "../ThemeSwitcherBtn";
 import DesktopDropdownMenu from "../client-components/DesktopDropdownMenu";
 import SignInButton from "../SignInButton";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 import CreatePostButton from "../client-components/CreatePostButton";
 import AppbarLogo from "../client-components/AppbarLogo";
 import SearchBar from "../client-components/SearchBar";

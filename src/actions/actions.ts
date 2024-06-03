@@ -6,7 +6,7 @@ import { SigninFormSchema, SignupFormSchema } from "@/lib/schema";
 import { publicRequest } from "@/requestMethods";
 import axios from "axios";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 import { JSONContent } from "@tiptap/react";
 import { redirect } from "next/navigation";
 import { CommentType } from "@/utils/types";
