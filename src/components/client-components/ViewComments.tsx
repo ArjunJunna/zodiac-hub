@@ -52,7 +52,9 @@ const ViewComments = ({ comment, postId }: ViewCommentsProp) => {
               {comment.createdAt}
             </Moment>
           </div>
-          <p className="text-sm">{comment.text}</p>
+          <p className="text-sm text-ellipsis overflow-hidden max-w-[40rem]">
+            {comment.text}
+          </p>
         </div>
         {comment.authorId === session?.user.id && (
           <form

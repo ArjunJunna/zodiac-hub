@@ -9,8 +9,8 @@ const CreatePostPage = () => {
   return (
     <>
       <div className=" w-full p-2 h-full max-md:mx-3 border-l border-r">
-        <div className="mx-auto flex justify-center mt-4">
-          <CreatePost/>
+        <div className="mx-auto  max-w-[46rem] flex justify-center mt-4">
+          <CreatePost />
         </div>
       </div>
     </>

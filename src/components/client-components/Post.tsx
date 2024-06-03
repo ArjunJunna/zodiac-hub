@@ -73,7 +73,7 @@ const Post = ({ postData,postComment }: PostProps) => {
     <>
       <div
         className={cn(
-          "flex flex-col gap-2 hover:cursor-pointer relative py-2 px-4 rounded-md",
+          "flex flex-col gap-2 max-w-[46rem] hover:cursor-pointer relative py-2 px-4 rounded-md",
           pathname === "/"
             ? "hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
             : ""
@@ -133,7 +133,9 @@ const Post = ({ postData,postComment }: PostProps) => {
         </div>
 
         <div className="flex flex-col flex-grow gap-1">
-          <div className="max-h-[300px] overflow-hidden">
+          <div
+            className="max-h-60 text-ellipsis overflow-hidden  "
+          >
             {postImage ? (
               <>
                 <Image
