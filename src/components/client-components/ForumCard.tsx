@@ -31,7 +31,8 @@ const ForumCard = async ({ forumData }: { forumData: any }) => {
             <p className="self-end font-bold text-2xl">z/{forumData?.name}</p>
           </div>
           <div className="flex gap-x-2">
-            <CreatePostButton />
+            {session && <CreatePostButton />}
+
             <SubscriptionForm forumId={forumData.id} initialText={text} />
           </div>
         </div>
