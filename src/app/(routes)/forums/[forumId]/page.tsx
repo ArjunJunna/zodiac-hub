@@ -6,7 +6,8 @@ import { ForumType } from "@/utils/types";
 export async function generateStaticParams() {
   const response = await fetch(`${BASE_URL}/forums`);
   const forums: ForumType[] = await response.json();
-  return forums.map(({ id }) => id);
+
+  return forums.map(({ id }) => ({ forumId: `${id}` }))
 }
 
 export async function generateMetadata({
@@ -29,15 +30,15 @@ export async function generateMetadata({
   };
 }
 
-const ForumPage = async({ params }: { params: { forumId: string } }) => {
-
+const ForumPage = async ({ params }: { params: { forumId: string } }) => {
   const response = await fetch(
-    `https://zodiac-hub.onrender.com/api/v1/forums/${params.forumId}`,{
-      cache:'no-store',
-      next:{tags:[`${params.forumId}`]}
+    `https://zodiac-hub.onrender.com/api/v1/forums/${params.forumId}`,
+    {
+      cache: "no-store",
+      next: { tags: [`${params.forumId}`] },
     }
   );
-  const forumData=await response.json();
+  const forumData = await response.json();
 
   return (
     <>

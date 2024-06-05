@@ -9,7 +9,7 @@ import { postComment } from "@/actions/actions";
 export async function generateStaticParams(){
   const response = await fetch(`${BASE_URL}/posts`);
   const posts: PostType[] = await response.json();
-  return posts.map(({id})=>id)
+   return posts.map(({ id }) => ({ postId: `${id}` }));
 }
 
 export async function generateMetadata({

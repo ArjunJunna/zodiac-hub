@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Hydration>
+
       <html lang="en" className="dark" style={{ colorScheme: "dark" }}>
         <body className={inter.className}>
           <Providers>
@@ -48,6 +48,6 @@ export default function RootLayout({
           </Providers>
         </body>
       </html>
-    </Hydration>
+
   );
 }
