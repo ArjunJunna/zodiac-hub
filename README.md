@@ -1,6 +1,6 @@
 # ZODIAC - Community App
 
-Place for all zodiac discussions.
+[Zodiac Live Link](https://zodiac-hub.vercel.app) - One stop place for all zodiac discussions.
 
 ## Features
 
@@ -40,7 +40,7 @@ Place for all zodiac discussions.
 - Data fetching library : React Query
 - TS Schema Validation : Zod
 - File Upload : Upload Thing
-- Hosting Service : Render
+- Hosting Service : Vercel
 - Authentication : Next-Auth
 - Backend : Nest JS
 
