@@ -1,6 +1,6 @@
-import { MetadataRoute } from "next";
-import { BASE_URL, PUBLIC_BASE_URL } from "@/lib/Constants";
-import { ForumType,PostType } from "@/utils/types";
+import { MetadataRoute } from 'next';
+import { BASE_URL, PUBLIC_BASE_URL } from '@/lib/Constants';
+import { ForumType, PostType } from '@/utils/types';
 
 export default async function sitemap() {
   const postsResponse = await fetch(`${BASE_URL}/posts`);

@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { SubmitButton } from "./SubmitButtons";
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { SubmitButton } from './SubmitButtons';
 
 interface CreateCommentProps {
   postId: string;
   replyToId?: string;
+  // eslint-disable-next-line no-unused-vars
   postComment: (formData: FormData) => Promise<number | undefined>;
 }
 
-const CreateComment= ({
+const CreateComment = ({
   postId,
   replyToId,
-  postComment
-}:CreateCommentProps) => {
-  const [input, setInput] = useState<string>("");
+  postComment,
+}: CreateCommentProps) => {
+  const [input, setInput] = useState<string>('');
   const router = useRouter();
-
 
   return (
     <div>
@@ -30,8 +30,8 @@ const CreateComment= ({
           const status = await postComment(formData);
           if (status == 201) {
             router.refresh();
-            setInput("");
-            toast.message("Comment created.");
+            setInput('');
+            toast.message('Comment created.');
           }
         }}
       >
@@ -43,7 +43,7 @@ const CreateComment= ({
             id="comment"
             name="text"
             value={input}
-            onChange={e => setInput(e.target.value)}
+            onChange={(e) => setInput(e.target.value)}
             placeholder="What are your thoughts?"
           />
           {input.length == 0 ? null : (
@@ -53,7 +53,6 @@ const CreateComment= ({
           )}
         </div>
       </form>
-     
     </div>
   );
 };

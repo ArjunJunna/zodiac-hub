@@ -1,21 +1,21 @@
-import { CommentType, UserVoteType } from "@/utils/types";
-import Moment from "react-moment";
-import { useRef } from "react";
-import { countVotes } from "@/utils/utilities";
-import { DeleteButton, DownVoteButton, UpVoteButton } from "./SubmitButtons";
-import { handleCommentVote } from "@/actions/actions";
-import { useState } from "react";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { postComment, deleteComment } from "@/actions/actions";
-import { SubmitButton } from "./SubmitButtons";
-import { useRouter } from "next/navigation";
-import { Button } from "../ui/button";
-import { MessageSquare } from "lucide-react";
-import { toast } from "sonner";
-import { useSession } from "next-auth/react";
-import AuthModal from "./AuthModal";
-import UserAvatar from "./UserAvatar";
+import { CommentType, UserVoteType } from '@/utils/types';
+import Moment from 'react-moment';
+import { useRef } from 'react';
+import { countVotes } from '@/utils/utilities';
+import { DeleteButton, DownVoteButton, UpVoteButton } from './SubmitButtons';
+import { handleCommentVote } from '@/actions/actions';
+import { useState } from 'react';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { postComment, deleteComment } from '@/actions/actions';
+import { SubmitButton } from './SubmitButtons';
+import { useRouter } from 'next/navigation';
+import { Button } from '../ui/button';
+import { MessageSquare } from 'lucide-react';
+import { toast } from 'sonner';
+import { useSession } from 'next-auth/react';
+import AuthModal from './AuthModal';
+import UserAvatar from './UserAvatar';
 
 type ViewCommentsProp = {
   comment: CommentType;
@@ -28,14 +28,14 @@ const ViewComments = ({ comment, postId }: ViewCommentsProp) => {
   const commentRef = useRef<HTMLDivElement>(null);
   const voteCount = countVotes(comment.votes);
   const [isReplying, setIsReplying] = useState<boolean>(false);
-  const [input, setInput] = useState<string>("");
+  const [input, setInput] = useState<string>('');
   const router = useRouter();
   const { data: session } = useSession();
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const handleSubmit = async (formData: FormData) => {
     if (session) {
-      const statusCode = await handleCommentVote(formData);
+      await handleCommentVote(formData);
     } else {
       setShowAuthModal(true);
     }
@@ -62,9 +62,9 @@ const ViewComments = ({ comment, postId }: ViewCommentsProp) => {
               const status = await deleteComment(formData);
               if (status == 200) {
                 router.refresh();
-                toast.message("Comment deleted.");
+                toast.message('Comment deleted.');
               } else {
-                toast.error("Comment could not be deleted.");
+                toast.error('Comment could not be deleted.');
               }
             }}
             className="ml-auto"
@@ -113,9 +113,9 @@ const ViewComments = ({ comment, postId }: ViewCommentsProp) => {
                 const status = await postComment(formData);
                 if (status == 201) {
                   router.refresh();
-                  setInput("");
+                  setInput('');
                   setIsReplying(false);
-                  toast.message("Comment created.");
+                  toast.message('Comment created.');
                 }
               }}
             >
@@ -131,7 +131,7 @@ const ViewComments = ({ comment, postId }: ViewCommentsProp) => {
                   id="comment"
                   name="text"
                   value={input}
-                  onChange={e => setInput(e.target.value)}
+                  onChange={(e) => setInput(e.target.value)}
                   placeholder="What are your thoughts?"
                 />
                 {input.length == 0 ? null : (

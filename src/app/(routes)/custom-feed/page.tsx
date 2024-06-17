@@ -1,16 +1,16 @@
 import React from 'react';
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/authOptions";
-import { Suspense } from "react";
-import { SkeletonPost } from "@/components/client-components/SkeletonPost";
-import Post from "@/components/client-components/Post";
-import { PostType } from "@/utils/types";
-import Seperator from "@/components/server-components/Seperator";
-import { Metadata } from "next";
-import { postComment } from "@/actions/actions";
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/authOptions';
+import { Suspense } from 'react';
+import { SkeletonPost } from '@/components/client-components/SkeletonPost';
+import Post from '@/components/client-components/Post';
+import { PostType } from '@/utils/types';
+import Seperator from '@/components/server-components/Seperator';
+import { Metadata } from 'next';
+import { postComment } from '@/actions/actions';
 
 export const metadata: Metadata = {
-  title: "Custom Feed",
+  title: 'Custom Feed',
 };
 
 async function getCustomFeed() {
@@ -19,7 +19,7 @@ async function getCustomFeed() {
     `https://zodiac-hub.onrender.com/api/v1/posts/custom/${session?.user.id}`,
     {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${session?.user.token}`,
       },
     }
@@ -42,7 +42,7 @@ const CustomFeed = async () => {
         >
           {postsData?.map((post: PostType) => (
             <>
-              <Post postData={post} postComment={postComment}/>
+              <Post postData={post} postComment={postComment} />
               <Seperator />
             </>
           ))}

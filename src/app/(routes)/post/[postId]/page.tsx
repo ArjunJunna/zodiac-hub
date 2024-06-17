@@ -1,15 +1,15 @@
-import { PostType } from "@/utils/types";
-import { Metadata } from "next";
-import { BASE_URL } from "@/lib/Constants";
-import { Suspense } from "react";
-import { SkeletonPost } from "@/components/client-components/SkeletonPost";
-import Post from "@/components/client-components/Post";
-import { postComment } from "@/actions/actions";
+import { PostType } from '@/utils/types';
+import { Metadata } from 'next';
+import { BASE_URL } from '@/lib/Constants';
+import { Suspense } from 'react';
+import { SkeletonPost } from '@/components/client-components/SkeletonPost';
+import Post from '@/components/client-components/Post';
+import { postComment } from '@/actions/actions';
 
-export async function generateStaticParams(){
+export async function generateStaticParams() {
   const response = await fetch(`${BASE_URL}/posts`);
   const posts: PostType[] = await response.json();
-   return posts.map(({ id }) => ({ postId: `${id}` }));
+  return posts.map(({ id }) => ({ postId: `${id}` }));
 }
 
 export async function generateMetadata({
@@ -18,25 +18,26 @@ export async function generateMetadata({
   params: { postId: string };
 }): Promise<Metadata> {
   const response = await fetch(`${BASE_URL}/posts/${params.postId}`);
-  const post:PostType = await response.json();
+  const post: PostType = await response.json();
   return {
-    title:post.title,
-    description:post.content,
-    openGraph:{
-      images:[
+    title: post.title,
+    description: post.content,
+    openGraph: {
+      images: [
         {
-          url:post?.image
-        }
-      ]
-    }
+          url: post?.image,
+        },
+      ],
+    },
   };
 }
 
-const SinglePostPage = async({ params }: { params: { postId: string } }) => {
-    const response = await fetch(`${BASE_URL}/posts/${params.postId}`, {
-      cache: "no-cache", next: { tags: ['single-post'] } 
-    });
-    const postData = await response.json();
+const SinglePostPage = async ({ params }: { params: { postId: string } }) => {
+  const response = await fetch(`${BASE_URL}/posts/${params.postId}`, {
+    cache: 'no-cache',
+    next: { tags: ['single-post'] },
+  });
+  const postData = await response.json();
 
   return (
     <>

@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Home, Flame, ChevronDown, ChevronUp,User } from "lucide-react";
-import { useSideBarResource } from "@/hooks/useSideBarResource";
-import Seperator from "./server-components/Seperator";
-import { Plus } from "lucide-react";
-import {useForumsData} from "@/hooks/useForumsData";
-import CreateForumModal from "./client-components/CreateForumModal";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import Image from "next/image";
+import { useState } from 'react';
+import { Home, Flame, ChevronDown, ChevronUp, User } from 'lucide-react';
+import { useSideBarResource } from '@/hooks/useSideBarResource';
+import Seperator from './server-components/Seperator';
+import { Plus } from 'lucide-react';
+import { useForumsData } from '@/hooks/useForumsData';
+import CreateForumModal from './client-components/CreateForumModal';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const LeftSidebar = () => {
   const [showTopics, setShowTopics] = useState(false);
   const [showResources, setShowResources] = useState(false);
 
   const [topicsList, resourcesList] = useSideBarResource();
-  const {data:session}=useSession();
+  const { data: session } = useSession();
   const { data, isLoading } = useForumsData();
-  const [createForumModal,setCreateForumModal]=useState(false)
+  const [createForumModal, setCreateForumModal] = useState(false);
 
   return (
     <div className="hidden lg:flex lg:flex-col w-[30rem] p-2 min-h-full ">
@@ -71,7 +71,7 @@ const LeftSidebar = () => {
                   key="home"
                   className="flex justify-between cursor-pointer items-center gap-3 rounded-md font-light
            px-3 py-[0.5rem] text-[12px] tracking-wider text-gray-400 hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
-                  onClick={() => setShowTopics(prev => !prev)}
+                  onClick={() => setShowTopics((prev) => !prev)}
                 >
                   TOPICS
                   {showTopics === true ? (
@@ -106,7 +106,7 @@ const LeftSidebar = () => {
                   key="home"
                   className="flex justify-between cursor-pointer items-center gap-3 rounded-md font-light
            px-3 py-[0.5rem] text-[12px] tracking-wider text-gray-400 hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
-                  onClick={() => setShowTopics(prev => !prev)}
+                  onClick={() => setShowTopics((prev) => !prev)}
                 >
                   COMMUNITIES
                   {showTopics === true ? (
@@ -161,7 +161,7 @@ const LeftSidebar = () => {
               key="home"
               className="flex justify-between cursor-pointer items-center gap-3 rounded-md 
            px-3 py-[0.5rem] text-[12px] tracking-wider text-gray-400 font-light hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
-              onClick={() => setShowResources(prev => !prev)}
+              onClick={() => setShowResources((prev) => !prev)}
             >
               RESOURCES
               {showResources === true ? (

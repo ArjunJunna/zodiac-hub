@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Loader2, ArrowBigUp, ArrowBigDown, X } from "lucide-react";
-import { useFormStatus } from "react-dom";
+import { Button } from '@/components/ui/button';
+import { Loader2, ArrowBigUp, ArrowBigDown, X } from 'lucide-react';
+import { useFormStatus } from 'react-dom';
 
 export const SubmitButton = ({ text }: { text: string }) => {
   const { pending } = useFormStatus();
@@ -63,8 +63,7 @@ export const SubscribeButton = ({ text }: SubscribeButtonProps) => {
   return (
     <>
       {pending ? (
-        
-         <button disabled>
+        <button disabled>
           <Loader2 className="h-6 w-6 animate-spin" />
         </button>
       ) : (

@@ -1,13 +1,14 @@
-'use client'
-import {useForumsData } from "@/hooks/useForumsData";
-import React from "react";
-import SkeletonPopularCard from "./SkeletonPopularCard";
-import Image from "next/image";
+'use client';
+import { useForumsData } from '@/hooks/useForumsData';
+import React from 'react';
+import SkeletonPopularCard from './SkeletonPopularCard';
+import Image from 'next/image';
 
 const PopularSection = () => {
- 
- const { data, isLoading } = useForumsData();
- const popularForums= data?.sort((a, b) => b.subscribersCount - a.subscribersCount).slice(0, 5);
+  const { data, isLoading } = useForumsData();
+  const popularForums = data
+    ?.sort((a, b) => b.subscribersCount - a.subscribersCount)
+    .slice(0, 5);
   return (
     <div className="p-4 w-full rounded-lg border">
       <p className=" text-xs font-medium ">POPULAR COMMUNITIES</p>
@@ -26,11 +27,11 @@ const PopularSection = () => {
         "
               >
                 <Image
-                width={32}
-                height={32}
-                alt="profile avatar"
-                className="h-8 w-8 rounded-full  hover:cursor-pointer"
-                src={item.image}
+                  width={32}
+                  height={32}
+                  alt="profile avatar"
+                  className="h-8 w-8 rounded-full  hover:cursor-pointer"
+                  src={item.image}
                 />
                 <div className="flex flex-col  text-xs">
                   <p className="text-xs">{item?.name}</p>

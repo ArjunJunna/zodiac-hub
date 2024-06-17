@@ -4,6 +4,6 @@ const Footer = () => {
       Zodiac, Inc. &copy; 2024. All rights reserved.
     </div>
   );
-}
+};
 
-export default Footer
+export default Footer;

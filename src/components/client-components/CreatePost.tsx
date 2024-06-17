@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { Card, CardFooter, CardHeader } from "@/components/ui/card";
-import Image from "next/image";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { toast } from "sonner";
-import { Text, Video } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import TiptapEditor from "@/components/client-components/TipTapEditor";
-import { SubmitButton } from "@/components/client-components/SubmitButtons";
-import { UploadDropzone } from "@/components/Uploadthing";
-import { useState } from "react";
-import { createPost } from "@/actions/actions";
-import { JSONContent } from "@tiptap/react";
-import ForumPicker from "@/components/client-components/ForumPicker";
+import { Card, CardFooter, CardHeader } from '@/components/ui/card';
+import Image from 'next/image';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { toast } from 'sonner';
+import { Text, Video } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import TiptapEditor from '@/components/client-components/TipTapEditor';
+import { SubmitButton } from '@/components/client-components/SubmitButtons';
+import { UploadDropzone } from '@/components/Uploadthing';
+import { useState } from 'react';
+import { createPost } from '@/actions/actions';
+import { JSONContent } from '@tiptap/react';
+import ForumPicker from '@/components/client-components/ForumPicker';
 
 type ForumType = {
   userId: string;
@@ -34,16 +34,16 @@ const CreatePost = () => {
   };
 
   const createNewPost = async (formData: FormData) => {
-    if(selectedForum==null){
-      toast.error("Pick a community for your post.");
+    if (selectedForum == null) {
+      toast.error('Pick a community for your post.');
       return;
     }
     const status = await createPost({ jsonContent: json }, formData);
     if (status == 201) {
       resetForm();
-      toast.success("Post created successfully!");
+      toast.success('Post created successfully!');
     } else {
-      toast.error("Failed to create post.");
+      toast.error('Failed to create post.');
     }
   };
   return (
@@ -77,7 +77,7 @@ const CreatePost = () => {
               <input
                 type="hidden"
                 name="forumId"
-                value={selectedForum?.forumId ?? ""}
+                value={selectedForum?.forumId ?? ''}
               />
               <CardHeader>
                 <Label>Title</Label>
@@ -85,8 +85,8 @@ const CreatePost = () => {
                   required
                   name="title"
                   placeholder="Title"
-                  value={title ?? ""}
-                  onChange={e => setTitle(e.target.value)}
+                  value={title ?? ''}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
 
                 <TiptapEditor setJson={setJson} json={json} />
@@ -108,7 +108,7 @@ const CreatePost = () => {
               <input
                 type="hidden"
                 name="forumId"
-                value={selectedForum?.forumId ?? ""}
+                value={selectedForum?.forumId ?? ''}
               />
 
               <CardHeader>
@@ -117,18 +117,18 @@ const CreatePost = () => {
                   required
                   name="title"
                   placeholder="Title"
-                  value={title ?? ""}
-                  onChange={e => setTitle(e.target.value)}
+                  value={title ?? ''}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
                 {imageUrl === null ? (
                   <UploadDropzone
                     className="ut-button:bg-blue-600 ut-button:ut-readying:bg-blue-600/50 ut-label:text-primary ut-button:ut-uploading:bg-blue-600/50 ut-button:ut-uploading:after:bg-blue-600 ut-button:hover:cursor-pointer"
-                    onClientUploadComplete={res => {
+                    onClientUploadComplete={(res) => {
                       setImageUrl(res[0].url);
                     }}
                     endpoint="imageUploader"
                     onUploadError={() =>
-                      toast.error("Error uploading image.Try again...!")
+                      toast.error('Error uploading image.Try again...!')
                     }
                   />
                 ) : (

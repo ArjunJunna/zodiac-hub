@@ -1,13 +1,13 @@
-import ForumCard from "@/components/client-components/ForumCard";
-import { Metadata } from "next";
-import { BASE_URL } from "@/lib/Constants";
-import { ForumType } from "@/utils/types";
+import ForumCard from '@/components/client-components/ForumCard';
+import { Metadata } from 'next';
+import { BASE_URL } from '@/lib/Constants';
+import { ForumType } from '@/utils/types';
 
 export async function generateStaticParams() {
   const response = await fetch(`${BASE_URL}/forums`);
   const forums: ForumType[] = await response.json();
 
-  return forums.map(({ id }) => ({ forumId: `${id}` }))
+  return forums.map(({ id }) => ({ forumId: `${id}` }));
 }
 
 export async function generateMetadata({
@@ -34,7 +34,7 @@ const ForumPage = async ({ params }: { params: { forumId: string } }) => {
   const response = await fetch(
     `https://zodiac-hub.onrender.com/api/v1/forums/${params.forumId}`,
     {
-      cache: "no-store",
+      cache: 'no-store',
       next: { tags: [`${params.forumId}`] },
     }
   );

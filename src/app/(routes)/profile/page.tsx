@@ -1,7 +1,7 @@
-import { Metadata } from "next";
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Profile",
+  title: 'Profile',
 };
 
 const ProfilePage = () => {

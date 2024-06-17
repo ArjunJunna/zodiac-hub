@@ -2,28 +2,38 @@ import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
+} from '@/components/ui/hover-card';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import AboutForum from './AboutForum';
 import Moment from 'react-moment';
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
-type PostHeaderProps={
-    forumImage:string;
-    forumId:string;
-    forumName:string;
-    postId:string;
-    description:string;
-    subscribers:number;
-    username:string;
-    title:string;
-    createdAt:Date;
-}
+type PostHeaderProps = {
+  forumImage: string;
+  forumId: string;
+  forumName: string;
+  postId: string;
+  description: string;
+  subscribers: number;
+  username: string;
+  title: string;
+  createdAt: Date;
+};
 
-const PostHeader = ({forumImage,forumId,forumName,postId,description,subscribers,username,title,createdAt}:PostHeaderProps) => {
-      const pathname = usePathname();
-        const router = useRouter();
+const PostHeader = ({
+  forumImage,
+  forumId,
+  forumName,
+  postId,
+  description,
+  subscribers,
+  username,
+  title,
+  createdAt,
+}: PostHeaderProps) => {
+  const pathname = usePathname();
+  const router = useRouter();
   return (
     <div className="flex flex-col gap-y-1">
       <div className="flex justify-between">
@@ -37,7 +47,7 @@ const PostHeader = ({forumImage,forumId,forumName,postId,description,subscribers
           />
           <div className="flex justify-between gap-x-2 items-center">
             <div className="flex flex-col">
-              {!pathname.startsWith("/forums") ? (
+              {!pathname.startsWith('/forums') ? (
                 <HoverCard>
                   <HoverCardTrigger>
                     <p
@@ -59,7 +69,7 @@ const PostHeader = ({forumImage,forumId,forumName,postId,description,subscribers
                 </HoverCard>
               ) : null}
 
-              {pathname !== "/" ? (
+              {pathname !== '/' ? (
                 <>
                   <p className="font-normal text-[12px]  ">{username}</p>
                 </>
@@ -77,6 +87,6 @@ const PostHeader = ({forumImage,forumId,forumName,postId,description,subscribers
       <p onClick={() => router.push(`/post/${postId}`)}>{title}</p>
     </div>
   );
-}
+};
 
-export default PostHeader
+export default PostHeader;

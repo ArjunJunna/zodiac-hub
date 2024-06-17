@@ -9,88 +9,75 @@ import {
   Info,
   LayoutGrid,
   Github,
-  LucideIcon,
-} from "lucide-react";
-import React from "react";
-type SideBarList={
-    id: number;
-    name: string;
-    icon: LucideIcon;
-    path: string;
-}[]
+} from 'lucide-react';
 
 export const useSideBarResource = () => {
   const topicsList = [
     {
       id: 1,
-      name: "Gaming",
+      name: 'Gaming',
       icon: Gamepad2,
-      path: "",
+      path: '',
     },
     {
       id: 2,
-      name: "Sports",
+      name: 'Sports',
       icon: Medal,
-      path: "",
+      path: '',
     },
 
     {
       id: 3,
-      name: "Cinema",
+      name: 'Cinema',
       icon: Clapperboard,
-      path: "",
+      path: '',
     },
     {
       id: 4,
-      name: "Pets & Animals",
+      name: 'Pets & Animals',
       icon: Cat,
-      path: "",
+      path: '',
     },
     {
       id: 5,
-      name: "Art",
+      name: 'Art',
       icon: Palette,
-      path: "",
+      path: '',
     },
   ];
   const resourcesList = [
     {
       id: 1,
-      name: "Settings",
+      name: 'Settings',
       icon: Settings,
-      path: "",
+      path: '',
     },
     {
       id: 2,
-      name: "Communities",
+      name: 'Communities',
       icon: Grid2X2,
-      path: "",
+      path: '',
     },
 
     {
       id: 3,
-      name: "Topics",
+      name: 'Topics',
       icon: LayoutGrid,
-      path: "",
+      path: '',
     },
     {
       id: 4,
-      name: "About Zodiac",
+      name: 'About Zodiac',
       icon: Info,
-      path: "",
+      path: '',
     },
     {
       id: 5,
-      name: "Github Code",
+      name: 'Github Code',
       icon: Github,
-      path: "",
+      path: '',
     },
   ];
- 
-  return [
-    topicsList,
-    resourcesList,
 
-  ]
+  return [topicsList, resourcesList];
 };
-

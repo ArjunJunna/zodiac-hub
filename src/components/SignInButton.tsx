@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import React, { useState } from "react";
-import AuthModal from "./client-components/AuthModal";
-import { Button } from "./ui/button";
+import Link from 'next/link';
+import React, { useState } from 'react';
+import AuthModal from './client-components/AuthModal';
+import { Button } from './ui/button';
 
 const SignInButton = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   return (
-    <div className='space-x-2' >
+    <div className="space-x-2">
       <Button asChild>
         <Link href="/api/auth/signin">Sign In</Link>
       </Button>
