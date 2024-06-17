@@ -17,7 +17,8 @@ import PostHeader from './PostHeader';
 
 type PostProps = {
   postData: PostType;
-  postComment: () => Promise<number | undefined>;
+  // eslint-disable-next-line no-unused-vars
+  postComment: (formData: FormData) => Promise<number | undefined>;
 };
 
 const Post = ({ postData, postComment }: PostProps) => {

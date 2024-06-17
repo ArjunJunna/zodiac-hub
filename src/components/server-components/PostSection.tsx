@@ -7,7 +7,8 @@ import { SkeletonPost } from '../client-components/SkeletonPost';
 import React from 'react';
 
 type PostSectionProps = {
-  postComment: () => Promise<number | undefined>;
+  // eslint-disable-next-line no-unused-vars
+  postComment: (formData: FormData) => Promise<number | undefined>;
 };
 
 const PostSection = ({ postComment }: PostSectionProps) => {

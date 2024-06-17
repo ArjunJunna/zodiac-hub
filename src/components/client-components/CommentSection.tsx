@@ -5,7 +5,8 @@ import Seperator from '../server-components/Seperator';
 import { CommentType } from '@/utils/types';
 
 type CommentSectionProps = {
-  postComment: () => Promise<number | undefined>;
+  // eslint-disable-next-line no-unused-vars
+  postComment: (formData: FormData) => Promise<number | undefined>;
   id: string;
   comments: CommentType[];
 };
