@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
+import * as React from 'react';
+import { Moon, Sun } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
-import { useSession } from "next-auth/react";
+} from '@/components/ui/dropdown-menu';
+import { cn } from '@/lib/utils';
+import { useSession } from 'next-auth/react';
 
 export function ThemeSwitcherBtn() {
   const { setTheme } = useTheme();
-  const {data:session}=useSession();
+  const { data: session } = useSession();
 
   return (
     <DropdownMenu>
@@ -24,7 +24,7 @@ export function ThemeSwitcherBtn() {
         <Button
           variant="outline"
           size="icon"
-          className={cn("rounded-full", session?.user.token ? "hidden" : "")}
+          className={cn('rounded-full', session?.user.token ? 'hidden' : '')}
         >
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
@@ -32,13 +32,13 @@ export function ThemeSwitcherBtn() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
+        <DropdownMenuItem onClick={() => setTheme('light')}>
           Light
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
+        <DropdownMenuItem onClick={() => setTheme('dark')}>
           Dark
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
+        <DropdownMenuItem onClick={() => setTheme('system')}>
           System
         </DropdownMenuItem>
       </DropdownMenuContent>

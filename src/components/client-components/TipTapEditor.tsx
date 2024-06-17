@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
 import {
   useEditor,
   type Editor,
   EditorContent,
   JSONContent,
-} from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import { Button } from "../ui/button";
+} from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import { Button } from '../ui/button';
 
 export const Menubar = ({ editor }: { editor: Editor | null }) => {
   if (!editor) {
@@ -20,7 +20,7 @@ export const Menubar = ({ editor }: { editor: Editor | null }) => {
         type="button"
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         variant={
-          editor.isActive("heading", { level: 1 }) ? "default" : "secondary"
+          editor.isActive('heading', { level: 1 }) ? 'default' : 'secondary'
         }
       >
         H1
@@ -29,7 +29,7 @@ export const Menubar = ({ editor }: { editor: Editor | null }) => {
         type="button"
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
         variant={
-          editor.isActive("heading", { level: 2 }) ? "default" : "secondary"
+          editor.isActive('heading', { level: 2 }) ? 'default' : 'secondary'
         }
       >
         H2
@@ -38,7 +38,7 @@ export const Menubar = ({ editor }: { editor: Editor | null }) => {
         type="button"
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
         variant={
-          editor.isActive("heading", { level: 3 }) ? "default" : "secondary"
+          editor.isActive('heading', { level: 3 }) ? 'default' : 'secondary'
         }
       >
         H3
@@ -46,21 +46,21 @@ export const Menubar = ({ editor }: { editor: Editor | null }) => {
       <Button
         type="button"
         onClick={() => editor.chain().focus().toggleBold().run()}
-        variant={editor.isActive("bold") ? "default" : "secondary"}
+        variant={editor.isActive('bold') ? 'default' : 'secondary'}
       >
         Bold
       </Button>
       <Button
         type="button"
         onClick={() => editor.chain().focus().toggleItalic().run()}
-        variant={editor.isActive("italic") ? "default" : "secondary"}
+        variant={editor.isActive('italic') ? 'default' : 'secondary'}
       >
         Italic
       </Button>
       <Button
         type="button"
         onClick={() => editor.chain().focus().toggleStrike().run()}
-        variant={editor.isActive("strike") ? "default" : "secondary"}
+        variant={editor.isActive('strike') ? 'default' : 'secondary'}
       >
         Strike
       </Button>
@@ -75,29 +75,29 @@ const TiptapEditor = ({
   setJson: any;
   json: JSONContent | null;
 }) => {
-   const editor = useEditor({
-     extensions: [StarterKit],
-     content: json ?? "<p>Write your post here...</p>",
-     editorProps: {
-       attributes: {
-         class: "prose",
-       },
-     },
-     onUpdate: ({ editor }) => {
-       const json = editor.getJSON();
-       setJson(json);
-     },
-   });
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: json ?? '<p>Write your post here...</p>',
+    editorProps: {
+      attributes: {
+        class: 'prose',
+      },
+    },
+    onUpdate: ({ editor }) => {
+      const json = editor.getJSON();
+      setJson(json);
+    },
+  });
 
-   return (
-     <div>
-       <Menubar editor={editor} />
-       <EditorContent
-         editor={editor}
-         className="rounded-lg border p-2 min-h-[150px] mt-2"
-       />
-     </div>
-   );
+  return (
+    <div>
+      <Menubar editor={editor} />
+      <EditorContent
+        editor={editor}
+        className="rounded-lg border p-2 min-h-[150px] mt-2"
+      />
+    </div>
+  );
 };
 
 export default TiptapEditor;

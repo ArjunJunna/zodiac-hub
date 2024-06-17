@@ -1,31 +1,30 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { LogOut, Menu, Plus, User } from "lucide-react";
-import React, { useState } from "react";
-import Image from "next/image";
-import { Home, Flame, ChevronDown, ChevronUp } from "lucide-react";
-import { useSideBarResource } from "@/hooks/useSideBarResource";
-import Footer from "../server-components/Footer";
-import Seperator from "../server-components/Seperator";
-import Link from "next/link";
-import { useSession } from "next-auth/react";
-import { useForumsData } from "@/hooks/useForumsData";
-import CreateForumModal from "./CreateForumModal";
-import CreatePostButton from "./CreatePostButton";
-import SignInButton from "../SignInButton";
-import { ThemeSwitcherBtn } from "../ThemeSwitcherBtn";
-import { signOut } from "next-auth/react";
-import UserAvatar from "./UserAvatar";
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { LogOut, Menu, Plus, User } from 'lucide-react';
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { Home, Flame, ChevronDown, ChevronUp } from 'lucide-react';
+import { useSideBarResource } from '@/hooks/useSideBarResource';
+import Seperator from '../server-components/Seperator';
+import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import { useForumsData } from '@/hooks/useForumsData';
+import CreateForumModal from './CreateForumModal';
+import CreatePostButton from './CreatePostButton';
+import SignInButton from '../SignInButton';
+import { ThemeSwitcherBtn } from '../ThemeSwitcherBtn';
+import { signOut } from 'next-auth/react';
+import UserAvatar from './UserAvatar';
 
 export default function MobileNavbar() {
-   const { data: session } = useSession();
+  const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [showTopics, setShowTopics] = useState(false);
   const [showResources, setShowResources] = useState(false);
-   const { data, isLoading } = useForumsData();
-   const [createForumModal, setCreateForumModal] = useState(false);
+  const { data, isLoading } = useForumsData();
+  const [createForumModal, setCreateForumModal] = useState(false);
 
   const [topicsList, resourcesList] = useSideBarResource();
 
@@ -34,14 +33,14 @@ export default function MobileNavbar() {
       <nav className="container flex items-center justify-between px-8 h-[3.25rem]">
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
-            <Button variant={"ghost"} size={"icon"}>
+            <Button variant={'ghost'} size={'icon'}>
               <Menu />
             </Button>
           </SheetTrigger>
           <SheetContent className="w-[300px] sm:w-[430px]" side="left">
             <div className="flex justify-between space-x-2 mt-4">
               <Image
-                src={"/zodiac-logo.png"}
+                src={'/zodiac-logo.png'}
                 alt="zodiac-logo"
                 height={40}
                 width={60}
@@ -101,7 +100,7 @@ export default function MobileNavbar() {
                         key="home"
                         className="flex justify-between cursor-pointer items-center gap-3 rounded-md font-light
            px-3 py-[0.5rem] text-[12px] tracking-wider text-gray-400 hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
-                        onClick={() => setShowTopics(prev => !prev)}
+                        onClick={() => setShowTopics((prev) => !prev)}
                       >
                         TOPICS
                         {showTopics === true ? (
@@ -136,7 +135,7 @@ export default function MobileNavbar() {
                         key="home"
                         className="flex justify-between cursor-pointer items-center gap-3 rounded-md font-light
            px-3 py-[0.5rem] text-[12px] tracking-wider text-gray-400 hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
-                        onClick={() => setShowTopics(prev => !prev)}
+                        onClick={() => setShowTopics((prev) => !prev)}
                       >
                         COMMUNITIES
                         {showTopics === true ? (
@@ -185,7 +184,7 @@ export default function MobileNavbar() {
                     key="home"
                     className="flex justify-between cursor-pointer items-center gap-3 rounded-md 
            px-3 py-[0.5rem] text-[12px] tracking-wider text-gray-400 font-light hover:bg-gray-200/50 dark:hover:bg-primary-foreground"
-                    onClick={() => setShowResources(prev => !prev)}
+                    onClick={() => setShowResources((prev) => !prev)}
                   >
                     RESOURCES
                     {showResources === true ? (

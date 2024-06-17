@@ -2,17 +2,17 @@ import {
   NodeHandler,
   NodeHandlers,
   TipTapRender,
-} from "@troop.com/tiptap-react-render";
+} from '@troop.com/tiptap-react-render';
 
-const doc: NodeHandler = props => {
+const doc: NodeHandler = (props) => {
   return <>{props.children}</>;
 };
 
-const paragraph: NodeHandler = props => {
+const paragraph: NodeHandler = (props) => {
   return <p>{props.children}</p>;
 };
 
-const text: NodeHandler = props => {
+const text: NodeHandler = (props) => {
   return <span>{props.node.text}</span>;
 };
 
@@ -23,7 +23,7 @@ const handlers: NodeHandlers = {
 };
 
 export function RenderToJson({ data }: { data: any }) {
-  const postData=JSON.parse(data);
+  const postData = JSON.parse(data);
   return (
     <div className="px-2 pt-2 prose dark:prose-invert text-sm">
       <TipTapRender handlers={handlers} node={postData} />

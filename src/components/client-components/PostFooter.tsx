@@ -1,15 +1,21 @@
-import React from 'react'
+import React from 'react';
 import { DownVoteButton, UpVoteButton } from './SubmitButtons';
-import { MessageSquare, Share } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 
 type PostFooterProps = {
+  // eslint-disable-next-line no-unused-vars
   handleSubmit: (formData: FormData) => Promise<void>;
-  postId:string;
-  voteCount:number;
-  commentsCount:number
+  postId: string;
+  voteCount: number;
+  commentsCount: number;
 };
 
-const PostFooter = ({handleSubmit,postId,voteCount,commentsCount}:PostFooterProps) => {
+const PostFooter = ({
+  handleSubmit,
+  postId,
+  voteCount,
+  commentsCount,
+}: PostFooterProps) => {
   return (
     <div className="flex justify-between pt-1 ">
       <div className="flex gap-x-3 items-center justify-center">
@@ -38,6 +44,6 @@ const PostFooter = ({handleSubmit,postId,voteCount,commentsCount}:PostFooterProp
     </button>*/}
     </div>
   );
-}
+};
 
-export default PostFooter
+export default PostFooter;

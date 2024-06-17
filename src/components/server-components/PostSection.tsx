@@ -1,18 +1,17 @@
-"use client"
+'use client';
 
-import Post from "../client-components/Post";
-import Seperator from "./Seperator";
-import usePostsData from "@/hooks/usePostsData";
-import { SkeletonPost } from "../client-components/SkeletonPost";
-import React from "react";
+import Post from '../client-components/Post';
+import Seperator from './Seperator';
+import usePostsData from '@/hooks/usePostsData';
+import { SkeletonPost } from '../client-components/SkeletonPost';
+import React from 'react';
 
 type PostSectionProps = {
-  postComment: (formData: FormData) => Promise<number | undefined>;
+  postComment: () => Promise<number | undefined>;
 };
 
-const PostSection = ({postComment}:PostSectionProps) => {
-
-  const {data,isLoading}=usePostsData();
+const PostSection = ({ postComment }: PostSectionProps) => {
+  const { data, isLoading } = usePostsData();
 
   return (
     <div className="flex flex-col gap-1">
@@ -23,14 +22,14 @@ const PostSection = ({postComment}:PostSectionProps) => {
               <Seperator />
             </React.Fragment>
           ))
-        : data?.map(post => (
+        : data?.map((post) => (
             <>
-              <Post postData={post} postComment={postComment}/>
+              <Post postData={post} postComment={postComment} />
               <Seperator />
             </>
           ))}
     </div>
   );
-}
+};
 
-export default PostSection
+export default PostSection;

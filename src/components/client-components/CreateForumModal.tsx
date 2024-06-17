@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { z } from "zod";
-import { Dispatch, SetStateAction, useState } from "react";
-import { X } from "lucide-react";
-import { UploadDropzone } from "../Uploadthing";
-import { CreateForumSchema } from "@/lib/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { ButtonLoading } from "./LoadingButton";
-import { toast } from "sonner";
-import { cn } from "@/lib/utils";
-import { createForum } from "@/actions/actions";
-import Image from "next/image";
-import { useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
+import { z } from 'zod';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { X } from 'lucide-react';
+import { UploadDropzone } from '../Uploadthing';
+import { CreateForumSchema } from '@/lib/schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { ButtonLoading } from './LoadingButton';
+import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
+import { createForum } from '@/actions/actions';
+import Image from 'next/image';
+import { useQueryClient } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
 
 type CreateForumModalProps = {
   setCreateForumModal: Dispatch<SetStateAction<boolean>>;
@@ -22,49 +22,49 @@ type CreateForumModalProps = {
 type Inputs = z.infer<typeof CreateForumSchema>;
 
 const CreateForumModal = ({ setCreateForumModal }: CreateForumModalProps) => {
-   const {
-     register,
-     handleSubmit,
-     reset,
-     formState: { errors, isSubmitting},
-   } = useForm<Inputs>({
-     resolver: zodResolver(CreateForumSchema),
-   });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<Inputs>({
+    resolver: zodResolver(CreateForumSchema),
+  });
 
-    const { data: session } = useSession();
-    const userId=session?.user.id as string;
-   const queryClient = useQueryClient();
-   const [imageUrl, setImageUrl] = useState<null | string>(null);
-  
-   const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
-    if(imageUrl!==''){
-      const postData={imageUrl,userId,...data}
-      const responseStatus=await createForum(postData);
-      if(responseStatus==201){
+  const { data: session } = useSession();
+  const userId = session?.user.id as string;
+  const queryClient = useQueryClient();
+  const [imageUrl, setImageUrl] = useState<null | string>(null);
+
+  const onSubmit: SubmitHandler<Inputs> = async (data: Inputs) => {
+    if (imageUrl !== '') {
+      const postData = { imageUrl, userId, ...data };
+      const responseStatus = await createForum(postData);
+      if (responseStatus == 201) {
         toast.success(`Community added.`);
-        queryClient.invalidateQueries({ queryKey: ["forums"] });
+        queryClient.invalidateQueries({ queryKey: ['forums'] });
         setCreateForumModal(false);
-      }else{
-        reset()
-        toast.error('Forum name already exists.')
+      } else {
+        reset();
+        toast.error('Forum name already exists.');
       }
     }
-   };
+  };
   return (
     <div
       className="fixed z-40 flex justify-center items-center inset-0 bg-slate-900/[0.8]"
-      onClick={e => {
+      onClick={(e) => {
         e.stopPropagation();
         setCreateForumModal(false);
       }}
     >
       <div
         className="flex flex-col rounded-md shadow-md bg-white dark:bg-gray-900 p-2 w-3/4 sm:w-2/3 md:1/3 lg:w-1/4"
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         <form
           className="space-y-0.5 mb-0"
-          onSubmit={e => {
+          onSubmit={(e) => {
             e.preventDefault();
             handleSubmit(onSubmit)();
           }}
@@ -85,12 +85,12 @@ const CreateForumModal = ({ setCreateForumModal }: CreateForumModalProps) => {
               {imageUrl === null ? (
                 <UploadDropzone
                   className="ut-button:bg-blue-600 ut-button:ut-readying:bg-blue-600/50 ut-label:text-primary ut-button:ut-uploading:bg-blue-600/50 ut-button:ut-uploading:after:bg-blue-600 ut-button:hover:cursor-pointer"
-                  onClientUploadComplete={res => {
+                  onClientUploadComplete={(res) => {
                     setImageUrl(res[0].url);
                   }}
                   endpoint="imageUploader"
                   onUploadError={() =>
-                    toast.error("Error uploading image.Try again...!")
+                    toast.error('Error uploading image.Try again...!')
                   }
                 />
               ) : (
@@ -103,7 +103,7 @@ const CreateForumModal = ({ setCreateForumModal }: CreateForumModalProps) => {
                 />
               )}
             </div>
-            {imageUrl === "" && (
+            {imageUrl === '' && (
               <p className="text-sm text-red-400">Uploading image is must.</p>
             )}
             <div>
@@ -114,7 +114,7 @@ const CreateForumModal = ({ setCreateForumModal }: CreateForumModalProps) => {
             "
                 required
                 placeholder="Community Name"
-                {...register("communityName")}
+                {...register('communityName')}
               />
               {errors?.communityName?.message && (
                 <p className="text-sm text-red-400">
@@ -127,7 +127,7 @@ const CreateForumModal = ({ setCreateForumModal }: CreateForumModalProps) => {
                 className="w-full break-all outline-none text-base mb-1.5 h-[10rem]   border  p-2 rounded-lg dark:bg-gray-700 bg-gray-50 border-gray-300 text-gray-900 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white
             dark:focus:border-blue-500 focus:border-blue-500"
                 placeholder="Write description here..."
-                {...register("description")}
+                {...register('description')}
               ></textarea>
               {errors?.description?.message && (
                 <p className="text-sm text-red-400">
@@ -140,7 +140,7 @@ const CreateForumModal = ({ setCreateForumModal }: CreateForumModalProps) => {
               <button
                 type="button"
                 className="focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-gray-900 hover:text-white dark:text-white dark:hover:text-white hover:bg-blue-800"
-                onClick={e => {
+                onClick={(e) => {
                   e.stopPropagation();
                   setCreateForumModal(false);
                 }}
@@ -153,8 +153,8 @@ const CreateForumModal = ({ setCreateForumModal }: CreateForumModalProps) => {
                 <button
                   type="submit"
                   className={cn(
-                    "bg-blue-600 rounded-lg py-1 px-5 font-medium text-white hover:bg-blue-800",
-                    imageUrl === "" ? "cursor-not-allowed" : ""
+                    'bg-blue-600 rounded-lg py-1 px-5 font-medium text-white hover:bg-blue-800',
+                    imageUrl === '' ? 'cursor-not-allowed' : ''
                   )}
                   disabled={!imageUrl}
                 >

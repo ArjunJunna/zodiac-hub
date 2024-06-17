@@ -1,4 +1,4 @@
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from '../ui/skeleton';
 
 const SkeletonAboutForumCard = () => {
   return (
@@ -12,6 +12,6 @@ const SkeletonAboutForumCard = () => {
       <Skeleton className="h-8 w-20" />
     </div>
   );
-}
+};
 
-export default SkeletonAboutForumCard
+export default SkeletonAboutForumCard;

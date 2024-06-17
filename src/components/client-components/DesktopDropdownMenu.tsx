@@ -1,28 +1,27 @@
-"use client";
+'use client';
 
-import { Menu, UserRound, Moon, LogOut } from "lucide-react";
+import { Menu, UserRound, Moon, LogOut } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
-import { Switch } from "@/components/ui/switch";
-import { useTheme } from "next-themes";
-import { useSession } from "next-auth/react";
-import { signOut } from "next-auth/react";
+} from '@/components/ui/dropdown-menu';
+import { cn } from '@/lib/utils';
+import { Switch } from '@/components/ui/switch';
+import { useTheme } from 'next-themes';
+import { useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 
 const DesktopDropdownMenu = () => {
-
   const { setTheme, theme } = useTheme();
-    const { data: session } = useSession();
+  const { data: session } = useSession();
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Menu
-            className={cn("h-6 w-4", session?.user.token ? "flex" : "hidden")}
+            className={cn('h-6 w-4', session?.user.token ? 'flex' : 'hidden')}
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
@@ -35,7 +34,7 @@ const DesktopDropdownMenu = () => {
             Change Theme
             <Switch
               onCheckedChange={() => {
-                theme === "light" ? setTheme("dark") : setTheme("light");
+                theme === 'light' ? setTheme('dark') : setTheme('light');
               }}
               className="ml-3"
             />
@@ -43,7 +42,7 @@ const DesktopDropdownMenu = () => {
 
           <DropdownMenuItem
             onClick={() => {
-              signOut()
+              signOut();
             }}
           >
             <LogOut className="h-4 w-4 mr-3" />

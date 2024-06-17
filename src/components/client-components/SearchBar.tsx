@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { usePathname, useRouter } from 'next/navigation';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Command,
   CommandEmpty,
@@ -11,22 +11,22 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
-import { Users } from "lucide-react";
-import { ExtendedCreatedForumType } from "@/utils/types";
-import useOnClickOutside from "@/hooks/useOnClickOutside";
+} from '@/components/ui/command';
+import { Users } from 'lucide-react';
+import { ExtendedCreatedForumType } from '@/utils/types';
+import useOnClickOutside from '@/hooks/useOnClickOutside';
 
 const SearchBar = () => {
-  const [input, setInput] = useState<string>("");
+  const [input, setInput] = useState<string>('');
   const pathname = usePathname();
   const commandRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   useOnClickOutside(commandRef, () => {
-    setInput("");
+    setInput('');
   });
-  const debounce = (func:any, delay:number) => {
-    let timer:any;
+  const debounce = (func: any, delay: number) => {
+    let timer: any;
     return () => {
       clearTimeout(timer);
       timer = setTimeout(() => {
@@ -39,8 +39,9 @@ const SearchBar = () => {
     refetch();
   }, 300);
 
- const debounceRequest = useCallback(() => {
+  const debounceRequest = useCallback(() => {
     request();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const {
@@ -55,12 +56,12 @@ const SearchBar = () => {
       );
       return data;
     },
-    queryKey: ["search-query"],
+    queryKey: ['search-query'],
     enabled: false,
   });
 
   useEffect(() => {
-    setInput("");
+    setInput('');
   }, [pathname]);
 
   return (
@@ -69,7 +70,7 @@ const SearchBar = () => {
       className="relative rounded-2xl border max-w-lg z-50 overflow-visible"
     >
       <CommandInput
-        onValueChange={text => {
+        onValueChange={(text) => {
           setInput(text);
           debounceRequest();
         }}
@@ -83,9 +84,9 @@ const SearchBar = () => {
           {isFetched && <CommandEmpty>No results found.</CommandEmpty>}
           {(queryResults?.length ?? 0) > 0 ? (
             <CommandGroup heading="Communities">
-              {queryResults?.map(forum => (
+              {queryResults?.map((forum) => (
                 <CommandItem
-                  onSelect={e => {
+                  onSelect={() => {
                     router.push(`/forums/${forum.id}`);
                     router.refresh();
                   }}

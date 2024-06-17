@@ -1,4 +1,12 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from 'react';
+
+// eslint-disable-next-line no-unused-vars
+enum VoteType {
+  // eslint-disable-next-line no-unused-vars
+  UP = 'UP',
+  // eslint-disable-next-line no-unused-vars
+  DOWN = 'DOWN',
+}
 
 export type PostType = {
   id: string;
@@ -26,11 +34,6 @@ export type PostType = {
     type: VoteType;
   }[];
 };
-
-enum VoteType {
-  UP = "UP",
-  DOWN = "DOWN",
-}
 
 export type Votes = {
   type: VoteType;
@@ -99,7 +102,7 @@ export type SubscriptionType = {
 export type UserVoteType = {
   userId: string;
   postId: string;
-  type: "UP" | "DOWN";
+  type: 'UP' | 'DOWN';
 };
 export type UserCommentType = {
   id: string;

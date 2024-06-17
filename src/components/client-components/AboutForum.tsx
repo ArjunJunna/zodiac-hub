@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import AuthModal from "./AuthModal";
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import SubscriptionForm from "./SubscriptionForm";
-import { PostType, SubscriptionType } from "@/utils/types";
+import AuthModal from './AuthModal';
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import SubscriptionForm from './SubscriptionForm';
+import { PostType, SubscriptionType } from '@/utils/types';
 
 type Forum = {
   id: string;
@@ -30,7 +30,6 @@ type AboutForumProps = {
 };
 
 const AboutForum = ({
-  postId,
   forumId,
   forumName,
   description,
@@ -57,8 +56,8 @@ const AboutForum = ({
   const text = forumData?.subscribers
     ?.map((sub: any) => sub.userId)
     .includes(session?.user.id)
-    ? "Leave"
-    : "Join";
+    ? 'Leave'
+    : 'Join';
 
   const [showAuthModal, setShowAuthModal] = useState(false);
 

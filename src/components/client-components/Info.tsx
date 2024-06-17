@@ -1,17 +1,15 @@
-"use client";
+'use client';
 
-import { usePathname } from "next/navigation";
-import PopularSection from "./PopularSection";
+import { usePathname } from 'next/navigation';
+import PopularSection from './PopularSection';
 
 const Info = () => {
   const pathname = usePathname();
   return (
     <div className="sticky top-16">
-      {pathname.startsWith("/f") ? null : pathname === "/" ? (
+      {pathname.startsWith('/f') ? null : pathname === '/' ? (
         <PopularSection />
-      ) : (
-        null
-      )}
+      ) : null}
     </div>
   );
 };

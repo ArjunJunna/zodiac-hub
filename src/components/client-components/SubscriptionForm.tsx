@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { SubscribeButton } from "@/components/client-components/SubmitButtons";
-import { toast } from "sonner";
-import { handleSubscription } from "@/actions/actions";
-import { useSession } from "next-auth/react";
-import AuthModal from "./AuthModal";
+import React, { useState } from 'react';
+import { SubscribeButton } from '@/components/client-components/SubmitButtons';
+import { toast } from 'sonner';
+import { handleSubscription } from '@/actions/actions';
+import { useSession } from 'next-auth/react';
+import AuthModal from './AuthModal';
 
 type SubscribeProps = {
   forumId: string;
@@ -22,7 +22,7 @@ const SubscriptionForm = ({ forumId, initialText }: SubscribeProps) => {
       if (response?.status === 201) {
         toast(response?.data?.message);
         setButtonText(
-          response?.data?.message === "Subscribed" ? "Leave" : "Join"
+          response?.data?.message === 'Subscribed' ? 'Leave' : 'Join'
         );
       }
     } else {

@@ -1,16 +1,15 @@
-"use server";
+'use server';
 
-import { z } from "zod";
-import { BASE_URL } from "@/lib/Constants";
-import { SigninFormSchema, SignupFormSchema } from "@/lib/schema";
-import { publicRequest } from "@/requestMethods";
-import axios from "axios";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/authOptions";
-import { JSONContent } from "@tiptap/react";
-import { redirect } from "next/navigation";
-import { CommentType } from "@/utils/types";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { z } from 'zod';
+import { BASE_URL } from '@/lib/Constants';
+import { SigninFormSchema, SignupFormSchema } from '@/lib/schema';
+import { publicRequest } from '@/requestMethods';
+import axios from 'axios';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/authOptions';
+import { JSONContent } from '@tiptap/react';
+import { CommentType } from '@/utils/types';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 type SigninInputs = z.infer<typeof SigninFormSchema>;
 type SignupInputs = z.infer<typeof SignupFormSchema>;
@@ -21,20 +20,20 @@ export const postSignin = async (formData: SigninInputs) => {
     if (result.success) {
       const { data } = result;
 
-      const response = await publicRequest.post("/auth/login", data);
+      const response = await publicRequest.post('/auth/login', data);
       const { data: userDetails, status } = response;
       if (status === 201) {
         return { status: true, data: userDetails };
       }
       if (status === 401) {
-        return { status: false, data: "Invalid Credentials" };
+        return { status: false, data: 'Invalid Credentials' };
       }
     }
     if (result.error) {
       return { status: false, data: result.error.format() };
     }
   } catch (error) {
-    return { status: false, data: "Invalid Credentials" };
+    return { status: false, data: 'Invalid Credentials' };
   }
 };
 
@@ -44,7 +43,7 @@ export const postSignup = async (formData: SignupInputs) => {
     if (result.success) {
       const { data } = result;
 
-      const response = await publicRequest.post("/users", data);
+      const response = await publicRequest.post('/users', data);
       const { data: userData, status } = response;
       console.log(userData, status);
       if (status === 201) {
@@ -55,14 +54,14 @@ export const postSignup = async (formData: SignupInputs) => {
       return { status: false, data: result.error.format() };
     }
   } catch (error) {
-    return { status: false, data: "Invalid Credentials" };
+    return { status: false, data: 'Invalid Credentials' };
   }
 };
 
 export const fetchUserData = async (userId: string) => {
   const session = await getServerSession(authOptions);
   try {
-    console.log("userId");
+    console.log('userId');
     const response = await axios.get(`${BASE_URL}/users/${userId}`, {
       headers: {
         Authorization: `Bearer ${session?.user.token}`,
@@ -71,7 +70,7 @@ export const fetchUserData = async (userId: string) => {
     return response.data;
   } catch (error) {
     console.log(error);
-    throw new Error("Failed to fetch user data");
+    throw new Error('Failed to fetch user data');
   }
 };
 
@@ -91,20 +90,16 @@ export const createForum = async (forumData: CreateForumType) => {
     image: forumData.imageUrl,
   };
   try {
-    const response = await axios.post(
-      `${BASE_URL}/forums`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${session?.user.token}`,
-        },
-      }
-    );
+    const response = await axios.post(`${BASE_URL}/forums`, data, {
+      headers: {
+        Authorization: `Bearer ${session?.user.token}`,
+      },
+    });
     return response.status;
   } catch (error) {
     console.log(error);
   }
-  revalidatePath("/");
+  revalidatePath('/');
 };
 
 export const createPost = async (
@@ -113,9 +108,9 @@ export const createPost = async (
 ) => {
   const session = await getServerSession(authOptions);
   try {
-    const forumId = formData.get("forumId") as string;
-    const title = formData.get("title") as string;
-    const image = formData.get("imageUrl") as string | null;
+    const forumId = formData.get('forumId') as string;
+    const title = formData.get('title') as string;
+    const image = formData.get('imageUrl') as string | null;
     const authorId = session?.user.id;
     const content = JSON.stringify(jsonContent);
     const postData = {
@@ -141,10 +136,10 @@ export const handlePostVote = async (formData: FormData) => {
   if (!session) {
     return 404;
   }
-  const postId = formData.get("postId") as string;
-  const voteDirection = formData.get("voteDirection") as string;
+  const postId = formData.get('postId') as string;
+  const voteDirection = formData.get('voteDirection') as string;
   try {
-    if (voteDirection == "UP") {
+    if (voteDirection == 'UP') {
       const response = await axios.post(
         `${BASE_URL}/posts/${postId}/upvote`,
         { userId: session?.user.id, type: voteDirection },
@@ -154,7 +149,7 @@ export const handlePostVote = async (formData: FormData) => {
           },
         }
       );
-      revalidatePath("/", "page");
+      revalidatePath('/', 'page');
       return response.status;
     } else {
       const response = await axios.delete(
@@ -166,7 +161,7 @@ export const handlePostVote = async (formData: FormData) => {
           },
         }
       );
-      revalidatePath("/", "layout");
+      revalidatePath('/', 'layout');
       return response.status;
     }
   } catch (error) {
@@ -178,10 +173,10 @@ export const handleCommentVote = async (formData: FormData) => {
   if (!session) {
     return 404;
   }
-  const commentId = formData.get("commentId") as string;
-  const voteDirection = formData.get("voteDirection") as string;
+  const commentId = formData.get('commentId') as string;
+  const voteDirection = formData.get('voteDirection') as string;
   try {
-    if (voteDirection == "UP") {
+    if (voteDirection == 'UP') {
       const response = await axios.post(
         `${BASE_URL}/comments/${commentId}/vote`,
         { userId: session?.user.id, type: voteDirection },
@@ -191,7 +186,7 @@ export const handleCommentVote = async (formData: FormData) => {
           },
         }
       );
-      revalidatePath("/", "page");
+      revalidatePath('/', 'page');
       return response.status;
     } else {
       const response = await axios.delete(
@@ -203,7 +198,7 @@ export const handleCommentVote = async (formData: FormData) => {
           },
         }
       );
-      revalidatePath("/(routes)/post/[postId]", "page");
+      revalidatePath('/(routes)/post/[postId]', 'page');
       return response.status;
     }
   } catch (error) {
@@ -213,7 +208,7 @@ export const handleCommentVote = async (formData: FormData) => {
 
 export const handleSubscription = async (formData: FormData) => {
   const session = await getServerSession(authOptions);
-  const forumId = formData.get("forumId") as string;
+  const forumId = formData.get('forumId') as string;
   try {
     const { data, status } = await axios.post(
       `${BASE_URL}/forums/${forumId}/subscription`,
@@ -224,7 +219,7 @@ export const handleSubscription = async (formData: FormData) => {
         },
       }
     );
-    
+
     revalidatePath(`/forums/${forumId}`);
     return { data, status };
   } catch (error) {
@@ -235,83 +230,78 @@ export const handleSubscription = async (formData: FormData) => {
 export const fetchForumById = async (forumId: string) => {
   try {
     const session = await getServerSession(authOptions);
-    const response = await axios.get(
-      `${BASE_URL}/forums/${forumId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${session?.user.token}`,
-        },
-      }
-    );
+    const response = await axios.get(`${BASE_URL}/forums/${forumId}`, {
+      headers: {
+        Authorization: `Bearer ${session?.user.token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const getAllCommentsOnPostById = async (postId: string):Promise<CommentType[] | undefined> => {
+export const getAllCommentsOnPostById = async (
+  postId: string
+): Promise<CommentType[] | undefined> => {
   try {
     const session = await getServerSession(authOptions);
-    const response = await fetch(
-      `${BASE_URL}/posts/${postId}/comments`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${session?.user.token}`,
-        },
-      }
-    );
+    const response = await fetch(`${BASE_URL}/posts/${postId}/comments`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${session?.user.token}`,
+      },
+    });
     const data = await response.json();
-    console.log(data,session)
+    console.log(data, session);
     return data;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const postComment=async(formData:FormData)=>{
+export const postComment = async (formData: FormData) => {
   try {
     const session = await getServerSession(authOptions);
-    const postId=formData.get('postId')
-    const replyToId = formData.get("replyToId");
-    const data={
-      postId:formData.get('postId'),
-      authorId:session?.user.id,
-      text:formData.get('text'),
-      replyToId:formData.get('replyToId')
-    }
-     const response = await axios.post(
-       `${BASE_URL}/posts/${postId}/comment`,
-       data,
-       {
-         headers: {
-           Authorization: `Bearer ${session?.user.token}`,
-         },
-       }
-     );
-     revalidateTag('single-post');
-     console.log('response',response);
-   
-     return response.status
+    const postId = formData.get('postId');
+    const data = {
+      postId: formData.get('postId'),
+      authorId: session?.user.id,
+      text: formData.get('text'),
+      replyToId: formData.get('replyToId'),
+    };
+    const response = await axios.post(
+      `${BASE_URL}/posts/${postId}/comment`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${session?.user.token}`,
+        },
+      }
+    );
+    revalidateTag('single-post');
+    console.log('response', response);
+
+    return response.status;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const deleteComment = async (formData: FormData) => {
   try {
     const session = await getServerSession(authOptions);
-    const commentId = formData.get("commentId");
+    const commentId = formData.get('commentId');
     const data = {
-      userId:session?.user.id,
+      userId: session?.user.id,
     };
-  const response = await axios.delete(`${BASE_URL}/comments/${commentId}`, {
-    headers: {
-      Authorization: `Bearer ${session?.user.token}`,
-    },
-    data: data,
-  });
-    revalidateTag("single-post");
+    const response = await axios.delete(`${BASE_URL}/comments/${commentId}`, {
+      headers: {
+        Authorization: `Bearer ${session?.user.token}`,
+      },
+      data: data,
+    });
+    revalidateTag('single-post');
     return response.status;
   } catch (error) {
     console.log(error);

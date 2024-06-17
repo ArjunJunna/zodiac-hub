@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { Plus } from "lucide-react";
-import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { Plus } from 'lucide-react';
+import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
 const CreatePostButton = () => {
   const { data: session } = useSession();
