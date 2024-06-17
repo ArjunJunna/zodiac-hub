@@ -17,6 +17,12 @@ jobs:
       
       - name: Install Dependencies
         run: npm install
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run format check
+        run: npm run format
         
       - name: Run Build
         run: npm run build
