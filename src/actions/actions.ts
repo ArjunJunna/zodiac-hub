@@ -307,3 +307,12 @@ export const deleteComment = async (formData: FormData) => {
     console.log(error);
   }
 };
+
+export const getAllPosts = async () => {
+  try {
+    const { data } = await publicRequest.get('/posts');
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

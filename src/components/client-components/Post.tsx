@@ -7,9 +7,6 @@ import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 import AuthModal from '../client-components/AuthModal';
 import { RenderToJson } from '../server-components/RenderToJson';
-import { handlePostVote } from '@/actions/actions';
-import { useSession } from 'next-auth/react';
-import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import CommentSection from './CommentSection';
 import PostFooter from './PostFooter';
@@ -39,22 +36,10 @@ const Post = ({ postData, postComment }: PostProps) => {
     comments,
     votes,
   } = postData;
-  const queryClient = useQueryClient();
 
   const pathname = usePathname();
-  const { data: session } = useSession();
-
   const voteCount = countVotes(votes);
   const [showAuthModal, setShowAuthModal] = useState(false);
-
-  const handleSubmit = async (formData: FormData) => {
-    if (session) {
-      await handlePostVote(formData);
-      queryClient.invalidateQueries({ queryKey: ['posts'] });
-    } else {
-      setShowAuthModal(true);
-    }
-  };
 
   return (
     <>
@@ -95,10 +80,11 @@ const Post = ({ postData, postComment }: PostProps) => {
             {content !== null ? <RenderToJson data={content} /> : null}
           </div>
           <PostFooter
-            handleSubmit={handleSubmit}
             postId={id}
             voteCount={voteCount}
             commentsCount={comments.length}
+            post={postData}
+            setShowAuthModal={setShowAuthModal}
           />
         </div>
         {showAuthModal && <AuthModal setShowAuthModal={setShowAuthModal} />}

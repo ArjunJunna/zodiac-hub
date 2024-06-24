@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 
 // eslint-disable-next-line no-unused-vars
-enum VoteType {
+export enum VoteType {
   // eslint-disable-next-line no-unused-vars
   UP = 'UP',
   // eslint-disable-next-line no-unused-vars
@@ -32,11 +32,18 @@ export type PostType = {
   comments: CommentType[];
   votes: {
     type: VoteType;
+    userId: string;
   }[];
 };
 
 export type Votes = {
   type: VoteType;
+};
+
+export type PostVote = {
+  type: VoteType;
+  userId: string;
+  postId: string;
 };
 
 export type ForumType = {
