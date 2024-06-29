@@ -31,13 +31,10 @@ export async function generateMetadata({
 }
 
 const ForumPage = async ({ params }: { params: { forumId: string } }) => {
-  const response = await fetch(
-    `https://zodiac-hub.onrender.com/api/v1/forums/${params.forumId}`,
-    {
-      cache: 'no-store',
-      next: { tags: [`${params.forumId}`] },
-    }
-  );
+  const response = await fetch(`${BASE_URL}/forums/${params.forumId}`, {
+    cache: 'no-store',
+    next: { tags: [`${params.forumId}`] },
+  });
   const forumData = await response.json();
 
   return (
