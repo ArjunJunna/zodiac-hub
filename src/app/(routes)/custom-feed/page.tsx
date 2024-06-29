@@ -8,6 +8,7 @@ import { PostType } from '@/utils/types';
 import Seperator from '@/components/server-components/Seperator';
 import { Metadata } from 'next';
 import { postComment } from '@/actions/actions';
+import { BASE_URL } from '@/lib/Constants';
 
 export const metadata: Metadata = {
   title: 'Custom Feed',
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
 async function getCustomFeed() {
   const session = await getServerSession(authOptions);
   const postsData = await fetch(
-    `https://zodiac-hub.onrender.com/api/v1/posts/custom/${session?.user.id}`,
+    `${BASE_URL}/posts/custom/${session?.user.id}`,
     {
       headers: {
         'Content-Type': 'application/json',

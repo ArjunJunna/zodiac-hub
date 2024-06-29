@@ -12,10 +12,12 @@ import { Switch } from '@/components/ui/switch';
 import { useTheme } from 'next-themes';
 import { useSession } from 'next-auth/react';
 import { signOut } from 'next-auth/react';
+import { useSocket } from '@/app/contexts/WebsocketContext';
 
 const DesktopDropdownMenu = () => {
   const { setTheme, theme } = useTheme();
   const { data: session } = useSession();
+  const socket = useSocket();
   return (
     <>
       <DropdownMenu>
@@ -43,6 +45,7 @@ const DesktopDropdownMenu = () => {
           <DropdownMenuItem
             onClick={() => {
               signOut();
+              socket?.disconnect();
             }}
           >
             <LogOut className="h-4 w-4 mr-3" />

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import SubscriptionForm from './SubscriptionForm';
 import { PostType, SubscriptionType } from '@/utils/types';
+import { BASE_URL } from '@/lib/Constants';
 
 type Forum = {
   id: string;
@@ -40,9 +41,7 @@ const AboutForum = ({
 
   const fetchForumById = async (forumId: string) => {
     try {
-      const response = await fetch(
-        `https://zodiac-hub.onrender.com/api/v1/forums/${forumId}`
-      );
+      const response = await fetch(`${BASE_URL}/forums/${forumId}`);
       const data = await response.json();
       setForumData(data);
     } catch (error) {

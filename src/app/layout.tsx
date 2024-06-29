@@ -9,6 +9,7 @@ import LeftSidebar from '@/components/LeftSidebar';
 import RightSection from '@/components/RightSection';
 import { Toaster } from '@/components/ui/sonner';
 import Providers from '@/components/Providers';
+import { SocketProvider } from './contexts/WebsocketContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -29,19 +30,21 @@ export default function RootLayout({
     <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
       <body className={inter.className}>
         <Providers>
-          <ReactQueryClientProvider>
-            <ThemeProvider>
-              <div className="flex flex-col h-screen overflow-y-auto ">
-                <Navbar />
-                <div className="flex h-screen">
-                  <LeftSidebar />
-                  {children}
-                  <RightSection />
+          <SocketProvider>
+            <ReactQueryClientProvider>
+              <ThemeProvider>
+                <div className="flex flex-col h-screen overflow-y-auto ">
+                  <Navbar />
+                  <div className="flex h-screen">
+                    <LeftSidebar />
+                    {children}
+                    <RightSection />
+                  </div>
+                  <Toaster richColors />
                 </div>
-                <Toaster richColors />
-              </div>
-            </ThemeProvider>
-          </ReactQueryClientProvider>
+              </ThemeProvider>
+            </ReactQueryClientProvider>
+          </SocketProvider>
         </Providers>
       </body>
     </html>
