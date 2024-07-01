@@ -1,6 +1,6 @@
 # ZODIAC - Community App
 
-[Zodiac Live Link](https://zodiac-hub.vercel.app) - One stop place for all zodiac discussions.
+[Zodiac Live Link](https://zodiac-hub.vercel.app) - A community for all the zodiacs. Subscribe to your favorite community forums, post your thoughts and have discussions with like minded people.
 
 ## Features
 
@@ -11,6 +11,7 @@
 - Upload Image
 - Create / Delete Comments
 - Nested Comment Section
+- Real time notification for forum subscriptions, new likes and comments
 - Search functionality
 - Popular forums
 - Light / Dark mode functionality
@@ -42,5 +43,5 @@
 - File Upload : Upload Thing
 - Hosting Service : Vercel
 - Authentication : Next-Auth
-- Backend : Nest JS
+- Backend : Nest JS, Postgres, Prisma and Web Sockets
 
