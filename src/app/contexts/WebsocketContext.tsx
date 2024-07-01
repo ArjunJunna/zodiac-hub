@@ -9,7 +9,6 @@ import {
 } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useSession } from 'next-auth/react';
-//import { BACKEND_URL } from '@/lib/Constants';
 
 export const SocketContext = createContext<Socket | null>(null);
 
@@ -19,7 +18,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (session?.user) {
-      const socket = io('http://localhost:3000', {
+      const socket = io(`https://zodiac-hub.onrender.com`, {
         withCredentials: true,
         transports: ['websocket', 'polling', 'flashsocket'],
       });
