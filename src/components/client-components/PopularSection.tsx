@@ -3,9 +3,11 @@ import { useForumsData } from '@/hooks/useForumsData';
 import React from 'react';
 import SkeletonPopularCard from './SkeletonPopularCard';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const PopularSection = () => {
   const { data, isLoading } = useForumsData();
+  const router = useRouter();
   const popularForums = data
     ?.sort((a, b) => b.subscribersCount - a.subscribersCount)
     .slice(0, 5);
@@ -22,6 +24,7 @@ const PopularSection = () => {
           : popularForums?.map((item, index) => (
               <div
                 key={index}
+                onClick={() => router.push(`forums/${item.id}`)}
                 className="flex gap-x-2 p-2
           hover:bg-gray-200/50 dark:hover:bg-primary-foreground cursor-pointer rounded-sm
         "
