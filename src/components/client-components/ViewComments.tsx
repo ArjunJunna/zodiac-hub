@@ -11,7 +11,7 @@ import { postComment, deleteComment } from '@/actions/actions';
 import { SubmitButton } from './SubmitButtons';
 import { useRouter } from 'next/navigation';
 import { Button } from '../ui/button';
-import { MessageSquare } from 'lucide-react';
+import { Reply } from 'lucide-react';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
 import AuthModal from './AuthModal';
@@ -90,7 +90,7 @@ const ViewComments = ({ comment, postId }: ViewCommentsProp) => {
             <DownVoteButton />
           </form>
           <button
-            className="flex"
+            className="flex justify-center items-center"
             onClick={() => {
               if (session) {
                 setIsReplying(true);
@@ -99,8 +99,7 @@ const ViewComments = ({ comment, postId }: ViewCommentsProp) => {
               }
             }}
           >
-            <MessageSquare className="h-4 w-4 mr-1.5" />
-            Reply
+            <Reply className="h-5 w-5 mr-1.5 text-gray-600 hover:text-gray-800" />
           </button>
         </div>
       </div>

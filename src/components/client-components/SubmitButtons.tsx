@@ -26,11 +26,14 @@ export const UpVoteButton = () => {
     <>
       {pending ? (
         <button disabled>
-          <Loader2 className="h-6 w-6 animate-spin" />
+          <Loader2 className="h-5 w-5 animate-spin" />
         </button>
       ) : (
-        <button className="mt-2 hover:text-green-400" type="submit">
-          <ArrowBigUp className="h-6 w-6" />
+        <button
+          className="mt-2 text-gray-600 hover:text-gray-800"
+          type="submit"
+        >
+          <ArrowBigUp className="h-5 w-5" />
         </button>
       )}
     </>
@@ -46,8 +49,11 @@ export const DownVoteButton = () => {
           <Loader2 className="h-6 w-6 animate-spin" />
         </button>
       ) : (
-        <button className="mt-2 hover:text-red-400" type="submit">
-          <ArrowBigDown className="h-6 w-6" />
+        <button
+          className="mt-2 text-gray-600 hover:text-gray-800"
+          type="submit"
+        >
+          <ArrowBigDown className="h-5 w-5" />
         </button>
       )}
     </>
@@ -88,7 +94,7 @@ export const DeleteButton = () => {
         </button>
       ) : (
         <button className="hover:text-red-400">
-          <X className="h-6 w-6" />
+          <X className="h-5 w-5 text-gray-600 hover:text-gray-800" />
         </button>
       )}
     </>

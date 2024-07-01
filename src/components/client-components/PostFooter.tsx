@@ -134,7 +134,7 @@ const PostFooter = ({
       <div className="flex gap-x-2 items-center justify-center">
         <button
           onClick={() => voteHandler('UP')}
-          className="flex items-center gap-1 rounded-lg text-gray-600 hover:text-black"
+          className="flex items-center gap-1 rounded-lg text-gray-600 hover:text-gray-800"
         >
           <ArrowBigUp />
         </button>
@@ -145,12 +145,12 @@ const PostFooter = ({
 
         <button
           onClick={() => voteHandler('DOWN')}
-          className="flex items-center gap-1 rounded-lg text-gray-600 hover:text-black"
+          className="flex items-center gap-1 rounded-lg text-gray-600 hover:text-gray-800"
         >
           <ArrowBigDown />
         </button>
 
-        <button className="flex gap-x-1 hover:text-blue-400">
+        <button className="flex gap-x-1 text-gray-600 hover:text-gray-800">
           <MessageSquare />
         </button>
         <p className="text-xs self-center">{commentsCount}</p>

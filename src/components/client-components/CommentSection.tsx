@@ -58,7 +58,7 @@ const CommentSection = ({ postComment, id, comments }: CommentSectionProps) => {
                     return (
                       <div
                         key={reply.id}
-                        className="ml-2 py-2 pl-4 border-l-2 border-zinc-200"
+                        className="ml-2 py-2 pl-4 border-l border-zinc-400"
                       >
                         <ViewComments
                           comment={reply}
