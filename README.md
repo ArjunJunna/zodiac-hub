@@ -1,6 +1,11 @@
 # ZODIAC - Community App
 
-[Zodiac Live Link](https://zodiac-hub.vercel.app) - A community for all the zodiacs. Subscribe to your favorite community forums, post your thoughts and have discussions with like minded people.
+A community for all the zodiacs. Subscribe to your favorite community forums, post your thoughts and have discussions with like minded people.
+
+### Deployed Links
+
+[Zodiac Link - Vercel](https://zodiac-hub.vercel.app) 
+[Zodiac Link - Render](https://zodiac-hub-app.onrender.com) 
 
 ## Features
 
