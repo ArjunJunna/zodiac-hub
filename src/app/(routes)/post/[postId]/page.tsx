@@ -1,10 +1,16 @@
 import { PostType } from '@/utils/types';
 import { Metadata } from 'next';
-import { BASE_URL } from '@/lib/Constants';
 import { Suspense } from 'react';
 import { SkeletonPost } from '@/components/client-components/SkeletonPost';
 import Post from '@/components/client-components/Post';
-import { postComment } from '@/actions/actions';
+import { fetchPostById } from '@/actions/actions';
+import CommentSection from '@/components/client-components/CommentSection';
+import CreateComment from '@/components/client-components/CreateComment';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/authOptions';
+import { BASE_URL } from '@/lib/Constants';
+
+export const revalidate = 0;
 
 export async function generateStaticParams() {
   const response = await fetch(`${BASE_URL}/posts`);
@@ -33,19 +39,20 @@ export async function generateMetadata({
 }
 
 const SinglePostPage = async ({ params }: { params: { postId: string } }) => {
-  const response = await fetch(`${BASE_URL}/posts/${params.postId}`, {
-    cache: 'no-cache',
-    next: { tags: ['single-post'] },
-  });
-  const postData = await response.json();
+  const session = await getServerSession(authOptions);
+  const postData = await fetchPostById(params.postId);
 
   return (
     <>
       <div className=" w-full p-2 h-full max-md:mx-3 border-l border-r">
         <div>
           <Suspense fallback={<SkeletonPost />}>
-            <Post postData={postData as PostType} postComment={postComment} />
+            <Post postData={postData as PostType} />
           </Suspense>
+
+          {session && <CreateComment postId={postData.id} />}
+
+          <CommentSection id={postData.id} comments={postData.comments} />
         </div>
       </div>
     </>

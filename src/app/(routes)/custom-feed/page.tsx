@@ -7,7 +7,6 @@ import Post from '@/components/client-components/Post';
 import { PostType } from '@/utils/types';
 import Seperator from '@/components/server-components/Seperator';
 import { Metadata } from 'next';
-import { postComment } from '@/actions/actions';
 import { BASE_URL } from '@/lib/Constants';
 
 export const metadata: Metadata = {
@@ -43,7 +42,7 @@ const CustomFeed = async () => {
         >
           {postsData?.map((post: PostType) => (
             <>
-              <Post postData={post} postComment={postComment} />
+              <Post postData={post} />
               <Seperator />
             </>
           ))}

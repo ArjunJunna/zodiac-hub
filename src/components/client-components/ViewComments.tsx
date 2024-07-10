@@ -16,6 +16,7 @@ import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
 import AuthModal from './AuthModal';
 import UserAvatar from './UserAvatar';
+import { usePathname } from 'next/navigation';
 
 type ViewCommentsProp = {
   comment: CommentType;
@@ -31,6 +32,7 @@ const ViewComments = ({ comment, postId }: ViewCommentsProp) => {
   const [input, setInput] = useState<string>('');
   const router = useRouter();
   const { data: session } = useSession();
+  const pathname = usePathname();
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const handleSubmit = async (formData: FormData) => {
@@ -69,6 +71,7 @@ const ViewComments = ({ comment, postId }: ViewCommentsProp) => {
             }}
             className="ml-auto"
           >
+            <input type="hidden" name="path" value={pathname} />
             <input type="hidden" name="commentId" value={comment.id} />
             <DeleteButton />
           </form>
@@ -79,6 +82,7 @@ const ViewComments = ({ comment, postId }: ViewCommentsProp) => {
           <form action={handleSubmit}>
             <input type="hidden" name="voteDirection" value="UP" />
             <input type="hidden" name="commentId" value={comment.id} />
+            <input type="hidden" name="path" value={pathname} />
             <UpVoteButton />
           </form>
           {voteCount > 0 ? (
@@ -87,6 +91,7 @@ const ViewComments = ({ comment, postId }: ViewCommentsProp) => {
           <form action={handleSubmit}>
             <input type="hidden" name="voteDirection" value="DOWN" />
             <input type="hidden" name="commentId" value={comment.id} />
+            <input type="hidden" name="path" value={pathname} />
             <DownVoteButton />
           </form>
           <button
@@ -100,6 +105,9 @@ const ViewComments = ({ comment, postId }: ViewCommentsProp) => {
             }}
           >
             <Reply className="h-5 w-5 mr-1.5 text-gray-600 hover:text-gray-800" />
+            <span className="text-xs font-medium text-gray-500 hover:text-gray-700">
+              Reply
+            </span>
           </button>
         </div>
       </div>
@@ -121,6 +129,7 @@ const ViewComments = ({ comment, postId }: ViewCommentsProp) => {
               <Label htmlFor="comment">Your comment</Label>
               <div className="mt-2">
                 <input type="hidden" name="postId" value={postId} />
+                <input type="hidden" name="path" value={pathname} />
                 <input
                   type="hidden"
                   name="replyToId"

@@ -5,12 +5,7 @@ import React, { Suspense } from 'react';
 import { PostType } from '@/utils/types';
 import { getAllPosts } from '@/actions/actions';
 
-type PostSectionProps = {
-  // eslint-disable-next-line no-unused-vars
-  postComment: (formData: FormData) => Promise<number | undefined>;
-};
-
-const PostSection = async ({ postComment }: PostSectionProps) => {
+const PostSection = async () => {
   const posts = await getAllPosts();
 
   return (
@@ -25,7 +20,7 @@ const PostSection = async ({ postComment }: PostSectionProps) => {
       >
         {posts?.map((post: PostType) => (
           <>
-            <Post postData={post} postComment={postComment} />
+            <Post postData={post} />
             <Seperator />
           </>
         ))}

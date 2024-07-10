@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 import { useQuery } from '@tanstack/react-query';
-import { BASE_URL } from '../requestMethods';
+import { BASE_URL } from '@/lib/Constants';
 import { UserType } from '@/utils/types';
 import { useSession } from 'next-auth/react';
 

@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-export const BASE_URL = 'https://zodiac-hub.onrender.com/api/v1';
+import { BASE_URL } from './lib/Constants';
 
 export const publicRequest = axios.create({
   baseURL: BASE_URL,

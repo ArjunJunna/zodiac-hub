@@ -3,7 +3,6 @@ import { PostType } from '@/utils/types';
 import { SkeletonPost } from './SkeletonPost';
 import Post from './Post';
 import Seperator from '../server-components/Seperator';
-import { postComment } from '@/actions/actions';
 
 type PostsSectionProps = {
   postData: PostType[];
@@ -22,7 +21,7 @@ const PostsSection = ({ postData, isLoading }: PostsSectionProps) => {
           ))
         : postData?.map((post) => (
             <>
-              <Post postData={post} postComment={postComment} />
+              <Post postData={post} />
               <Seperator />
             </>
           ))}

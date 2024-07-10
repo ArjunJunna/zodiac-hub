@@ -44,7 +44,7 @@ const DesktopDropdownMenu = () => {
 
           <DropdownMenuItem
             onClick={() => {
-              signOut();
+              signOut({ callbackUrl: '/' });
               socket?.disconnect();
             }}
           >

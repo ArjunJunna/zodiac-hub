@@ -8,17 +8,14 @@ import { usePathname } from 'next/navigation';
 import AuthModal from '../client-components/AuthModal';
 import { RenderToJson } from '../server-components/RenderToJson';
 import { useState } from 'react';
-import CommentSection from './CommentSection';
 import PostFooter from './PostFooter';
 import PostHeader from './PostHeader';
 
 type PostProps = {
   postData: PostType;
-  // eslint-disable-next-line no-unused-vars
-  postComment: (formData: FormData) => Promise<number | undefined>;
 };
 
-const Post = ({ postData, postComment }: PostProps) => {
+const Post = ({ postData }: PostProps) => {
   const {
     id,
     title,
@@ -89,15 +86,6 @@ const Post = ({ postData, postComment }: PostProps) => {
         </div>
         {showAuthModal && <AuthModal setShowAuthModal={setShowAuthModal} />}
       </div>
-      {pathname.startsWith('/post') ? (
-        <>
-          <CommentSection
-            postComment={postComment}
-            id={id}
-            comments={comments}
-          />
-        </>
-      ) : null}
     </>
   );
 };

@@ -9,7 +9,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/authOptions';
 import { JSONContent } from '@tiptap/react';
 import { CommentType } from '@/utils/types';
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { revalidatePath } from 'next/cache';
 
 type SigninInputs = z.infer<typeof SigninFormSchema>;
 type SignupInputs = z.infer<typeof SignupFormSchema>;
@@ -131,6 +131,16 @@ export const createPost = async (
   }
 };
 
+export const fetchPostById = async (postId: string) => {
+  try {
+    const response = await fetch(`${BASE_URL}/posts/${postId}`);
+    const postData = await response.json();
+    return postData;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const handlePostVote = async (formData: FormData) => {
   const session = await getServerSession(authOptions);
   if (!session) {
@@ -173,6 +183,7 @@ export const handleCommentVote = async (formData: FormData) => {
   if (!session) {
     return 404;
   }
+  const path = formData.get('path');
   const commentId = formData.get('commentId') as string;
   const voteDirection = formData.get('voteDirection') as string;
   try {
@@ -186,7 +197,7 @@ export const handleCommentVote = async (formData: FormData) => {
           },
         }
       );
-      revalidatePath('/', 'page');
+      revalidatePath(path as string);
       return response.status;
     } else {
       const response = await axios.delete(
@@ -198,7 +209,7 @@ export const handleCommentVote = async (formData: FormData) => {
           },
         }
       );
-      revalidatePath('/(routes)/post/[postId]', 'page');
+      revalidatePath(path as string);
       return response.status;
     }
   } catch (error) {
@@ -264,6 +275,7 @@ export const postComment = async (formData: FormData) => {
   try {
     const session = await getServerSession(authOptions);
     const postId = formData.get('postId');
+    const path = formData.get('path');
     const data = {
       postId: formData.get('postId'),
       authorId: session?.user.id,
@@ -279,9 +291,7 @@ export const postComment = async (formData: FormData) => {
         },
       }
     );
-    revalidateTag('single-post');
-    console.log('response', response);
-
+    revalidatePath(path as string);
     return response.status;
   } catch (error) {
     console.log(error);
@@ -292,6 +302,7 @@ export const deleteComment = async (formData: FormData) => {
   try {
     const session = await getServerSession(authOptions);
     const commentId = formData.get('commentId');
+    const path = formData.get('path');
     const data = {
       userId: session?.user.id,
     };
@@ -301,7 +312,7 @@ export const deleteComment = async (formData: FormData) => {
       },
       data: data,
     });
-    revalidateTag('single-post');
+    revalidatePath(path as string);
     return response.status;
   } catch (error) {
     console.log(error);
